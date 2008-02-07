@@ -20,17 +20,17 @@ namespace :bzr do
 
     puts "Creating bzr tag '#{tag}'"
     unless system("bzr tag #{tag}")
-      abort "Tag creation failed" 
+      abort "Tag creation failed"
     end
   end
-    
+
   desc "Write bzr changelog to file #{PROJ.changes_file}"
   task :changelog => [PROJ.changelog]
   file PROJ.changelog => [".bzr/branch/last-revision"] do |t|
     ["gnu", "long"].each do |f|
       sh("bzr log --log-format=#{f} --verbose >#{t.name}") do |ok, result|
       end
-      
+
       break if 0 == $?
     end
   end
