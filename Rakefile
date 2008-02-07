@@ -25,6 +25,6 @@ PROJ.rdoc_opts = %w{--all --charset utf-8 --inline-source
                     --template vendor/jamis/jamis}
 
 PROJ.bzr = true
-PROJ.exclude << '.bzr/'
+PROJ.exclude << '.bzr/' << '.bzrignore'
 
 # EOF
