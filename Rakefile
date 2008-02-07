@@ -23,8 +23,8 @@ depend_on 'ruby-units'
 
 PROJ.bzr           = true
 PROJ.changelog     = "Changelog"
-PROJ.exclude      << '.bzr/'
-PROJ.exclude      << '.bzrignore'
+PROJ.exclude      << '^\.bzr\/'
+PROJ.exclude      << '^\.bzrignore$'
 PROJ.rdoc_exclude << '\.diff$'
 PROJ.rdoc_opts     = [ '--all',
                        '--charset', 'utf-8',
