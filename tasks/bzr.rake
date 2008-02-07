@@ -24,7 +24,7 @@ namespace :bzr do
     end
   end
 
-  desc "Write bzr changelog to file #{PROJ.changes_file}"
+  desc "Write bzr changelog to file #{PROJ.changelog}"
   task :changelog => [PROJ.changelog]
   file PROJ.changelog => [".bzr/branch/last-revision"] do |t|
     ["gnu", "long"].each do |f|
