@@ -15,7 +15,7 @@ PROJ.name           = 'on_zero_load'
 PROJ.authors        = OnZeroLoad.authors.join(", ")
 PROJ.email          = OnZeroLoad.emails.join(", ")
 PROJ.version        = OnZeroLoad.version
-PROJ.url            = 'FIXME (project homepage)'
+PROJ.url            = OnZeroLoad.homepage
 PROJ.rubyforge_name = 'on_zero_load'
 
 depend_on 'main'

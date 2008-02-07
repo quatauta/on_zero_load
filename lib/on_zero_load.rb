@@ -14,6 +14,7 @@ module OnZeroLoad
     :minor  => 0,
     :fix    => 1,
   }
+  HOMEPAGE = 'FIXME (project homepage)'
 
   # :stopdoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
@@ -28,6 +29,11 @@ module OnZeroLoad
   # Returns the author's emails as array of strings.
   def self.emails
     AUTHORS.map { |a| a[:email] }
+  end
+
+  # Returns the project's homepage
+  def self.homepage
+    HOMEPAGE
   end
 
   # Returns the version string for the library.
