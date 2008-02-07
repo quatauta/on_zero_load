@@ -37,6 +37,7 @@ PROJ.rdoc_exclude = %w(extconf.rb$ ^Manifest.txt$)
 PROJ.rdoc_main = 'README.txt'
 PROJ.rdoc_dir = 'doc'
 PROJ.rdoc_remote_dir = nil
+PROJ.rdoc_template = nil
 
 # Extensions
 PROJ.extensions = FileList['ext/**/extconf.rb']
