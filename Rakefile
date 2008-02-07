@@ -7,6 +7,7 @@ load 'tasks/setup.rb'
 ensure_in_path 'lib'
 require 'on_zero_load'
 
+task :default => 'bzr:changelog'
 task :default => 'spec:run'
 
 PROJ.name           = 'on_zero_load'
@@ -15,7 +16,11 @@ PROJ.email          = OnZeroLoad.emails.join(", ")
 PROJ.version        = OnZeroLoad.version
 PROJ.url            = 'FIXME (project homepage)'
 PROJ.rubyforge_name = 'on_zero_load'
+PROJ.changelog      = "Changelog"
 
 PROJ.spec_opts << '--color'
+
+PROJ.bzr = true
+PROJ.exclude << '.bzr/'
 
 # EOF
