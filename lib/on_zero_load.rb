@@ -58,13 +58,14 @@ module OnZeroLoad
   # directory below this file that has the same name as the filename passed
   # in. Optionally, a specific _directory_ name can be passed in such that
   # the _filename_ does not have to be equivalent to the directory.
-  #
-  def self.require_all_libs_relative_to( fname, dir = nil )
-    dir ||= ::File.basename(fname, '.*')
-    search_me = ::File.expand_path(
-        ::File.join(::File.dirname(fname), dir, '**', '*.rb'))
+  def self.require_all_libs_relative_to(fname, dir = nil)
+    basedir   = ::File.expand_path(::File.dirname(fname))
+    dir     ||= ::File.basename(fname, '.*')
+    search_me = ::File.join(basedir, dir, '**', '*.rb')
 
-    Dir.glob(search_me).sort.each {|rb| require rb}
+    Dir.glob(search_me).sort.each do |rb|
+      require rb.sub(basedir + ::File::SEPARATOR, "").sub(/\.rb$/i, "")
+    end
   end
 
 end  # module OnZeroLoad
