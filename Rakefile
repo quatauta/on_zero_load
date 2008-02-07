@@ -22,7 +22,7 @@ depend_on 'main'
 depend_on 'ruby-units'
 
 PROJ.bzr           = true
-PROJ.changelog     = "Changelog"
+PROJ.changelog     = "Changelog.txt"
 PROJ.exclude      << '^\.bzr\/'
 PROJ.exclude      << '^\.bzrignore$'
 PROJ.rdoc_exclude << '\.diff$'
