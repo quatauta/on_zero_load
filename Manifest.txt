@@ -13,7 +13,6 @@ lib/on_zero_load/main/parameter-fix-15720.rb
 lib/on_zero_load/monitor.rb
 spec/on_zero_load/load_spec.rb
 spec/on_zero_load/monitor_spec.rb
-spec/on_zero_load_spec.rb
 spec/spec_helper.rb
 tasks/annotations.rake
 tasks/bzr.rake
@@ -27,5 +26,4 @@ tasks/spec.rake
 tasks/svn.rake
 tasks/test.rake
 tasks/whitespace.rake
-test/test_on_zero_load.rb
 vendor/jamis/jamis.rb
