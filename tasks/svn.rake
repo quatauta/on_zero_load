@@ -39,6 +39,19 @@ end  # namespace :svn
 
 task 'gem:release' => 'svn:create_tag'
 
+if system("svn2cl --version 2>&1 > #{DEV_NULL}")
+  desc 'Alias to svn:changelog'
+  task 'changelog' => 'svn:changelog'
+
+  namespace :svn do
+    desc "Write svn changelog to file #{PROJ.changelog} using svn2cl"
+    task :changelog => [PROJ.changelog]
+    file PROJ.changelog => [".svn/entries"] do |t|
+      sh("svn2cl --output=#{t.name} --group-by-day --separate-daylogs --include-rev --reparagraph")
+    end
+  end  # namespace :svn
+end
+
 end  # if PROJ.svn
 
 # EOF
