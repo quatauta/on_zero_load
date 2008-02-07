@@ -1,37 +1,66 @@
 require 'set'
 
-desc "Alias to whitespace:warn"
-task :whitespace => ["whitespace:warn"]
+desc "Alias to whitespace:check"
+task :whitespace => ["whitespace:check"]
+
+class Array
+  def join2(sep = $,, last_sep = nil)
+    if last_sep && 1 < self.size
+      self[0..-2].join(sep) + last_sep + self[-1]
+    else
+      self.join(sep)
+    end
+  end
+end
 
 namespace :whitespace do
-  desc "List files with tabs or trailing whitespace"
-  task :warn do
-    warnings = {}
+  violations = {
+    "tabs" => {
+      :expr => /\t/,
+      :excl => /(^Changelog)|(\.diff$)/,
+    },
+    "trailing spaces" => {
+      :expr     => /\s+$/,
+      :neg_expr => /^\s*#/,
+    },
+  }
 
-    SPEC.files.reject { |n|
-      /(Changelog)|(\.diff$)/i =~ n
-    } .each do |name|
-      warnings[name] = SortedSet.new
+  desc "List files with " + violations.keys.sort.join2(", ", " or ")
+  task :check do
+    files = {}
+
+    PROJ.files.each do |name|
+      files[name] = {}
+      linenum     = 0
 
       open(name, "r") do |file|
         while (!file.eof?)
-          line = file.gets.chomp
+          line    = file.gets.chomp
+          linenum = linenum.next
 
-          warnings[name] << "spaces" if (/\s+$/ =~ line && /^\s*#/ !~ line)
-          warnings[name] << "tabs"   if /\t/ =~ line
+          violations.each do |n, v|
+            next if v[:excl] =~ name
+
+            if v[:expr] =~ line && v[:neg_expr] !~ line
+              (files[name][n] ||= []) << linenum
+            end
+          end
         end
       end
 
-      warnings.delete(name) if warnings[name].empty?
+      files.delete(name) if files[name].empty?
     end
 
-    unless warnings.empty?
-      max_name_length = warnings.keys.max { |a, b| a.length <=> b.length }.length
+    unless files.empty?
+      pad_to = files.keys.max { |a, b| a.length <=> b.length }.length
 
-      warnings.sort.each do |name, warn|
-        puts(sprintf("%-#{max_name_length + 1}s %s",
+      files.sort.each do |name, vs|
+        puts(sprintf("%-*s %s",
+                     pad_to + 1,
                      name + ":",
-                     warn.to_a.join(", ")))
+                     vs.sort.map { |v, ls|
+                       "#{v} (line #{ls.join(", ")})"
+                     }.join(", ")))
       end
     end
   end
