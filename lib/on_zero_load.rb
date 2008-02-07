@@ -12,7 +12,7 @@ module OnZeroLoad
   VERSION = {
     :major  => 0,
     :minor  => 0,
-    :fix    => 1,
+    :tiny   => 1,
   }
   HOMEPAGE = 'FIXME (project homepage)'
 
@@ -37,12 +37,23 @@ module OnZeroLoad
   end
 
   # Returns the version string for the library.
+  #
+  # Depending on +type+, the version is returned as string like <tt>"2.4.1"</tt>
+  # (<tt>:string</tt>, default), ordered array of numbers (<tt>:numbers</tt>), or a hash
+  # of numbers (<tt>:hash</tt>).
+  #
+  #  version          => "2.4.1"
+  #  version :string  => "2.4.1"
+  #  version :numbers => [2, 4, 1]
+  #  version :hash    => { :major => 2, :minor => 4, :tiny => 1 }
   def self.version(type = :string)
     case type
+    when :string
+      [:major, :minor, :tiny].map { |n| VERSION[n] } .join('.')
     when :numbers
-      [:major, :minor, :fix].map { |n| VERSION[n] }
-    else
-      [:major, :minor, :fix].map { |n| VERSION[n] } .join('.')
+      [:major, :minor, :tiny].map { |n| VERSION[n] }
+    when :hash
+      VERSION
     end
   end
 
