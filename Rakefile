@@ -31,4 +31,7 @@ PROJ.rdoc_template = 'vendor/jamis/jamis'
 PROJ.bzr = true
 PROJ.exclude << '.bzr/' << '.bzrignore'
 
+depend_on 'main'
+depend_on 'ruby-units'
+
 # EOF
