@@ -7,8 +7,8 @@ load 'tasks/setup.rb'
 ensure_in_path 'lib'
 require 'on_zero_load'
 
-task :default => 'whitespace:check'
 task :default => 'bzr:changelog'
+task :default => 'whitespace:check'
 task :default => 'spec:run'
 
 PROJ.name           = 'on_zero_load'
@@ -17,22 +17,21 @@ PROJ.email          = OnZeroLoad.emails.join(", ")
 PROJ.version        = OnZeroLoad.version
 PROJ.url            = 'FIXME (project homepage)'
 PROJ.rubyforge_name = 'on_zero_load'
-PROJ.changelog      = "Changelog"
-
-PROJ.spec_opts << '--color'
-
-PROJ.rdoc_opts = [ '--all',
-                   '--charset', 'utf-8',
-                   '--inline-source',
-                   '--line-numbers',
-                   '--promiscuous',
-                   '--show-hash' ]
-PROJ.rdoc_template = 'vendor/jamis/jamis'
-
-PROJ.bzr = true
-PROJ.exclude << '.bzr/' << '.bzrignore'
 
 depend_on 'main'
 depend_on 'ruby-units'
+
+PROJ.bzr           = true
+PROJ.changelog     = "Changelog"
+PROJ.exclude      << '.bzr/'
+PROJ.exclude      << '.bzrignore'
+PROJ.rdoc_opts     = [ '--all',
+                       '--charset', 'utf-8',
+                       '--inline-source',
+                       '--line-numbers',
+                       '--promiscuous',
+                       '--show-hash' ]
+PROJ.rdoc_template = 'vendor/jamis/jamis'
+PROJ.spec_opts    << '--color'
 
 # EOF
