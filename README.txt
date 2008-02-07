@@ -1,4 +1,4 @@
-on_zero_load
+ on_zero_load
     by Daniel Schömer <daniel.schoemer@gmx.net>
     FIXME (url)
 
@@ -20,27 +20,29 @@ Patches welcome.
 
 == SYNOPSIS:
 
-  In your shell:
+In your shell:
 
-    # on-zero-load --sleep=10 --samples=3 --load=0.1:five --net=1Kib/s --cpu=5 -- sudo hibernate
+ # on-zero-load --sleep=10 --samples=3 --load=0.1:five --net=1Kib/s --cpu=5 -- sudo hibernate
 
-  It will check the five minute loadavg, average network and cpu utilization every 10
-  seconds. After the values are lower or equal than the given values for three times, the
-  command "sudo hibernate" is executed.
+It will check the five minute loadavg, average network and cpu utilization every 10
+seconds. After the values are lower or equal than the given values for three times, the
+command "sudo hibernate" is executed.
 
 == REQUIREMENTS:
 
-* Runtime
-** main, http://rubyforge.org/projects/codeforpeople
-** ruby-units, http://ruby-units.rubyforge.org/ruby-units/
+=== Runtime
 
-* Development
-** rake, http://rake.rubyforge.org/
-** rspec, http://rspec.rubyforge.org/
+* +main+, http://rubyforge.org/projects/codeforpeople
+* <tt>ruby-units</tt>, http://ruby-units.rubyforge.org/ruby-units
+
+=== Development
+
+* +rake+, http://rake.rubyforge.org
+* +rspec+, http://rspec.rubyforge.org
 
 == INSTALL:
 
-* sudo gem install on_zero_load
+ # sudo gem install on_zero_load
 
 == LICENSE:
 
