@@ -68,6 +68,9 @@ PROJ.svn_trunk = 'trunk'
 PROJ.svn_tags = 'tags'
 PROJ.svn_branches = 'branches'
 
+# Bzr branch
+PROJ.bzr = false
+
 # Load the other rake files in the tasks folder
 rakefiles = Dir.glob('tasks/*.rake').sort
 rakefiles.unshift(rakefiles.delete('tasks/post_load.rake')).compact!
