@@ -9,10 +9,11 @@ require 'on_zero_load'
 
 task :default => 'spec:run'
 
-PROJ.name = 'on_zero_load'
-PROJ.authors = 'FIXME (who is writing this software)'
-PROJ.email = 'FIXME (your e-mail)'
-PROJ.url = 'FIXME (project homepage)'
+PROJ.name           = 'on_zero_load'
+PROJ.authors        = OnZeroLoad.authors.join(", ")
+PROJ.email          = OnZeroLoad.emails.join(", ")
+PROJ.version        = OnZeroLoad.version
+PROJ.url            = 'FIXME (project homepage)'
 PROJ.rubyforge_name = 'on_zero_load'
 
 PROJ.spec_opts << '--color'

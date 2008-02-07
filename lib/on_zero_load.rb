@@ -5,17 +5,39 @@
 unless defined? OnZeroLoad
 
 module OnZeroLoad
+  AUTHORS = [ { :name    => "Daniel Schömer",
+                :email   => "daniel.schoemer@gmx.net",
+                :openpgp => "0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3" },
+            ]
+  VERSION = {
+    :major  => 0,
+    :minor  => 0,
+    :fix    => 1,
+  }
 
   # :stopdoc:
-  VERSION = '1.0.0'
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
-  PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
+  PATH    = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   # :startdoc:
 
+  # Returns the authors for the library as array of strings.
+  def self.authors
+    AUTHORS.map { |a| a.name }
+  end
+
+  # Returns the author's emails as array of strings.
+  def self.emails
+    AUTHORS.map { |a| a.email }
+  end
+
   # Returns the version string for the library.
-  #
-  def self.version
-    VERSION
+  def self.version(type = :string)
+    case type
+    when :numbers
+      [:major, :minor, :fix].map { |n| VERSION[n] }
+    else
+      [:major, :minor, :fix].map { |n| VERSION[n] } .join('.')
+    end
   end
 
   # Returns the library path for the module. If any arguments are given,
