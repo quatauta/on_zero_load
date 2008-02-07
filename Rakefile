@@ -20,6 +20,10 @@ PROJ.changelog      = "Changelog"
 
 PROJ.spec_opts << '--color'
 
+PROJ.rdoc_opts = %w{--all --charset utf-8 --inline-source
+                    --line-numbers --promiscuous --show-hash
+                    --template vendor/jamis/jamis}
+
 PROJ.bzr = true
 PROJ.exclude << '.bzr/'
 
