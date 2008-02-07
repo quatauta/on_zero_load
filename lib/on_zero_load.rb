@@ -22,12 +22,12 @@ module OnZeroLoad
 
   # Returns the authors for the library as array of strings.
   def self.authors
-    AUTHORS.map { |a| a.name }
+    AUTHORS.map { |a| a[:name] }
   end
 
   # Returns the author's emails as array of strings.
   def self.emails
-    AUTHORS.map { |a| a.email }
+    AUTHORS.map { |a| a[:email] }
   end
 
   # Returns the version string for the library.
