@@ -11,6 +11,7 @@ PROJ.name = nil
 PROJ.summary = nil
 PROJ.description = nil
 PROJ.changes = nil
+PROJ.changelog = 'Changelog'
 PROJ.authors = nil
 PROJ.email = nil
 PROJ.url = nil
