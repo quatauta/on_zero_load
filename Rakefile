@@ -13,7 +13,7 @@ task :default => 'spec:run'
 
 PROJ.name           = 'on_zero_load'
 PROJ.authors        = OnZeroLoad.authors.join(", ")
-PROJ.email          = OnZeroLoad.emails.join(", ")
+PROJ.email          = OnZeroLoad.authors(:email).join(", ")
 PROJ.version        = OnZeroLoad.version
 PROJ.url            = OnZeroLoad.homepage
 PROJ.rubyforge_name = 'on_zero_load'

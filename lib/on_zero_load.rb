@@ -22,13 +22,35 @@ module OnZeroLoad
   # :startdoc:
 
   # Returns the authors for the library as array of strings.
-  def self.authors
-    AUTHORS.map { |a| a[:name] }
-  end
-
-  # Returns the author's emails as array of strings.
-  def self.emails
-    AUTHORS.map { |a| a[:email] }
+  #
+  # Depending on +type+, it returns an array of names (<tt>:name</tt>, default), emails
+  # (<tt>:email</tt>), short OpenPGP key ids (<tt>:key</tt>), long key ids
+  # (<tt>:key_long</tt>), or key fingerprints (<tt>:key_fp</tt>).
+  #
+  #  authors           => ["Daniel Schömer"]
+  #  authors :name     => ["Daniel Schömer"]
+  #  authors :email    => ["daniel.schoemer@gmx.net"]
+  #  authors :key      => ["0xFAF565D3"]
+  #  authors :key_long => ["0xAE51A5F9FAF565D3"]
+  #  authors :key_fp   => ["0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3"]
+  def self.authors(type = :name)
+    case type
+    when :name
+      AUTHORS.map { |a| a[:name] }
+    when :email
+      AUTHORS.map { |a| a[:email] }
+    when :key
+      AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-2..-1].join("") } }
+    when :key_long
+      AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-4..-1].join("") } }
+    when :key_fp
+      AUTHORS.map { |a|
+        a[:openpgp].map { |fp|
+          words = fp.split
+          words[0..4].join(" ") + "  " + words[5..9].join(" ")
+        }
+      }
+    end
   end
 
   # Returns the project's homepage
