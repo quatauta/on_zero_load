@@ -106,6 +106,7 @@ SUDO = if WIN32 then ''
 
 RCOV = WIN32 ? 'rcov.cmd'  : 'rcov'
 GEM  = WIN32 ? 'gem.cmd'   : 'gem'
+RDOC = WIN32 ? 'rdoc.cmd'  : 'rdoc'
 
 %w(rcov spec/rake/spectask rubyforge bones facets/ansicode).each do |lib|
   begin
