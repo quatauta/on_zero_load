@@ -102,6 +102,8 @@ module OnZeroLoad
     dir     ||= ::File.basename(fname, '.*')
     search_me = ::File.join(basedir, dir, '**', '*.rb')
 
+    $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include? basedir
+
     Dir.glob(search_me).sort.each do |rb|
       require rb.sub(basedir + ::File::SEPARATOR, "").sub(/\.rb$/i, "")
     end
