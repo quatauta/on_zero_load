@@ -1,8 +1,7 @@
-# $Id$
+require 'on_zero_load/loadavg'
+require 'on_zero_load/main'
+require 'on_zero_load/monitor'
 
-# Equivalent to a header guard in C/C++
-# Used to prevent the class/module from being loaded more than once
-unless defined? OnZeroLoad
 
 module OnZeroLoad
   AUTHORS = [ { :name    => "Daniel Schömer",
@@ -78,41 +77,4 @@ module OnZeroLoad
       VERSION
     end
   end
-
-  # Returns the library path for the module. If any arguments are given,
-  # they will be joined to the end of the libray path using
-  # <tt>File.join</tt>.
-  def self.libpath(*args)
-    args.empty? ? LIBPATH : ::File.join(LIBPATH, *args)
-  end
-
-  # Returns the lpath for the module. If any arguments are given,
-  # they will be joined to the end of the path using
-  # <tt>File.join</tt>.
-  def self.path(*args)
-    args.empty? ? PATH : ::File.join(PATH, *args)
-  end
-
-  # Utility method used to require all files ending in .rb that lie in the
-  # directory below this file that has the same name as the filename passed
-  # in. Optionally, a specific _directory_ name can be passed in such that
-  # the _filename_ does not have to be equivalent to the directory.
-  def self.require_all_libs_relative_to(fname, dir = nil)
-    basedir   = ::File.expand_path(::File.dirname(fname))
-    dir     ||= ::File.basename(fname, '.*')
-    search_me = ::File.join(basedir, dir, '**', '*.rb')
-
-    $LOAD_PATH.unshift(basedir) unless $LOAD_PATH.include? basedir
-
-    Dir.glob(search_me).sort.each do |rb|
-      require rb.sub(basedir + ::File::SEPARATOR, "").sub(/\.rb$/i, "")
-    end
-  end
-
-end  # module OnZeroLoad
-
-OnZeroLoad.require_all_libs_relative_to __FILE__
-
-end  # unless defined?
-
-# EOF
+end

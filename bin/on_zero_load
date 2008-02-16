@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), '..', 'lib', 'on_zero_load'))
+libdir = File.join(File.dirname(__FILE__), '..', 'lib')
 
-# Put your code here
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include? libdir
 
-# EOF
+require 'on_zero_load'
+
+
+OnZeroLoad::Main.run(ARGV)
