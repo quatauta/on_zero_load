@@ -18,21 +18,29 @@ module OnZeroLoad
   # Returns the authors for the library as array of strings.
   #
   # Depending on +type+, it returns an array of names (<tt>:name</tt>, default), emails
-  # (<tt>:email</tt>), short OpenPGP key ids (<tt>:key</tt>), long key ids
-  # (<tt>:key_long</tt>), or key fingerprints (<tt>:key_fp</tt>).
+  # (<tt>:email</tt>), names with emails (<tt>:name_email</tt>), short OpenPGP key ids
+  # (<tt>:key</tt>), long key ids (<tt>:key_long</tt>), or key fingerprints
+  # (<tt>:key_fp</tt>).
   #
-  #  authors           => ["Daniel Schömer"]
-  #  authors :name     => ["Daniel Schömer"]
-  #  authors :email    => ["daniel.schoemer@gmx.net"]
-  #  authors :key      => ["0xFAF565D3"]
-  #  authors :key_long => ["0xAE51A5F9FAF565D3"]
-  #  authors :key_fp   => ["0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3"]
+  #  authors             => ["Daniel Schömer"]
+  #  authors :name       => ["Daniel Schömer"]
+  #  authors :email      => ["daniel.schoemer@gmx.net"]
+  #  authors :name_email => ["Daniel Schömer <daniel.schoemer@gmx.net>"]
+  #  authors :key        => ["0xFAF565D3"]
+  #  authors :key_long   => ["0xAE51A5F9FAF565D3"]
+  #  authors :key_fp     => ["0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3"]
   def self.authors(type = :name)
     case type
     when :name
       AUTHORS.map { |a| a[:name] }
     when :email
       AUTHORS.map { |a| a[:email] }
+    when :name_email
+      AUTHORS.map { |a|
+        [ a[:name],
+          a[:email] ? "<%s>" % a[:email] : nil,
+        ].compact.join(" ")
+      } .join(", ")
     when :key
       AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-2..-1].join("") } }
     when :key_long
