@@ -1,20 +1,14 @@
-#!/usr/bin/env ruby
-
 require 'main'
-require 'pp'
+require 'on_zero_load/ext/main/cast'
+require 'on_zero_load/ext/main/parameter-fix-15720'
 
 
 module OnZeroLoad
   class Main
     def self.run(args)
       Main do
-        author OnZeroLoad::AUTHORS.map { |a|
-          b = []
-          b << a[:name]
-          b << "<#{a[:mail]}>" if a[:mail]
-          b.compact.join(" ")
-        }.join(", ")
-        version OnZeroLoad::VERSION[:string]
+        author      OnZeroLoad.authors(:name_email)
+        version     OnZeroLoad.version
         description "Description goes here"
 
         usage["bugs"] = "What about bugs?"
@@ -97,7 +91,12 @@ module OnZeroLoad
             return
           end
 
-          pp params.map { |p| [ p.name, p.given?, p.values ] }
+          params.each do |p|
+            puts(sprintf("  --%-9s %3s given: %s",
+                         p.name,
+                         p.given? ? "" : "not",
+                         p.values.inspect))
+          end
         end
       end
     end
