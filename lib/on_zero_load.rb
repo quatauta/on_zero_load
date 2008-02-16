@@ -15,11 +15,6 @@ module OnZeroLoad
   }
   HOMEPAGE = 'FIXME (project homepage)'
 
-  # :stopdoc:
-  LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
-  PATH    = ::File.dirname(LIBPATH) + ::File::SEPARATOR
-  # :startdoc:
-
   # Returns the authors for the library as array of strings.
   #
   # Depending on +type+, it returns an array of names (<tt>:name</tt>, default), emails
