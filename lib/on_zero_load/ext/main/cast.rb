@@ -1,4 +1,6 @@
 require 'main'
+require 'ruby-units'
+
 
 module Main
   # Adds two new castings to the +main+ gem (http://rubyforge.org/projects/codeforpeople/

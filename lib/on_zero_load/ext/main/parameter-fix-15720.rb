@@ -1,5 +1,6 @@
 require 'main'
 
+
 module Main
   class Parameter
     # I found bug #15720 in gem main-2.5.0.  Since there was no answer to the bug report
