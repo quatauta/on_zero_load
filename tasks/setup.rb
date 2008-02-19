@@ -17,7 +17,8 @@ PROJ.email = nil
 PROJ.url = nil
 PROJ.version = ENV['VERSION'] || '0.0.0'
 PROJ.rubyforge_name = nil
-PROJ.exclude = %w(tmp$ bak$ ~$ CVS .svn/ ^coverage/ ^doc/ ^pkg/ ^ri/)
+PROJ.exclude = %w(tmp$ bak$ ~$ CVS .svn/ ^coverage/ ^doc/ announcement.txt ^pkg/ ^ri/)
+PROJ.release_name = ENV['RELEASE']
 
 # Rspec
 PROJ.specs = FileList['spec/**/*_spec.rb']
@@ -57,10 +58,12 @@ PROJ.executables = PROJ.files.find_all {|fn| fn =~ %r/^bin/}
 PROJ.dependencies = []
 PROJ.need_tar = true
 PROJ.need_zip = false
+PROJ.post_install_message = nil
 
 # File Annotations
-PROJ.annotation_exclude = []
+PROJ.annotation_exclude = %w(^tasks/setup.rb$)
 PROJ.annotation_extensions = %w(.txt .rb .erb) << ''
+PROJ.annotation_tags = %w(FIXME OPTIMIZE TODO)
 
 # Subversion Repository
 PROJ.svn = false
@@ -71,6 +74,20 @@ PROJ.svn_branches = 'branches'
 
 # Bzr branch
 PROJ.bzr = false
+
+# Announce
+PROJ.ann_text = nil
+PROJ.ann_paragraphs = []
+PROJ.ann_email = {
+  :from     => nil,
+  :to       => %w(ruby-talk@ruby-lang.org),
+  :server   => 'localhost',
+  :port     => 25,
+  :domain   => ENV['HOSTNAME'],
+  :acct     => nil,
+  :passwd   => nil,
+  :authtype => :plain
+}
 
 # Load the other rake files in the tasks folder
 rakefiles = Dir.glob('tasks/*.rake').sort
@@ -104,9 +121,9 @@ SUDO = if WIN32 then ''
          else '' end
        end
 
-RCOV = WIN32 ? 'rcov.cmd'  : 'rcov'
-GEM  = WIN32 ? 'gem.cmd'   : 'gem'
-RDOC = WIN32 ? 'rdoc.cmd'  : 'rdoc'
+RCOV = WIN32 ? 'rcov.bat' : 'rcov'
+GEM  = WIN32 ? 'gem.bat'  : 'gem'
+RDOC = WIN32 ? 'rdoc.bat' : 'rdoc'
 
 %w(rcov spec/rake/spectask rubyforge bones facets/ansicode).each do |lib|
   begin
@@ -190,6 +207,21 @@ def in_directory( dir, &block )
   ensure
     cd curdir
   end
+end
+
+# Scans the current working directory and creates a list of files that are
+# candidates to be in the manifest.
+#
+def manifest_files
+  files = []
+  exclude = Regexp.new(PROJ.exclude.join('|'))
+  Find.find '.' do |path|
+    path.sub! %r/^(\.\/|\/)/o, ''
+    next unless test ?f, path
+    next if path =~ exclude
+    files << path
+  end
+  files.sort!
 end
 
 # EOF

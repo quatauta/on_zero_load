@@ -14,6 +14,7 @@ lib/on_zero_load/monitor.rb
 spec/on_zero_load/load_spec.rb
 spec/on_zero_load/monitor_spec.rb
 spec/spec_helper.rb
+tasks/ann.rake
 tasks/annotations.rake
 tasks/bzr.rake
 tasks/doc.rake
