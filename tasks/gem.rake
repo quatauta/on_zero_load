@@ -64,7 +64,7 @@ namespace :gem do
   end
 
   pkg = Rake::PackageTask.new(PROJ.name, PROJ.version) do |pkg|
-    pkg.need_tar = PROJ.need_tar
+    pkg.need_tar_bz2 = PROJ.need_tar
     pkg.need_zip = PROJ.need_zip
     pkg.package_files += PROJ.spec.files
   end
