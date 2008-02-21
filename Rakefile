@@ -33,6 +33,7 @@ PROJ.rdoc_opts     = [ '--all',
                        '--promiscuous',
                        '--show-hash' ]
 PROJ.rdoc_template = 'vendor/jamis/jamis'
+PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec_opts    << '--color'
 
 # EOF
