@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'rake'
+require 'rake/clean'
 require 'fileutils'
 require 'ostruct'
 
@@ -19,6 +20,9 @@ PROJ.version = ENV['VERSION'] || '0.0.0'
 PROJ.rubyforge_name = nil
 PROJ.exclude = %w(tmp$ bak$ ~$ CVS .svn/ ^coverage/ ^doc/ announcement.txt ^pkg/ ^ri/)
 PROJ.release_name = ENV['RELEASE']
+PROJ.history_file = 'History.txt'
+PROJ.manifest_file = 'Manifest.txt'
+PROJ.readme_file = 'README.txt'
 
 # Rspec
 PROJ.specs = FileList['spec/**/*_spec.rb']
@@ -30,13 +34,16 @@ PROJ.test_file = 'test/all.rb'
 PROJ.test_opts = []
 
 # Rcov
+PROJ.rcov_dir = 'coverage'
 PROJ.rcov_opts = ['--sort', 'coverage', '-T']
+PROJ.rcov_threshold = 90.0
+PROJ.rcov_threshold_exact = false
 
 # Rdoc
 PROJ.rdoc_opts = []
 PROJ.rdoc_include = %w(^lib/ ^bin/ ^ext/ .txt$)
-PROJ.rdoc_exclude = %w(extconf.rb$ ^Manifest.txt$)
-PROJ.rdoc_main = 'README.txt'
+PROJ.rdoc_exclude = %w(extconf.rb$)
+PROJ.rdoc_main = nil
 PROJ.rdoc_dir = 'doc'
 PROJ.rdoc_remote_dir = nil
 PROJ.rdoc_template = nil
@@ -48,13 +55,8 @@ PROJ.libs = []
 %w(lib ext).each {|dir| PROJ.libs << dir if test ?d, dir}
 
 # Gem Packaging
-PROJ.files =
-  if test ?f, 'Manifest.txt'
-    files = File.readlines('Manifest.txt').map {|fn| fn.chomp.strip}
-    files.delete ''
-    files
-  else [] end
-PROJ.executables = PROJ.files.find_all {|fn| fn =~ %r/^bin/}
+PROJ.files = nil
+PROJ.executables = nil
 PROJ.dependencies = []
 PROJ.need_tar = true
 PROJ.need_zip = false
@@ -76,6 +78,7 @@ PROJ.svn_branches = 'branches'
 PROJ.bzr = false
 
 # Announce
+PROJ.ann_file = 'announcement.txt'
 PROJ.ann_text = nil
 PROJ.ann_paragraphs = []
 PROJ.ann_email = {
@@ -172,7 +175,10 @@ def depend_on( name, version = nil )
   spec = Gem.source_index.find_name(name).last
   version = spec.version.to_s if version.nil? and !spec.nil?
 
-  PROJ.dependencies << (version.nil? ? [name] : [name, ">= #{version}"])
+  PROJ.dependencies << case version
+    when nil; [name]
+    when %r/^\d/; [name, ">= #{version}"]
+    else [name, version] end
 end
 
 # Adds the given arguments to the include path if they are not already there

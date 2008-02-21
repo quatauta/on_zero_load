@@ -32,7 +32,6 @@ namespace :doc do
     sh "#{RDOC} --ri -o ri ."
   end
 
-  desc 'Remove ri products'
   task :clobber_ri do
     rm_r 'ri' rescue nil
   end
@@ -45,6 +44,6 @@ task :doc => 'doc:rdoc'
 desc 'Remove all build products'
 task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
 
-remove_desc_for_task %w(doc:clobber_rdoc doc:clobber_ri)
+remove_desc_for_task %w(doc:clobber_rdoc)
 
 # EOF
