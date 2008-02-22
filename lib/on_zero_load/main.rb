@@ -9,7 +9,7 @@ module OnZeroLoad
       main(argv) do
         author      OnZeroLoad.authors(:name_email)
         version     OnZeroLoad.version
-        description "Description goes here"
+        description "FIXME (command description)"
 
         usage["bugs"] = "What about bugs?"
 
