@@ -5,8 +5,8 @@ require 'on_zero_load/ext/main/parameter-fix-15720'
 
 module OnZeroLoad
   class Main
-    def self.run(args)
-      Main do
+    def self.run(argv = ARGV)
+      main(argv) do
         author      OnZeroLoad.authors(:name_email)
         version     OnZeroLoad.version
         description "Description goes here"
