@@ -1,26 +1,5 @@
 module OnZeroLoad
   module Monitor
-    # The current loadavg values from <code>/proc/loadavg</code> as three-elemental array
-    # of floats.
-    #
-    #  [0.16, 0.14, 0.11]
-    def self.loadavg_raw()
-      open("/proc/loadavg") { |f| f.read(14) } .split.map { |s| s.to_f }
-    end
-
-    # The current loadavg values as hash of floats. The key for the loadavg of the last
-    # minute is <code>:one</code>, <code>:five</code> for the last five minutes,
-    # <code>:fifteen</code> for the last fifteen minutes.
-    #
-    #  { :one => 0.16, :five => 0.14, :fifteen => 0.11 }
-    def self.loadavg()
-      data = self.loadavg_raw
-
-      { :one     => data[0],
-        :five    => data[1],
-        :fifteen => data[2] }
-    end
-
     # The current network interface statistics from <code>/proc/net/dev</code> as
     # array. The file's lines are just split on whitespace and <code>/[-:|]/</code>. The
     # numeric field values are converted to integers.
