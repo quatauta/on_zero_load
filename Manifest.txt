@@ -5,14 +5,15 @@ README.txt
 Rakefile
 bin/on_zero_load
 lib/on_zero_load.rb
+lib/on_zero_load/cpu.rb
 lib/on_zero_load/ext/main/cast.rb
 lib/on_zero_load/ext/main/parameter-fix-15720.diff
 lib/on_zero_load/ext/main/parameter-fix-15720.rb
 lib/on_zero_load/loadavg.rb
 lib/on_zero_load/main.rb
-lib/on_zero_load/monitor.rb
+lib/on_zero_load/net.rb
 spec/on_zero_load/load_spec.rb
-spec/on_zero_load/monitor_spec.rb
+spec/on_zero_load/net_spec.rb
 spec/spec_helper.rb
 tasks/ann.rake
 tasks/annotations.rake
