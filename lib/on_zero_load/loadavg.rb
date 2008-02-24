@@ -141,5 +141,24 @@ module OnZeroLoad
 
       self.new(params)
     end
+
+    # The current loadavg values from <code>/proc/loadavg</code> as three-elemental array
+    # of floats.
+    #
+    #  [0.16, 0.14, 0.11]
+    def self.current_raw
+      open("/proc/loadavg") { |f| f.read(14) } .split.map { |s| s.to_f }
+    end
+
+    # The current loadavg.
+    #
+    #  load:0.16:one,0.14:five,0.11:fifteen
+    def self.current
+      data = self.current_raw
+
+      self.new({ :one     => data[0],
+                 :five    => data[1],
+                 :fifteen => data[2] })
+    end
   end
 end

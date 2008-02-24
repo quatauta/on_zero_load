@@ -2,68 +2,6 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require 'on_zero_load/monitor'
 
 
-describe "System monitor loadavg raw data" do
-  before do
-    @loadavg_raw = OnZeroLoad::Monitor.loadavg_raw
-  end
-
-  it "is a non-empty array" do
-    @loadavg_raw.should be_kind_of(Array)
-    @loadavg_raw.should_not be_empty
-  end
-
-  it "contains three floating-point numbers" do
-    @loadavg_raw.should have(3).elements
-    @loadavg_raw.each do |a|
-      a.should be_kind_of(Float)
-    end
-  end
-
-  it "contains only numbers between zero and twenty" do
-    @loadavg_raw.each do |a|
-      a.should be_between(0, 20)
-    end
-  end
-end
-
-
-describe "System monitor loadavg data" do
-  before do
-    @loadavg_raw = OnZeroLoad::Monitor.loadavg_raw
-    @loadavg     = OnZeroLoad::Monitor.loadavg
-  end
-
-  it "is a non-empty hash" do
-    @loadavg.should be_kind_of(Hash)
-    @loadavg.should_not be_empty
-  end
-
-  it "includes values for one, five and fifteen minute load" do
-    @loadavg.should include(:one)
-    @loadavg.should include(:five)
-    @loadavg.should include(:fifteen)
-  end
-
-  it "includes only numeric values" do
-    @loadavg.each_pair do |key, value|
-      value.should be_kind_of(Numeric)
-    end
-  end
-
-  it "includes the raw data value for one minute load" do
-    @loadavg[:one].should == @loadavg_raw[0]
-  end
-
-  it "includes the raw data value for five minute load" do
-    @loadavg[:five].should == @loadavg_raw[1]
-  end
-
-  it "includes the raw data value for fifteen minute load" do
-    @loadavg[:fifteen].should == @loadavg_raw[2]
-  end
-end
-
-
 describe "System monitor network raw data" do
   before do
     @net_raw = OnZeroLoad::Monitor.net_raw

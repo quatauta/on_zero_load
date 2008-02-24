@@ -2,6 +2,63 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 
 module OnZeroLoad
+  describe "System monitor loadavg raw data" do
+    before do
+      @raw = LoadAvg.current_raw
+    end
+
+    it "is a non-empty array" do
+      @raw.should be_kind_of(Array)
+      @raw.should_not be_empty
+    end
+
+    it "contains three floating-point numbers" do
+      @raw.should have(3).elements
+      @raw.each do |a|
+        a.should be_kind_of(Float)
+      end
+    end
+
+    it "contains only numbers between zero and twenty" do
+      @raw.each do |a|
+        a.should be_between(0, 20)
+      end
+    end
+  end
+
+
+  describe "System monitor loadavg data" do
+    before do
+      @raw  = LoadAvg.current_raw
+      @load = LoadAvg.current
+    end
+
+    it "includes values for one, five and fifteen minute load" do
+      @load.should respond_to(:one)
+      @load.should respond_to(:five)
+      @load.should respond_to(:fifteen)
+    end
+
+    it "includes only numeric values" do
+      @load.one.should     be_kind_of(Numeric)
+      @load.five.should    be_kind_of(Numeric)
+      @load.fifteen.should be_kind_of(Numeric)
+    end
+
+    it "includes the raw data value for one minute load" do
+      @load.one.should == @raw[0]
+    end
+
+    it "includes the raw data value for five minute load" do
+      @load.five.should == @raw[1]
+    end
+
+    it "includes the raw data value for fifteen minute load" do
+      @load.fifteen.should == @raw[2]
+    end
+  end
+
+
   describe "LoadAverage object" do
     def create(*params)
       OnZeroLoad::LoadAvg.new(*params)
