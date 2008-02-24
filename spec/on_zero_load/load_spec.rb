@@ -86,6 +86,12 @@ module OnZeroLoad
       @empty.fifteen.should == 0.3
     end
 
+    it "accepts only positive values" do
+      lambda { @empty.one     = -1 } .should raise_error(ArgumentError)
+      lambda { @empty.five    = -1 } .should raise_error(ArgumentError)
+      lambda { @empty.fifteen = -1 } .should raise_error(ArgumentError)
+    end
+
     it "has an initializer with named parameters" do
       p = { :one => 0.3, :five => 0.4, :fifteen => 0.5 }
       a = create(:one     => p[:one])
@@ -176,12 +182,6 @@ module OnZeroLoad
 
         a.should eql(b)
       end
-    end
-
-    it "accepts only positive values" do
-      lambda { @empty.one     = -1 } .should raise_error(ArgumentError)
-      lambda { @empty.five    = -1 } .should raise_error(ArgumentError)
-      lambda { @empty.fifteen = -1 } .should raise_error(ArgumentError)
     end
   end
 end
