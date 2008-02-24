@@ -120,5 +120,11 @@ module OnZeroLoad
         a.should eql(b)
       end
     end
+
+    it "accepts only positive values" do
+      lambda { @empty.one     = -1 } .should raise_error(ArgumentError)
+      lambda { @empty.five    = -1 } .should raise_error(ArgumentError)
+      lambda { @empty.fifteen = -1 } .should raise_error(ArgumentError)
+    end
   end
 end

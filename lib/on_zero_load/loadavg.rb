@@ -14,6 +14,27 @@ module OnZeroLoad
       end
     end
 
+    def one=(one)
+      validate(one)
+      @one = one
+    end
+
+    def five=(five)
+      validate(five)
+      @five = five
+    end
+
+    def fifteen=(fifteen)
+      validate(fifteen)
+      @fifteen = fifteen
+    end
+
+    def validate(value)
+      if value && value < 0
+        raise ArgumentError.new("Loadavg values must be positive, not #{value}.")
+      end
+    end
+
     def hash
       LOADS.map { |load|
         self.send(load)
