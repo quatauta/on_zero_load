@@ -26,9 +26,9 @@ module OnZeroLoad
         option "cpu=[N]", "c" do
           description "CPU-usage limit in percents, 0 <= N <= 100."
           arity -1
-          cast :number
-          default 0
-          validate { |n| 0 <= n && n <= 100 }
+          cast :percent
+          default "0 %"
+          validate { |n| n =~ "%" && ("0%".u .. "100%".u).include?(n) }
         end
 
         option "disk=[N]", "d" do
@@ -36,12 +36,12 @@ module OnZeroLoad
           arity -1
           cast :byte_per_sec
           default "0 Kib/s"
-          validate { |n| 0 <= n }
+          validate { |n| n =~ "Kib/s" && 0 <= n }
         end
 
         option "load=[N]", "l" do
           description "Loadavg of one, five or fifteen minutes. " \
-                      "Format: <N>:[one*,five,fifteen], 0 <= N: " \
+                      "Format: <N>:[one*,five,fifteen,1,5,15], 0 <= N: " \
                       "0.32, 0.41:one, 0.1:five, 0.8:fifteen"
           arity -1
           cast :loadavg
@@ -54,14 +54,14 @@ module OnZeroLoad
           arity -1
           cast :byte_per_sec
           default "0 Kib/s"
-          validate { |n| 0 <= n }
+          validate { |n| n =~ "Kib/s" && 0 <= n }
         end
 
         option "sleep=N", "s" do
           description "Seconds to sleep beween each sample, 0 < N."
-          cast :number
-          default 60.0
-          validate { |n| 0 < n }
+          cast :seconds
+          default "60 s"
+          validate { |n| n =~ "s" && 0 < n }
         end
 
         option "samples=N", "S" do
@@ -92,10 +92,10 @@ module OnZeroLoad
           end
 
           params.each do |p|
-            puts(sprintf("  --%-9s %3s given: %s",
+            puts(sprintf("  --%-7s %3s given: %s",
                          p.name,
                          p.given? ? "" : "not",
-                         p.values.inspect))
+                         p.values.map { |v| [v, v.class] } .inspect))
           end
         end
       end
