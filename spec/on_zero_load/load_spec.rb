@@ -61,7 +61,7 @@ module OnZeroLoad
 
   describe "LoadAverage object" do
     def create(*params)
-      OnZeroLoad::LoadAvg.new(*params)
+      LoadAvg.new(*params)
     end
 
     before do
@@ -171,7 +171,7 @@ module OnZeroLoad
         "a0.1a"     => { :one => 0.1 },
         "a0.1:onea"     => { :one => 0.1 },
       }.each do |string, params|
-        a = OnZeroLoad::LoadAvg.parse(string)
+        a = LoadAvg.parse(string)
         b = create(params)
 
         a.should eql(b)
