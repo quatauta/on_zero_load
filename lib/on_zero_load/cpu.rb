@@ -1,6 +1,6 @@
 module OnZeroLoad
   class CPU
-    # The current cpu activity counters from <code>/proc/stat</code> as array for each CPU
+    # The current CPU activity counters from <code>/proc/stat</code> as array for each CPU
     # and accumulated for all CPUs.
     #
     # From Linux Kernel 2.6.23 <code>Documentation/filesystems/proc.txt</code>:
@@ -34,12 +34,32 @@ module OnZeroLoad
       }
     end
 
+    # The current CPU activity counters. The values returned per CPU by
+    # <code>#current_raw</code> are converted into hashes. If the system has only one CPU,
+    # the returned hash contains only one element <code>"cpu"</code>. On a multi-processor
+    # system, the hash contains the values per CPU (<code>"cpu0"</code>,
+    # <code>"cpu1"</code>, ...) and the cummulated values (<code>"cpu"</code>).
+    #
+    # In addition to the counters mentioned for <code>#current_raw</code>, the two
+    # counters <code>:active</code> and <code>:total</code> are
+    # calculated. <code>:active</code> contains the number of ticks during activity,
+    # <code>:total</code> contains the sum of all counters.
+    #
+    #  { "cpu" => { :idle    => 1034192, :iowait => 73043,
+    #               :irq     => 1630,    :nice   => 1040100,
+    #               :softirq => 1758,    :steal  => 0,
+    #               :system  => 192697,  :user   => 98414,
+    #               :active  => 1334599, :total  => 2441834, }, }
     def self.current
       all = [:user, :nice, :system, :idle, :iowait, :irq, :softirq, :steal]
       act = all - [:idle, :iowait]
       values = {}
 
-      self.current_raw.each do |line|
+      cpus, total = self.current_raw.partition { |line|
+        /\d$/ =~ line.first
+      }
+
+      (1 < cpus.size ? cpus : total).each do |line|
         cpu = line.first
         val = values[cpu] = {}
 
