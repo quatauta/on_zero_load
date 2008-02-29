@@ -17,6 +17,7 @@ spec/on_zero_load/net_spec.rb
 spec/spec_helper.rb
 tasks/ann.rake
 tasks/annotations.rake
+tasks/bones.rake
 tasks/bzr.rake
 tasks/doc.rake
 tasks/gem.rake
