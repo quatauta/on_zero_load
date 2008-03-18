@@ -35,10 +35,10 @@ module OnZeroLoad
     end
 
     # The current CPU activity counters. The values returned per CPU by
-    # <code>#current_raw</code> are converted into hashes. If the system has only one CPU,
-    # the returned hash contains only one element <code>"cpu"</code>. On a multi-processor
-    # system, the hash contains the values per CPU (<code>"cpu0"</code>,
-    # <code>"cpu1"</code>, ...) and the cummulated values (<code>"cpu"</code>).
+    # <code>#current_raw</code> are converted into hashes. The returned hash contains the
+    # values per CPU (<code>"cpu0"</code>, <code>"cpu1"</code>, ...) and the cummulated
+    # values (<code>"cpu"</code>). On a single processor, single core, non-hyper-threading
+    # system, there will be only <code>"cpu0"</code> and <code>"cpu"</code>.
     #
     # In addition to the counters mentioned for <code>#current_raw</code>, the two
     # counters <code>:active</code> and <code>:total</code> are
@@ -55,11 +55,7 @@ module OnZeroLoad
       act = all - [:idle, :iowait]
       values = {}
 
-      cpus, total = self.current_raw.partition { |line|
-        /\d$/ =~ line.first
-      }
-
-      (1 < cpus.size ? cpus : total).each do |line|
+      self.current_raw.each do |line|
         cpu = line.first
         val = values[cpu] = {}
 
