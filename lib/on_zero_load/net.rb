@@ -36,11 +36,7 @@ module OnZeroLoad
     #                               :carrier => 0, :compressed => 0 } } }
     def self.current
       values = {}
-      data   = self.current_raw
-
-      [0..1].each do |n| # convert headers to downcase symbols
-        data[n] = data[n].map { |l| l.map { |f| f.downcase.to_sym } }
-      end
+      data   = downcase_header_sym(self.current_raw)
 
       data[2 .. data.size].each do |line|
         name           = line.first
@@ -56,6 +52,15 @@ module OnZeroLoad
       end
 
       values
+    end
+
+    # TODO (comment downcase_header_sym)
+    def self.downcase_header_sym(data)
+      [0..1].each do |n| # convert headers to downcase symbols
+        data[n] = data[n].map { |l| l.map { |f| f.downcase.to_sym } }
+      end
+
+      data
     end
   end
 end
