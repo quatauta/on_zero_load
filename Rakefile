@@ -7,6 +7,7 @@ load 'tasks/setup.rb'
 ensure_in_path 'lib'
 require 'on_zero_load'
 
+desc "Update changelog, check whitespace, run specs"
 task :default => 'bzr:changelog'
 task :default => 'whitespace:check'
 task :default => 'spec:run'
