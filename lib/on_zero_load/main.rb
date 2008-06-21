@@ -19,7 +19,7 @@ module OnZeroLoad
                       "options, give #{File.basename($0)}'s options " \
                       "first and separate them from the command's name " \
                       "and options using two dashes (\"--\"), " \
-                      "e.g. \"on-zero-load -l 0.2 -- beep -r 5\"."
+                      "e.g. \"#{File.basename($0)} -l 0.2 -- beep -r 5\"."
           arity -1
         end
 
