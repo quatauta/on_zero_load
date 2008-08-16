@@ -32,13 +32,19 @@ command "sudo hibernate" is executed.
 
 === Runtime
 
-* +main+, http://rubyforge.org/projects/codeforpeople
-* <tt>ruby-units</tt>, http://ruby-units.rubyforge.org/ruby-units
+* main.rb - Class factory and DSL for generating command line programs real quick (http://rubyforge.org/projects/codeforpeople)
+* Ruby Units - Simplify the handling of units for scientific calculations (http://ruby-units.rubyforge.org/ruby-units)
+
+ # sudo gem install main
+ # sudo gem install ruby-units
 
 === Development
 
-* +rake+, http://rake.rubyforge.org
-* +rspec+, http://rspec.rubyforge.org
+* Rake - Ruby Make (http://rake.rubyforge.org)
+* RSpec - Behaviour driven development (BDD) framework for Ruby (http://rspec.rubyforge.org)
+
+ # sudo gem install rake
+ # sudo gem install rspec
 
 == INSTALL:
 
