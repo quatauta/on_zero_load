@@ -2,7 +2,7 @@
     by Daniel Schömer <daniel.schoemer@gmx.net>
     FIXME (url)
 
-== DESCRIPTION:
+== Description:
 
 A ruby script to execute a command after the system load dropped below a certain
 threshold.  It can monitor the loadavg, harddisk and network activity.  Support for
@@ -14,11 +14,11 @@ or compilation (yes, I'm on Gentoo/Linux).
 Currently only for Linux 2.6, but I will support others on request, if I'm able to.
 Patches welcome.
 
-== FEATURES/PROBLEMS:
+== Features/Problems:
 
 * FIXME (list of features or problems)
 
-== SYNOPSIS:
+== Synopsis:
 
 In your shell:
 
@@ -28,7 +28,7 @@ It will check the five minute loadavg, average network and cpu utilization every
 seconds. After the values are lower or equal than the given values for three times, the
 command "sudo hibernate" is executed.
 
-== REQUIREMENTS:
+== Requirements:
 
 === Runtime
 
@@ -50,11 +50,11 @@ command "sudo hibernate" is executed.
 
 ¹optional dependencies
 
-== INSTALL:
+== Install:
 
  # sudo gem install on_zero_load
 
-== LICENSE:
+== License:
 
 (The MIT License)
 
