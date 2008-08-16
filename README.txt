@@ -42,9 +42,13 @@ command "sudo hibernate" is executed.
 
 * Rake - Ruby Make (http://rake.rubyforge.org)
 * RSpec - Behaviour driven development (BDD) framework for Ruby (http://rspec.rubyforge.org)
+* Resh¹ - A light template for RDoc (http://coderepos.org/share/wiki/Resh)
 
  # sudo gem install rake
  # sudo gem install rspec
+ # sudo gem install resh¹
+
+¹optional dependencies
 
 == INSTALL:
 
