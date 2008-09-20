@@ -27,6 +27,7 @@ namespace :doc do
 
     rd.options << "-t #{title}"
     rd.options.concat(rdoc.opts)
+    rd.template = rdoc.template if rdoc.template
   end
 
   desc 'Generate ri locally for testing'

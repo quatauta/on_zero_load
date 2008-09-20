@@ -78,7 +78,8 @@ PROJ = OpenStruct.new(
     :exclude => %w(extconf\.rb$),
     :main => nil,
     :dir => 'doc',
-    :remote_dir => nil
+    :remote_dir => nil,
+    :template => nil
   ),
 
   # Rubyforge
