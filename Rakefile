@@ -35,6 +35,7 @@ PROJ.rdoc_opts     = [ '--all',
                        '--show-hash' ]
 PROJ.rdoc_template = 'vendor/jamis/jamis'
 PROJ.rdoc_template = 'resh' if Gem.available? 'resh'
+(PROJ.rdoc_template = 'hanna' ; require 'hanna') if Gem.available? 'mislav-hanna'
 PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec_opts    << '--color'
 
