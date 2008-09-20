@@ -1,4 +1,4 @@
-if PROJ.bzr and system("bzr --version 1>#{DEV_NULL} 2>&1")
+if HAVE_BZR
   namespace :bzr do
     desc 'Show tags of this branch'
     task :show_tags do |t|

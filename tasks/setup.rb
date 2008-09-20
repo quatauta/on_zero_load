@@ -102,6 +102,9 @@ PROJ = OpenStruct.new(
     :tags => 'tags',
     :branches => 'branches'
   ),
+                      
+  # Bazaar Branch
+  :bzr => false,
 
   # Test::Unit
   :test => OpenStruct.new(
@@ -163,6 +166,8 @@ HAVE_SVN = (Dir.entries(Dir.pwd).include?('.svn') and
             system("svn --version 2>&1 > #{DEV_NULL}"))
 HAVE_GIT = (Dir.entries(Dir.pwd).include?('.git') and
             system("git --version 2>&1 > #{DEV_NULL}"))
+HAVE_BZR = (Dir.entries(Dir.pwd).include?('.bzr') and
+            system("bzr --version 2>&1 > #{DEV_NULL}"))
 
 # Reads a file at +path+ and spits out an array of the +paragraphs+
 # specified.
