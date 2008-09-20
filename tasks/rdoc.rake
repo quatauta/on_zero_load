@@ -31,7 +31,7 @@ namespace :doc do
 
   desc 'Generate ri locally for testing'
   task :ri => :clobber_ri do
-    sh "#{RDOC} --ri -o ri ."
+    sh "#{RDOC} --ri -o ri -x pkg ."
   end
 
   task :clobber_ri do
