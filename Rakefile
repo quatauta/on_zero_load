@@ -17,7 +17,7 @@ PROJ.authors        = OnZeroLoad.authors.join(", ")
 PROJ.email          = OnZeroLoad.authors(:email).join(", ")
 PROJ.version        = OnZeroLoad.version
 PROJ.url            = OnZeroLoad.homepage
-PROJ.rubyforge_name = 'on_zero_load'
+PROJ.rubyforge.name = 'on_zero_load'
 
 depend_on 'main'
 depend_on 'ruby-units'
@@ -26,17 +26,17 @@ PROJ.bzr           = true
 PROJ.changelog     = "Changelog.txt"
 PROJ.exclude      << '^\.bzr\/'
 PROJ.exclude      << '^\.bzrignore$'
-PROJ.rdoc_exclude << '\.diff$'
-PROJ.rdoc_opts     = [ '--all',
+PROJ.rdoc.exclude << '\.diff$'
+PROJ.rdoc.opts     = [ '--all',
                        '--charset', 'utf-8',
                        '--inline-source',
                        '--line-numbers',
                        '--promiscuous',
                        '--show-hash' ]
-PROJ.rdoc_template = 'vendor/jamis/jamis'
-PROJ.rdoc_template = 'resh' if Gem.available? 'resh'
-(PROJ.rdoc_template = 'hanna' ; require 'hanna') if Gem.available? 'mislav-hanna'
+PROJ.rdoc.template = 'vendor/jamis/jamis'
+PROJ.rdoc.template = 'resh' if Gem.available? 'resh'
+(PROJ.rdoc.template = 'hanna' ; require 'hanna') if Gem.available? 'mislav-hanna'
 PROJ.ruby_opts     = [ '-Ku' ]
-PROJ.spec_opts    << '--color'
+PROJ.spec.opts    << '--color'
 
 # EOF
