@@ -102,7 +102,7 @@ PROJ = OpenStruct.new(
     :tags => 'tags',
     :branches => 'branches'
   ),
-                      
+
   # Bazaar Branch
   :bzr => false,
 
