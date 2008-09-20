@@ -1,3 +1,4 @@
+.shelf/current-shelf
 Changelog.txt
 History.txt
 Manifest.txt
@@ -16,13 +17,14 @@ spec/on_zero_load/load_spec.rb
 spec/on_zero_load/net_spec.rb
 spec/spec_helper.rb
 tasks/ann.rake
-tasks/annotations.rake
 tasks/bones.rake
 tasks/bzr.rake
-tasks/doc.rake
 tasks/gem.rake
+tasks/git.rake
 tasks/manifest.rake
+tasks/notes.rake
 tasks/post_load.rake
+tasks/rdoc.rake
 tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
