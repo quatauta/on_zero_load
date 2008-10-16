@@ -1,3 +1,6 @@
+HAVE_BZR = Dir.entries(Dir.pwd).include?('.bzr') &&
+           system("bzr --version 2>&1 > #{DEV_NULL}")
+
 if HAVE_BZR
   namespace :bzr do
     desc 'Show tags of this branch'
