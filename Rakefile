@@ -2,7 +2,12 @@
 # configured in this Rakefile. The .rake files in the tasks directory
 # are where the options are used.
 
-load 'tasks/setup.rb'
+begin
+  require 'bones'
+  Bones.setup
+rescue LoadError
+  load 'tasks/setup.rb'
+end
 
 ensure_in_path 'lib'
 require 'on_zero_load'
@@ -26,6 +31,9 @@ PROJ.bzr           = true
 PROJ.changelog     = "Changelog.txt"
 PROJ.exclude      << '^\.bzr\/'
 PROJ.exclude      << '^\.bzrignore$'
+PROJ.exclude      << '^\.shelf\/'
+PROJ.exclude      << '^coverage/'
+PROJ.exclude      << '^ri/'
 PROJ.rdoc.exclude << '\.diff$'
 PROJ.rdoc.opts     = [ '--all',
                        '--charset', 'utf-8',
