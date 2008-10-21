@@ -1,6 +1,10 @@
-# $Id$
+# Id$
 
-require 'rake/rdoctask'
+if 'hanna' == PROJ.rdoc.template && Gem.available?('mislav-hanna')
+  require 'hanna/rdoctask'
+else
+  require 'rake/rdoctask'
+end
 
 namespace :doc do
 
@@ -27,7 +31,6 @@ namespace :doc do
 
     rd.options << "-t #{title}"
     rd.options.concat(rdoc.opts)
-    rd.template = rdoc.template if rdoc.template
   end
 
   desc 'Generate ri locally for testing'

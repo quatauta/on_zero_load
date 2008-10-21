@@ -41,8 +41,7 @@ PROJ.rdoc.opts     = [ '--all',
                        '--line-numbers',
                        '--promiscuous',
                        '--show-hash' ]
-PROJ.rdoc.template = 'vendor/jamis/jamis'
-(PROJ.rdoc.template = 'hanna' ; require 'hanna') if Gem.available? 'mislav-hanna'
+PROJ.rdoc.template = 'hanna'
 PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec.opts    << '--color'
 
