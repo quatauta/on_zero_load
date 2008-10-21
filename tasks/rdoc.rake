@@ -1,4 +1,3 @@
-# Id$
 
 if 'hanna' == PROJ.rdoc.template && Gem.available?('mislav-hanna')
   require 'hanna/rdoctask'
