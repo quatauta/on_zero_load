@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-libdir = File.join(File.dirname(__FILE__), '..', 'lib')
+libdir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include? libdir
+unless $LOAD_PATH.find { |p| File.identical?(libdir, p) }
+  $LOAD_PATH.unshift(libdir)
+end
 
 require 'on_zero_load'
 
