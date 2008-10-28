@@ -8,15 +8,15 @@ module OnZeroLoad
 
     # The load averaged over the last minute. Negative numbers are rejected by raising a
     # +ArgumentExecption+. See <code>#validate</code>.
-    attr_accessor :one
+    attr :one
 
     # The load averaged over the five minutes. Negative numbers are rejected by raising a
     # +ArgumentExecption+. See <code>#validate</code>.
-    attr_accessor :five
+    attr :five
 
     # The load averaged over the fifteen minutes. Negative numbers are rejected by raising
     # a +ArgumentExecption+. See <code>#validate</code>.
-    attr_accessor :fifteen
+    attr :fifteen
 
     # Holds the available attribute names to simplify some methods.
     LOADS = [ :one, :five, :fifteen ].freeze
