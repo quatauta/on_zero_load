@@ -1,5 +1,9 @@
 = Notes
 
+* Enable ruby warnings?
+  <code>#!/usr/bin/ruby -w</code> instead of <code>#!/usr/bin/env ruby</code>
+  or set <code>$VERBOSE = true</code> in <code>bin/on_zero_load</code>
+
 == User idle time X11
 
 * http://coderrr.wordpress.com/2008/04/20/getting-idle-time-in-unix/
