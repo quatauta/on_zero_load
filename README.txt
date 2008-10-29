@@ -50,6 +50,10 @@ command "sudo hibernate" is executed.
 
 ¹optional dependencies
 
+To add permanently add http://gems.github.com to gem sources:
+
+ # sudo gem source -a http://gems.github.com
+
 == Install
 
  # sudo gem install on_zero_load
