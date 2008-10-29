@@ -32,11 +32,11 @@ command "sudo hibernate" is executed.
 
 === Runtime
 
-* main.rb - Class factory and DSL for generating command line programs real quick (http://rubyforge.org/projects/codeforpeople)
 * Ruby Units - Simplify the handling of units for scientific calculations (http://ruby-units.rubyforge.org/ruby-units)
+* Trollop - Commandline option parser for Ruby that just gets out of your way (http://trollop.rubyforge.org/)
 
- # sudo gem install main
  # sudo gem install ruby-units
+ # sudo gem install trollop
 
 === Development
 

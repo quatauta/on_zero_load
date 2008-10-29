@@ -9,4 +9,4 @@ end
 require 'on_zero_load'
 
 
-OnZeroLoad::Main.run(ARGV)
+OnZeroLoad::Main.parse(ARGV.clone)

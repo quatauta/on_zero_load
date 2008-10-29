@@ -1,104 +1,130 @@
-require 'main'
-require 'on_zero_load/ext/main/cast'
-require 'on_zero_load/ext/main/parameter-fix-15720'
+require 'trollop'
 
 
 module OnZeroLoad
   class Main
-    def self.run(argv = ARGV)
-      main(argv) do
-        author      OnZeroLoad.authors(:name_email)
-        version     OnZeroLoad.version
-        description "FIXME (command description)"
+    # The predefined commands that can be set by command-line options instead of explicit
+    # arguments.
+    PREDEFINED_COMMANDS = {
+      :reboot => {
+        :desc  => "Reboot system",
+        :short => :R,
+        :cmd   => ["sudo", "shutdown", "-r", "now"],
+      },
+      :shutdown => {
+        :desc  => "Halt system",
+        :short => :S,
+        :cmd   => ["sudo", "shutdown", "-h", "now"],
+      },
+      :hibernate => {
+        :desc  => "Hibernate system",
+        :short => :H,
+        :cmd   => ["sudo", "hibernate"],
+      },
+      :beep => {
+        :desc  => "Let the system speaker beep",
+        :short => :B,
+        :cmd   => ["beep"],
+      },
+    }
 
-        usage["bugs"] = "What about bugs?"
+    def self.define_standard_options(parser)
+      parser.text("")
+      parser.text("Standard options:")
+      parser.text("")
+      parser.opt(:help, "Show this message")
+      parser.opt(:version, "Print version and exit")
+      parser.opt(:verbose, "Verbose output, print acual values and thresholds",
+                 :short => :V, :multi => true)
+      parser
+    end
 
-        argument "command" do
-          description "The command to execute after the values dropped " \
-                      "below the defined limits. To supply a command with " \
-                      "options, give #{File.basename($0)}'s options " \
-                      "first and separate them from the command's name " \
-                      "and options using two dashes (\"--\"), " \
-                      "e.g. \"#{File.basename($0)} -l 0.2 -- beep -r 5\"."
-          arity(-1)
-        end
+    def self.define_options(parser)
+      parser.text("")
+      parser.text("Options:")
+      parser.text("")
+      parser.opt(:load,  "System load average",
+                 :multi => true, :type => :float)
+      parser.opt(:cpu,   "CPU usage",
+                 :multi => true, :type => :float)
+      parser.opt(:disk,  "Harddisk throughput",
+                 :multi => true, :type => :string)
+      parser.opt(:net,   "Network throughput",
+                 :multi => true, :type => :string)
+      parser.opt(:input, "Time without user input",
+                 :multi => true, :type => :string)
+      parser
+    end
 
-        option "cpu=[N]", "c" do
-          description "CPU-usage limit in percents, 0 <= N <= 100."
-          arity(-1)
-          cast :percent
-          default "0 %"
-          validate { |n| n =~ "%" && ("0%".u .. "100%".u).include?(n) }
-        end
+    def self.define_device_options(parser)
+      parser.text("")
+      parser.text("Options to define which devices are monitored:")
+      parser.text("")
+      parser.opt(:loads, "System load average to monitor, or \"list\"",
+                 :short => :L, :multi => true, :type => :string,
+                 :default => "1")
+      parser.opt(:cpus, "CPUs to monitor, or \"list\"",
+                 :short => :C, :multi => true, :type => :string,
+                 :default => "0,1") # TODO Insert available CPUs
+      parser.opt(:disks, "Harddisks to monitor, or \"list\"",
+                 :short => :D, :multi => true, :type => :string,
+                 :default => "sda") # TODO Insert available harddisks
+      parser.opt(:ifaces, "Network interfaces to monitor, or \"list\"",
+                 :short => :I, :multi => true, :type => :string,
+                 :default => "eth0") # TODO Insert available network interfaces without lo
+      parser.text("")
+      parser.text("The four options above accept multiple values " +
+                  "separated by spaces or commata, or by giving each " +
+                  "option multiple times. If value \"list\" is given, " +
+                  "the possible values are printed on stdout.")
+      parser
+    end
 
-        option "disk=[N]", "d" do
-          description "Bytes/second read from or written to disk, 0 <= N."
-          arity(-1)
-          cast :byte_per_sec
-          default "0 Kib/s"
-          validate { |n| n =~ "Kib/s" && 0 <= n }
-        end
+    def self.define_command_options(parser, commands)
+      parser.text("")
+      parser.text("Predefined commands:")
+      parser.text("")
 
-        option "load=[N]", "l" do
-          description "Loadavg of one, five or fifteen minutes. " \
-                      "Format: <N>:[one*,five,fifteen,1,5,15], 0 <= N: " \
-                      "0.32, 0.41:one, 0.1:five, 0.8:fifteen"
-          arity(-1)
-          cast :loadavg
-          default "0.0:one"
-        end
+      commands.each { |long, more|
+        parser.opt(long, "%s, \"%s\"" % [ more[:desc],
+                                          more[:cmd].join(" ") ],
+                   :short => more[:short])
+      }
+    end
 
-        option "net=[N]", "n" do
-          description "Bytes/second received or tranmitted through "\
-                      "net interface, 0 <= N."
-          arity(-1)
-          cast :byte_per_sec
-          default "0 Kib/s"
-          validate { |n| n =~ "Kib/s" && 0 <= n }
-        end
+    def self.option_parser
+      Trollop::Parser.new {
+        base = File.basename($0)
 
-        option "sleep=N", "s" do
-          description "Seconds to sleep beween each sample, 0 < N."
-          cast :seconds
-          default "60 s"
-          validate { |n| n =~ "s" && 0 < n }
-        end
+        stop_on_unknown
 
-        option "samples=N", "S" do
-          description "Number of samples that must be below the limits, 1 <= N."
-          cast :integer
-          default 1
-          validate { |n| 1 <= n }
-        end
+        version("%s %s" % [ base, OnZeroLoad.version ])
+        text("Usage: %s [OPTION]... -- [COMMAND] [COMMAND OPTION]..." % [ base ])
+        text("Execute a command if the system load drops below given thresholds.")
 
-        option "dry-run", "D", "N" do
-          description "Only print the command, do not execute it."
-        end
+        Main.define_standard_options(self)
+        Main.define_options(self)
+        Main.define_device_options(self)
+        Main.define_command_options(self, PREDEFINED_COMMANDS)
+      }
+    end
 
-        option "verbose", "V" do
-          description "Print the samples each time they a taken."
-        end
+    def self.parse(args = ARGV)
+      p = self.option_parser
+      o = {}
 
-        option "version", "v" do
-          description "Only print the version of the script and exit."
-        end
-
-        def run
-          param[:command].values += ARGV
-
-          if (params[:version].given? && params[:version].value)
-            puts "This is #{File.basename($0)} version #{version()}."
-            return
-          end
-
-          params.each do |p|
-            puts(sprintf("  --%-7s %3s given: %s",
-                         p.name,
-                         p.given? ? "" : "not",
-                         p.values.map { |v| [v, v.class] } .inspect))
-          end
-        end
+      begin
+        o = p.parse(args)
+      rescue Trollop::CommandlineError => e
+        $stderr.puts "Error: #{e.message}."
+        $stderr.puts "Try --help for help."
+      rescue Trollop::HelpNeeded
+        p.educate
+      rescue Trollop::VersionNeeded
+        puts p.version
       end
+
+      require 'pp' ; pp :options => o, :args => p.leftovers
     end
   end
 end

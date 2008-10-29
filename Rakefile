@@ -24,8 +24,8 @@ PROJ.version        = OnZeroLoad.version
 PROJ.url            = OnZeroLoad.homepage
 PROJ.rubyforge.name = 'on_zero_load'
 
-depend_on 'main'
 depend_on 'ruby-units'
+depend_on 'trollop'
 
 PROJ.bzr           = true
 PROJ.changelog     = "Changelog.txt"
