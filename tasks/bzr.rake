@@ -2,6 +2,11 @@ HAVE_BZR = Dir.entries(Dir.pwd).include?('.bzr') &&
            system("bzr --version 2>&1 > #{DEV_NULL}")
 
 if HAVE_BZR
+  desc 'Alias to bzr:changelog'
+  task 'changelog' => 'bzr:changelog'
+
+  task 'gem:release' => 'bzr:create_tag'
+
   namespace :bzr do
     desc 'Show tags of this branch'
     task :show_tags do |t|
@@ -33,9 +38,4 @@ if HAVE_BZR
       end
     end
   end
-
-  desc 'Alias to bzr:changelog'
-  task 'changelog' => 'bzr:changelog'
-
-  task 'gem:release' => 'bzr:create_tag'
 end

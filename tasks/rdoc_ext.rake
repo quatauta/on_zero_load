@@ -1,8 +1,7 @@
 # Cleanup RDoc stylesheet produced by hanna RDoc template
 
-if 'hanna' == PROJ.rdoc.template &&
-    Rake::Task.task_defined?('doc/index.html')
-  Rake::Task['doc/index.html'].enhance {
+if 'hanna' == PROJ.rdoc.template && Rake::Task.task_defined?('doc/index.html')
+  Rake::Task['doc/index.html'].enhance do
     families = [ "Arial",
                  "Courier( New)?",
                  "(Bitstream Vera|DejaVu) Sans Mono",
@@ -16,5 +15,5 @@ if 'hanna' == PROJ.rdoc.template &&
 
     system(*cmd)
     puts "Removed font families from doc/rdoc-style.css."
-  }
+  end
 end

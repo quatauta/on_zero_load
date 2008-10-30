@@ -1,12 +1,17 @@
-
 if 'hanna' == PROJ.rdoc.template && Gem.available?('mislav-hanna')
   require 'hanna/rdoctask'
 else
   require 'rake/rdoctask'
 end
 
-namespace :doc do
+desc 'Alias to doc:rdoc'
+task :doc => 'doc:rdoc'
 
+desc 'Remove all build products'
+task :clobber => 'doc:clobber_rdoc'
+task :clobber => 'doc:clobber_ri'
+
+namespace :doc do
   desc 'Generate RDoc documentation'
   Rake::RDocTask.new do |rd|
     rdoc = PROJ.rdoc
@@ -40,15 +45,6 @@ namespace :doc do
   task :clobber_ri do
     rm_r 'ri' rescue nil
   end
-
-end  # namespace :doc
-
-desc 'Alias to doc:rdoc'
-task :doc => 'doc:rdoc'
-
-desc 'Remove all build products'
-task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
+end
 
 remove_desc_for_task %w(doc:clobber_rdoc)
-
-# EOF

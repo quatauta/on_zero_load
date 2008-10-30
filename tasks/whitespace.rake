@@ -1,8 +1,5 @@
 require 'set'
 
-desc "Alias to whitespace:check"
-task :whitespace => ["whitespace:check"]
-
 class Array
   def join2(sep = $,, last_sep = nil)
     if last_sep && 1 < self.size
@@ -12,6 +9,9 @@ class Array
     end
   end
 end
+
+desc "Alias to whitespace:check"
+task :whitespace => "whitespace:check"
 
 namespace :whitespace do
   violations = {
