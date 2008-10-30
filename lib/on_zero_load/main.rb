@@ -110,21 +110,21 @@ module OnZeroLoad
     end
 
     def self.parse(args = ARGV)
-      p = self.option_parser
-      o = {}
+      parser  = self.option_parser
+      options = {}
 
       begin
-        o = p.parse(args)
-      rescue Trollop::CommandlineError => e
-        $stderr.puts "Error: #{e.message}."
+        options = parser.parse(args)
+      rescue Trollop::CommandlineError => error
+        $stderr.puts "Error: #{error.message}."
         $stderr.puts "Try --help for help."
       rescue Trollop::HelpNeeded
-        p.educate
+        parser.educate
       rescue Trollop::VersionNeeded
-        puts p.version
+        puts parser.version
       end
 
-      require 'pp' ; pp :options => o, :args => p.leftovers
+      require 'pp' ; pp :options => options, :args => parser.leftovers
     end
   end
 end
