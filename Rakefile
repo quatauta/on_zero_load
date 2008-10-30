@@ -49,5 +49,3 @@ PROJ.rdoc.opts     = [ '--all',
 PROJ.rdoc.template = 'hanna'
 PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec.opts    << '--color'
-
-# EOF
