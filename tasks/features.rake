@@ -1,6 +1,11 @@
 require 'cucumber'
 require 'cucumber/rake/task'
 
-Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = "--format pretty"
+desc 'Alias to features:run'
+task :features => 'features:run'
+
+namespace :features do
+  Cucumber::Rake::Task.new(:run) do |t|
+    t.cucumber_opts = "--format pretty"
+  end
 end
