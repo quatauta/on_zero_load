@@ -16,6 +16,7 @@ desc "Update changelog, check whitespace, run specs"
 task :default => 'bzr:changelog'
 task :default => 'whitespace:check'
 task :default => 'spec:run'
+task :default => 'features:run'
 
 PROJ.name           = 'on_zero_load'
 PROJ.authors        = OnZeroLoad.authors.join(", ")
