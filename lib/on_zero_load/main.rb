@@ -115,6 +115,7 @@ module OnZeroLoad
 
       begin
         options = parser.parse(args)
+        options[:args] = parser.leftovers
       rescue Trollop::CommandlineError => error
         $stderr.puts "Error: #{error.message}."
         $stderr.puts "Try --help for help."
@@ -124,7 +125,7 @@ module OnZeroLoad
         puts parser.version
       end
 
-      require 'pp' ; pp :options => options, :args => parser.leftovers
+      options
     end
   end
 end
