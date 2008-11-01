@@ -23,10 +23,10 @@ Then /the options key should be (\w+)/ do |expected_key_name|
 end
 
 Then /the values should be (.*)/ do |expected_values|
-  @opts[@key].map { |v| v.to_s } .should == expected_values.split(/, +/)
+  @opts[@key].map { |v| v.to_s } .should == expected_values.split(/; +/)
 end
 
-Then /the classes should be (\w+)/ do |expected_class_name|
+Then /each value should be of class (\w+)/ do |expected_class_name|
   @opts[@key].each do |v|
     v.class.name.should == expected_class_name
   end
