@@ -88,18 +88,18 @@ module OnZeroLoad
         end
       end
       
-      def self.total_idle_time(dpms = self.dpms_state)
+      def self.total_idle_time(dpms_state = self.dpms_state)
         diff = {
           :on      =>  0,
-          :standby =>  dpms[:timeout][:standby] * 1000,
-          :suspend => (dpms[:timeout][:standby] +
-                       dpms[:timeout][:suspend]) * 1000,
-          :off     => (dpms[:timeout][:standby] +
-                       dpms[:timeout][:suspend] +
-                       dpms[:timeout][:off]) * 1000,
+          :standby =>  dpms_state[:timeout][:standby] * 1000,
+          :suspend => (dpms_state[:timeout][:standby] +
+                       dpms_state[:timeout][:suspend]) * 1000,
+          :off     => (dpms_state[:timeout][:standby] +
+                       dpms_state[:timeout][:suspend] +
+                       dpms_state[:timeout][:off]) * 1000,
         }
     
-        self.idle_time + diff[dpms[:state]]
+        self.idle_time + diff[dpms_state[:state]]
       end
     end
   end
