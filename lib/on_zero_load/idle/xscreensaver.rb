@@ -208,7 +208,7 @@ module OnZeroLoad
       # The fix has its source in
       # xprintidle[http://www.dtek.chalmers.se/~henoch/text/xprintidle.html]. Freedesktop.org
       # has a {bug report}[http://bugs.freedesktop.org/show_bug.cgi?id=6439].
-      def self.total_idle_time(dpms_state = self.dpms_state)
+      def self.total_idle_time(idle_time = self.idle_time, dpms_state = self.dpms_state)
         diff = {
           :on      =>  0,
           :standby =>  dpms_state[:timeout][:standby] * 1000,
@@ -219,7 +219,7 @@ module OnZeroLoad
                        dpms_state[:timeout][:off]) * 1000,
         }
 
-        self.idle_time + diff[dpms_state[:state]]
+        idle_time + diff[dpms_state[:state]]
       end
     end
   end
