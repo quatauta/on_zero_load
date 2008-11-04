@@ -197,6 +197,17 @@ module OnZeroLoad
         end
       end
 
+      # Fixes the idle_time reported by X11 ScreenSaver extension.
+      #
+      # The reported idle_time is reset to zero each time the display switches between on,
+      # standby, suspend and off state.
+      #
+      # To fix this, the sum of all timeouts upto the current display state is added to
+      # the reported idle_time.
+      #
+      # The fix has its source in
+      # xprintidle[http://www.dtek.chalmers.se/~henoch/text/xprintidle.html]. Freedesktop.org
+      # has a {bug report}[http://bugs.freedesktop.org/show_bug.cgi?id=6439].
       def self.total_idle_time(dpms_state = self.dpms_state)
         diff = {
           :on      =>  0,
