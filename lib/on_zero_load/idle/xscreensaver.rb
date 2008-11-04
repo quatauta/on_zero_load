@@ -5,7 +5,7 @@ require 'inline'
 module OnZeroLoad
   module Idle
     class XScreenSaver
-      # Query X11 DPMS extension for the current DPMS state of first display.
+      # Query X11 DPMS extension for the current DPMS state of the first display.
       #
       # The returned hash contains the display state and the timeouts to set the display
       # to standby, suspend and off mode.
