@@ -39,7 +39,7 @@ module OnZeroLoad
       parser
     end
 
-    def self.define_options(parser)
+    def self.define_limit_options(parser)
       parser.text("")
       parser.text("Options:")
       parser.text("")
@@ -103,7 +103,7 @@ module OnZeroLoad
         text("Execute a command if the system load drops below given thresholds.")
 
         Main.define_standard_options(self)
-        Main.define_options(self)
+        Main.define_limit_options(self)
         Main.define_device_options(self)
         Main.define_command_options(self, PREDEFINED_COMMANDS)
       }
