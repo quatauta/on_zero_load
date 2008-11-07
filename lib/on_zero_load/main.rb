@@ -46,7 +46,7 @@ module OnZeroLoad
       parser.opt(:load,  "System load average",
                  :multi => true, :type => :float)
       parser.opt(:cpu,   "CPU usage",
-                 :multi => true, :type => :float)
+                 :multi => true, :type => :string)
       parser.opt(:disk,  "Harddisk throughput",
                  :multi => true, :type => :string)
       parser.opt(:net,   "Network throughput",
@@ -115,7 +115,6 @@ module OnZeroLoad
 
       begin
         options = parser.parse(args)
-        options[:args] = parser.leftovers
       rescue Trollop::CommandlineError => error
         $stderr.puts "Error: #{error.message}."
         $stderr.puts "Try --help for help."
@@ -124,6 +123,12 @@ module OnZeroLoad
       rescue Trollop::VersionNeeded
         puts parser.version
       end
+
+      [:load, :cpu, :disk, :net, :input].each { |key|
+        options[key] = options[key].last if options[key].kind_of? Array
+      }
+
+      options[:args] = parser.leftovers
 
       options
     end

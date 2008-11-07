@@ -19,14 +19,21 @@ Then /the options key should be (\w+)/ do |expected_key_name|
   @opts.should be_kind_of(Hash)
   @opts.should have_key(@key)
   @opts[@key].should_not be_nil
-  @opts[@key].should be_kind_of(Array)
+end
+
+Then /the value should be (.*)/ do |expected_value|
+  @opts[@key].to_s.should == expected_value
 end
 
 Then /the values should be (.*)/ do |expected_values|
   @opts[@key].map { |v| v.to_s } .should == expected_values.split(/; +/)
 end
 
-Then /each value should be of class (\w+)/ do |expected_class_name|
+Then /the value type should be (\w+)/ do |expected_class_name|
+  @opts[@key].class.name.should == expected_class_name
+end
+
+Then /each value type should be (\w+)/ do |expected_class_name|
   @opts[@key].each do |v|
     v.class.name.should == expected_class_name
   end
