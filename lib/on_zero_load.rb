@@ -31,6 +31,8 @@ module OnZeroLoad
   #  authors :key        => ["0xFAF565D3"]
   #  authors :key_long   => ["0xAE51A5F9FAF565D3"]
   #  authors :key_fp     => ["0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3"]
+  #
+  # Acutally, depending on +type+, just one of the <tt>authors_...</tt> methods is called.
   def self.authors(type = :name)
     name      = "authors_%s" % type.to_s
     sym       = name.to_sym
