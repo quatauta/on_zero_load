@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'on_zero_load/cpu'
 require 'on_zero_load/loadavg'
 require 'on_zero_load/main'
@@ -31,29 +32,52 @@ module OnZeroLoad
   #  authors :key_long   => ["0xAE51A5F9FAF565D3"]
   #  authors :key_fp     => ["0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3"]
   def self.authors(type = :name)
-    case type
-    when :name
-      AUTHORS.map { |a| a[:name] }
-    when :email
-      AUTHORS.map { |a| a[:email] }
-    when :name_email
-      AUTHORS.map { |a|
-        [ a[:name],
-          a[:email] ? "<%s>" % a[:email] : nil,
-        ].compact.join(" ")
-      } .join(", ")
-    when :key
-      AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-2..-1].join("") } }
-    when :key_long
-      AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-4..-1].join("") } }
-    when :key_fp
-      AUTHORS.map { |a|
-        a[:openpgp].map { |fp|
-          words = fp.split
-          words[0..4].join(" ") + "  " + words[5..9].join(" ")
-        }
-      }
+    name      = "authors_%s" % type.to_s
+    sym       = name.to_sym
+    available = self.singleton_methods
+
+    if methods.include?(name) || methods.include?(sym)
+      self.send(sym)
     end
+  end
+
+  # The names of all authors of the library as array of strings.
+  def self.authors_name
+    AUTHORS.map { |a| a[:name] }
+  end
+
+  # The emails of all authors of the library as array of strings.
+  def self.authors_email
+    AUTHORS.map { |a| a[:email] }
+  end
+
+  # The names and emails of all authors of the library as array of strings.
+  def self.authors_name_email
+    AUTHORS.map { |a|
+      [ a[:name],
+        a[:email] ? "<%s>" % a[:email] : nil,
+      ].compact.join(" ")
+    } .join(", ")
+  end
+
+  # The OpenPGP key IDs of all authors of the library as array of strings.
+  def self.authors_key(format = :short)
+    AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-2..-1].join("") } }
+  end
+
+  # The long OpenPGP key IDs of all authors of the library as array of strings.
+  def self.authors_key_long
+    AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-4..-1].join("") } }
+  end
+
+  # The OpenPGP key fingerprints of all authors of the library as array of strings.
+  def self.authors_key_fp
+    AUTHORS.map { |a|
+      a[:openpgp].map { |fp|
+        words = fp.split
+        words[0..4].join(" ") + "  " + words[5..9].join(" ")
+      }
+    }
   end
 
   # Returns the project's homepage
