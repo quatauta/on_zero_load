@@ -113,6 +113,8 @@ module OnZeroLoad
       [:major, :minor, :tiny].map { |n| VERSION[n] }
     when :hash
       VERSION
+    else
+      VERSION
     end
   end
 end
