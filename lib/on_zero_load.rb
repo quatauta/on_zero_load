@@ -83,7 +83,9 @@ module OnZeroLoad
     AUTHORS.map { |a|
       a[:openpgp].map { |fp|
         words = fp.split
-        words[0..4].join(" ") + "  " + words[5..9].join(" ")
+
+        [words[0..4].join(" "),
+         words[5..9].join(" ")].join("  ")
       }
     }
   end
