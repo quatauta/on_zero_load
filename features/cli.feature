@@ -20,7 +20,7 @@ Feature: Command-Line Interface
     And the value type should be Float
 
     More Examples:
-      | --cpu 5%     --cpu 2%     | cpu   | 2%   | String  |
+      | --cpu 5%     --cpu 2%     | cpu   | 2%   | String |
       | --disk 450k  --disk 12k   | disk  | 12k  | String |
       | --net 11k    --net 2k     | net   | 2k   | String |
       | --input 3:02 --input 2:30 | input | 2:30 | String |

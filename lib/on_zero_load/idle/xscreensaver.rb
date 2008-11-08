@@ -1,5 +1,6 @@
 require 'inline'
 
+
 module OnZeroLoad
   module Idle
     class XScreenSaver
