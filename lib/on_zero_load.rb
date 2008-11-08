@@ -62,12 +62,18 @@ module OnZeroLoad
 
   # The OpenPGP key IDs of all authors of the library as array of strings.
   def self.authors_key(format = :short)
-    AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-2..-1].join("") } }
+    blocks = (:long == format) ? -4..-1 : -2..-1
+
+    AUTHORS.map { |a|
+      a[:openpgp].map { |fp|
+        "0x" + fp.split[blocks].join("")
+      }
+    }
   end
 
   # The long OpenPGP key IDs of all authors of the library as array of strings.
   def self.authors_key_long
-    AUTHORS.map { |a| a[:openpgp].map { |fp| "0x" + fp.split[-4..-1].join("") } }
+    self.authors_key(:long)
   end
 
   # The OpenPGP key fingerprints of all authors of the library as array of strings.
