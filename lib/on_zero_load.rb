@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 require 'on_zero_load/cpu'
+require 'on_zero_load/idle'
 require 'on_zero_load/loadavg'
 require 'on_zero_load/main'
 require 'on_zero_load/net'
