@@ -85,51 +85,6 @@ module OnZeroLoad
         self.dpms_state_c
       end
 
-      # Query X11 ScreenSaver extension for the time in milliseconds since the last user
-      # input.
-      #
-      # Just calls <tt>idle_time_c()</tt> defined using RubyInline. It exists only to let
-      # RDoc include this comment.
-      def self.idle_time
-        # This is what idle_time_c() looks like:
-        #
-        # VALUE idle_time_c() {
-        #   static Display   *display;
-        #   XScreenSaverInfo *info = XScreenSaverAllocInfo();
-        #
-        #   if (!display) {
-        #     display = XOpenDisplay(0);
-        #   }
-        #
-        #   XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
-        #
-        #   return INT2NUM(info->idle);
-        # }
-        self.idle_time_c
-      end
-
-      class << self
-        inline do |builder|
-          builder.add_link_flags '-lX11 -lXss'
-          builder.include '<X11/extensions/scrnsaver.h>'
-
-          builder.c %{
-            VALUE idle_time_c() {
-              static Display   *display;
-              XScreenSaverInfo *info = XScreenSaverAllocInfo();
-
-              if (!display) {
-                display = XOpenDisplay(0);
-              }
-
-              XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
-
-              return INT2NUM(info->idle);
-            }
-          }
-        end
-      end
-
       class << self
         inline do |builder|
           builder.add_link_flags '-lX11 -lXss'
@@ -192,6 +147,51 @@ module OnZeroLoad
                                             INT2NUM(off));
 
               return rb_hash;
+            }
+          }
+        end
+      end
+
+      # Query X11 ScreenSaver extension for the time in milliseconds since the last user
+      # input.
+      #
+      # Just calls <tt>idle_time_c()</tt> defined using RubyInline. It exists only to let
+      # RDoc include this comment.
+      def self.idle_time
+        # This is what idle_time_c() looks like:
+        #
+        # VALUE idle_time_c() {
+        #   static Display   *display;
+        #   XScreenSaverInfo *info = XScreenSaverAllocInfo();
+        #
+        #   if (!display) {
+        #     display = XOpenDisplay(0);
+        #   }
+        #
+        #   XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
+        #
+        #   return INT2NUM(info->idle);
+        # }
+        self.idle_time_c
+      end
+
+      class << self
+        inline do |builder|
+          builder.add_link_flags '-lX11 -lXss'
+          builder.include '<X11/extensions/scrnsaver.h>'
+
+          builder.c %{
+            VALUE idle_time_c() {
+              static Display   *display;
+              XScreenSaverInfo *info = XScreenSaverAllocInfo();
+
+              if (!display) {
+                display = XOpenDisplay(0);
+              }
+
+              XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
+
+              return INT2NUM(info->idle);
             }
           }
         end
