@@ -22,11 +22,11 @@ module OnZeroLoad
       #                                :suspend => 900,
       #                                :off     => 1200 } }
       #
-      # Just calls <tt>_c_dpms_state()</tt> defined using RubyInline. It exists only
+      # Just calls <tt>dpms_state_c()</tt> defined using RubyInline. It exists only
       # to let RDoc include this comment.
       def self.dpms_state
-        # This is what _c_dpms_state() looks like:
-        # VALUE _c_dpms_state() {
+        # This is what dpms_state_c() looks like:
+        # VALUE dpms_state_c() {
         #   static Display *display;
         #   int    dummy;
         #   CARD16 state;
@@ -82,18 +82,18 @@ module OnZeroLoad
         #
         #   return rb_hash;
         # }
-        self._c_dpms_state
+        self.dpms_state_c
       end
 
       # Query X11 ScreenSaver extension for the time in milliseconds since the last user
       # input.
       #
-      # Just calls <tt>_c_idle_time()</tt> defined using RubyInline. It exists only to let
+      # Just calls <tt>idle_time_c()</tt> defined using RubyInline. It exists only to let
       # RDoc include this comment.
       def self.idle_time
-        # This is what _c_idle_time() looks like:
+        # This is what idle_time_c() looks like:
         #
-        # VALUE _c_idle_time() {
+        # VALUE idle_time_c() {
         #   static Display   *display;
         #   XScreenSaverInfo *info = XScreenSaverAllocInfo();
         #
@@ -105,7 +105,7 @@ module OnZeroLoad
         #
         #   return INT2NUM(info->idle);
         # }
-        self._c_idle_time
+        self.idle_time_c
       end
 
       class << self
@@ -114,7 +114,7 @@ module OnZeroLoad
           builder.include '<X11/extensions/scrnsaver.h>'
 
           builder.c %{
-            VALUE _c_idle_time() {
+            VALUE idle_time_c() {
               static Display   *display;
               XScreenSaverInfo *info = XScreenSaverAllocInfo();
 
@@ -137,7 +137,7 @@ module OnZeroLoad
           builder.include '<X11/extensions/dpms.h>'
 
           builder.c %{
-            VALUE _c_dpms_state() {
+            VALUE dpms_state_c() {
               static Display *display;
               int    dummy;
               CARD16 state;
