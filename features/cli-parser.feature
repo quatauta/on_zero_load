@@ -1,6 +1,6 @@
 Feature: Command-Line Option Parser
 
-Scenario: Give a single limit, get that
+Scenario: Parse a single limit, get that
   When I give --load 0.3 as command-line options
   Then the options key should be load
   And the value should be 0.3
@@ -19,7 +19,7 @@ Scenario: Give a single limit, get that
   | -i 03:21   | input | 03:21 | String |
 
 
-Scenario: Give multiple limits, get only last one
+Scenario: Parse multiple limits, get only last one
   When I give --load 0.5 --load 0.8 as command-line options
   Then the options key should be load
   And the value should be 0.8
@@ -37,14 +37,14 @@ Scenario: Give multiple limits, get only last one
   | -i 4:21 -i 6:14           | input | 6:14 | String |
 
 
-Scenario: Give device to monitor, get that
+Scenario: Parse device to monitor, get that
   When I give --loads 1 as command-line options
   Then the options key should be loads
   And the values should be 1
   And each value type should be String
 
 
-Scenario: Give devices to monitor, get them
+Scenario: Parse devices to monitor, get them
   When I give --loads 1 --loads 5 as command-line options
   Then the options key should be loads
   And the values should be 1; 5
