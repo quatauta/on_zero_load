@@ -1,8 +1,3 @@
-$:.unshift(File.dirname(__FILE__) + '/../../lib')
-
-require 'on_zero_load'
-require 'spec'
-
 Before do
 end
 
