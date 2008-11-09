@@ -18,7 +18,6 @@ Scenario: Parse a single limit, get that
   | -n 85k     | net   | 85k   | String |
   | -i 03:21   | input | 03:21 | String |
 
-
 Scenario: Parse multiple limits, get only last one
   When I give --load 0.5 --load 0.8 as command-line options
   Then the options key should be load
@@ -36,13 +35,11 @@ Scenario: Parse multiple limits, get only last one
   | -n 41k  -n 23k            | net   | 23k  | String |
   | -i 4:21 -i 6:14           | input | 6:14 | String |
 
-
 Scenario: Parse device to monitor, get that
   When I give --loads 1 as command-line options
   Then the options key should be loads
   And the values should be 1
   And each value type should be String
-
 
 Scenario: Parse devices to monitor, get them
   When I give --loads 1 --loads 5 as command-line options
