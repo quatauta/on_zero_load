@@ -35,3 +35,15 @@ Feature: Command-Line Option Parser
       | -d 912k -d 32k            | disk  | 32k  | String |
       | -n 41k  -n 23k            | net   | 23k  | String |
       | -i 4:21 -i 6:14           | input | 6:14 | String |
+
+  Scenario: Give device to monitor, get that
+    When I give --loads 1 as command-line options
+    Then the options key should be loads
+    And the values should be 1
+    And each value type should be String
+
+  Scenario: Give devices to monitor, get them
+    When I give --loads 1 --loads 5 as command-line options
+    Then the options key should be loads
+    And the values should be 1; 5
+    And each value type should be String
