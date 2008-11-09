@@ -1,6 +1,6 @@
-Feature: Command-Line Interface
+Feature: Command-Line Option Parser
 
-  Scenario: Parse a single limit, get that
+  Scenario: Give a single limit, get that
     When I give --load 0.3 as command-line options
     Then the options key should be load
     And the value should be 0.3
@@ -19,7 +19,7 @@ Feature: Command-Line Interface
       | -i 03:21   | input | 03:21 | String |
 
 
-  Scenario: Parse multiple limits, get only last one
+  Scenario: Give multiple limits, get only last one
     When I give --load 0.5 --load 0.8 as command-line options
     Then the options key should be load
     And the value should be 0.8
