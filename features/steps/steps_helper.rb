@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__),
-                                              '../../lib')))
+                                              '..', '..', 'lib')))
 
 require 'on_zero_load'
 require 'spec'
