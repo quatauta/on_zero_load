@@ -9,7 +9,7 @@ if 'hanna' == PROJ.rdoc.template && Rake::Task.task_defined?('doc/index.html')
                  "Helvetica",
                  "Monaco",
                  "Verdana" ].sort.uniq
-    re   = Regexp.new('(%s)\s*,?\s*' % families.join('|'), true)
+    re   = Regexp.new('(%s)[[:space:]]*,?[[:space:]]*' % families.join('|'), true)
     expr = '$_.gsub!(/%s/, "")' % re
     cmd  = %w(ruby -p -i -e) << expr << 'doc/rdoc-style.css'
 
