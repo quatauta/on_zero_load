@@ -7,6 +7,7 @@ if 'hanna' == PROJ.rdoc.template && Rake::Task.task_defined?('doc/index.html')
                  "(Bitstream Vera|DejaVu) Sans Mono",
                  "Georgia",
                  "Helvetica",
+                 "Lucida Grande",
                  "Monaco",
                  "Verdana" ].sort.uniq
     re   = Regexp.new('(%s)[[:space:]]*,?[[:space:]]*' % families.join('|'), true)
