@@ -30,6 +30,9 @@ command "sudo hibernate" is executed.
 
 == Requirements
 
+To install the required gems, use the commands on a terminal/console. Omit +sudo+ to
+install the gems in your <code>$HOME</code> gem repository.
+
 === Runtime
 
 * Ruby Units - Simplify the handling of units for scientific calculations (http://ruby-units.rubyforge.org/ruby-units)
@@ -45,14 +48,14 @@ command "sudo hibernate" is executed.
 * Cucumba - A tool that can execute feature documentation a.k.a. RSpec stories (http://github.com/aslakhellesoy/cucumber/wikis)
 * Hanna¹ - A template for RDoc (http://github.com/mislav/hanna)
 
+(¹optional dependencies)
+
  # sudo gem install rake
  # sudo gem install rspec
  # sudo gem install cucumba
  # sudo gem install --source http://gems.github.com mislav-hanna
 
-¹optional dependencies
-
-To add permanently add http://gems.github.com to gem sources:
+To add GitHub permanently as source, add http://gems.github.com:
 
  # sudo gem source -a http://gems.github.com
 
