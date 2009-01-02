@@ -28,6 +28,7 @@ PROJ.rubyforge.name = 'on_zero_load'
 depend_on 'ruby-units'
 depend_on 'trollop'
 
+PROJ.gem.executables = ['on_zero_load']
 PROJ.gem.development_dependencies << ['rake', ">= 0.8.3"]
 PROJ.gem.development_dependencies << ['rspec', ">= 1.1.11"]
 PROJ.gem.development_dependencies << ['cucumber', ">= 0.1.8"]
