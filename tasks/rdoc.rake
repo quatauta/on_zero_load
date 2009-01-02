@@ -4,13 +4,6 @@ else
   require 'rake/rdoctask'
 end
 
-desc 'Alias to doc:rdoc'
-task :doc => 'doc:rdoc'
-
-desc 'Remove all build products'
-task :clobber => 'doc:clobber_rdoc'
-task :clobber => 'doc:clobber_ri'
-
 namespace :doc do
   desc 'Generate RDoc documentation'
   Rake::RDocTask.new do |rd|
@@ -46,5 +39,11 @@ namespace :doc do
     rm_r 'ri' rescue nil
   end
 end
+
+desc 'Alias to doc:rdoc'
+task :doc => 'doc:rdoc'
+
+desc 'Remove all build products'
+task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
 
 remove_desc_for_task %w(doc:clobber_rdoc)
