@@ -3,6 +3,7 @@
 * Enable ruby warnings?
   <code>#!/usr/bin/ruby -w</code> instead of <code>#!/usr/bin/env ruby</code>
   or set <code>$VERBOSE = true</code> in <code>bin/on_zero_load</code>
+* Test with jruby and make it usable with jruby as far as possible
 
 == User idle time X11
 
