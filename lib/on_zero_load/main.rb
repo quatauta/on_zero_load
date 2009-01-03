@@ -1,3 +1,6 @@
+require 'rubygems'
+
+gem 'trollop', '>= 1.10'
 require 'trollop'
 
 
