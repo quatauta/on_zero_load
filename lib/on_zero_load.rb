@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-require 'on_zero_load/cpu'
-require 'on_zero_load/idle'
-require 'on_zero_load/loadavg'
-require 'on_zero_load/main'
-require 'on_zero_load/net'
-
-
 module OnZeroLoad
+  autoload :CPU,     'on_zero_load/cpu'
+  autoload :Idle,    'on_zero_load/idle'
+  autoload :LoadAvg, 'on_zero_load/loadavg'
+  autoload :Main,    'on_zero_load/main'
+  autoload :Net,     'on_zero_load/net'
+
   AUTHORS = [ { :name    => "Daniel Schömer",
                 :email   => "daniel.schoemer@gmx.net",
                 :openpgp => "0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3" },
