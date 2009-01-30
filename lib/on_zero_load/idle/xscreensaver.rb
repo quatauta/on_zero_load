@@ -1,6 +1,3 @@
-require 'rubygems'
-
-gem 'RubyInline', '>= 3.8'
 require 'inline'
 
 
