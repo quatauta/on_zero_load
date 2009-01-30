@@ -1,6 +1,6 @@
-# Cleanup RDoc stylesheet produced by hanna RDoc template
+# Cleanup RDoc stylesheet
 
-if 'hanna' == PROJ.rdoc.template && Rake::Task.task_defined?('doc/index.html')
+if Rake::Task.task_defined?('doc/index.html')
   Rake::Task['doc/index.html'].enhance do
     families = [ "Arial",
                  "Courier( New)?",
@@ -10,11 +10,14 @@ if 'hanna' == PROJ.rdoc.template && Rake::Task.task_defined?('doc/index.html')
                  "Lucida Grande",
                  "Monaco",
                  "Verdana" ].sort.uniq
-    re   = Regexp.new('(%s)[[:space:]]*,?[[:space:]]*' % families.join('|'), true)
-    expr = '$_.gsub!(/%s/, "")' % re
-    cmd  = %w(ruby -p -i -e) << expr << 'doc/rdoc-style.css'
+    re    = Regexp.new("['\"]?(%s)['\"]?[[:space:]]*,?[[:space:]]*" % families.join('|'), true)
+    expr  = '$_.gsub!(/%s/, "")' % re
+    cmd   = %w(ruby -p -i -e) << expr
+    files = Dir.glob('doc/*.css')
 
-    system(*cmd)
-    puts "Removed font families from doc/rdoc-style.css."
+    unless files.empty?
+      system(*cmd + files)
+      puts "Removed font families from %s" % files.join(", ")
+    end
   end
 end
