@@ -6,9 +6,10 @@ if Rake::Task.task_defined?('doc/index.html')
                  "Courier( New)?",
                  "(Bitstream Vera|DejaVu) Sans Mono",
                  "Georgia",
-                 "Helvetica",
+                 "Helvetica( Neue)?",
                  "Lucida Grande",
                  "Monaco",
+                 "Tahoma",
                  "Verdana" ].sort.uniq
     re    = Regexp.new("['\"]?(%s)['\"]?[[:space:]]*,?[[:space:]]*" % families.join('|'), true)
     expr  = '$_.gsub!(/%s/, "")' % re
