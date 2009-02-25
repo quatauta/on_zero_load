@@ -1,8 +1,5 @@
-if 'hanna' == PROJ.rdoc.template && Gem.available?('mislav-hanna')
-  require 'hanna/rdoctask'
-else
-  require 'rake/rdoctask'
-end
+require 'rdoc'
+require 'rake/rdoctask'
 
 namespace :doc do
   desc 'Generate RDoc documentation'

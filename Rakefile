@@ -32,6 +32,7 @@ PROJ.gem.executables = ['on_zero_load']
 PROJ.gem.development_dependencies << ['bones', ">= 2.2.0"]
 PROJ.gem.development_dependencies << ['cucumber', ">= 0.1.8"]
 PROJ.gem.development_dependencies << ['rake', ">= 0.8.3"]
+PROJ.gem.development_dependencies << ['rdoc', ">= 2.4"]
 PROJ.gem.development_dependencies << ['rspec', ">= 1.1.11"]
 
 PROJ.bzr           = true
@@ -44,10 +45,7 @@ PROJ.exclude      << '^ri/'
 PROJ.rdoc.exclude << '\.diff$'
 PROJ.rdoc.opts     = [ '--all',
                        '--charset=utf-8',
-                       '--inline-source',
                        '--line-numbers',
-                       '--promiscuous',
                        '--show-hash' ]
-PROJ.rdoc.template = 'hanna'
 PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec.opts    << '--color'

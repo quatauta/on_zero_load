@@ -46,18 +46,12 @@ install the gems in your <code>$HOME</code> gem repository.
 * Rake - Ruby Make (http://rake.rubyforge.org)
 * RSpec - Behaviour driven development (BDD) framework for Ruby (http://rspec.rubyforge.org)
 * Cucumba - A tool that can execute feature documentation a.k.a. RSpec stories (http://github.com/aslakhellesoy/cucumber/wikis)
-* Hanna¹ - A template for RDoc (http://github.com/mislav/hanna)
-
-(¹optional dependencies)
+* RDoc - Produces documentation for Ruby source files (http://rdoc.rubyforge.org)
 
  # sudo gem install rake
  # sudo gem install rspec
  # sudo gem install cucumba
- # sudo gem install --source http://gems.github.com mislav-hanna
-
-To add GitHub permanently as source, add http://gems.github.com:
-
- # sudo gem source -a http://gems.github.com
+ # sudo gem install rdoc
 
 == Install
 
