@@ -42,7 +42,6 @@ PROJ.exclude      << '^\.bzrignore$'
 PROJ.exclude      << '^\.shelf\/'
 PROJ.exclude      << '^coverage/'
 PROJ.exclude      << '^ri/'
-PROJ.rdoc.exclude << '\.diff$'
 PROJ.rdoc.opts     = [ '--all',
                        '--charset=utf-8',
                        '--line-numbers',
