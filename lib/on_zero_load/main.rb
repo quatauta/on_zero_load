@@ -19,7 +19,7 @@ module OnZeroLoad
       :hibernate => {
         :desc  => "Hibernate system",
         :short => :H,
-        :cmd   => ["sudo", "hibernate"],
+        :cmd   => ["sudo", "pm-hibernate"],
       },
       :beep => {
         :desc  => "Let the system speaker beep",
