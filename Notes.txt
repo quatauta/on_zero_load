@@ -9,3 +9,4 @@
 
 * http://coderrr.wordpress.com/2008/04/20/getting-idle-time-in-unix/
 * http://www.dtek.chalmers.se/~henoch/text/xprintidle.html
+* What about D-Bus? At least gnome-screensaver's state can be queried via D-Bus.
