@@ -1,6 +1,6 @@
  on_zero_load
     by Daniel Schömer <daniel.schoemer@gmx.net>
-    FIXME (url)
+    https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel
 
 == Description
 

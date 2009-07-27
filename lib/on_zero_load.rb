@@ -16,7 +16,7 @@ module OnZeroLoad
     :minor  => 0,
     :tiny   => 1,
   }
-  HOMEPAGE = 'FIXME (project homepage)'
+  HOMEPAGE = 'https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel'
 
   # Returns the authors for the library as array of strings.
   #
