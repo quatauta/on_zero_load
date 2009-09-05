@@ -6,7 +6,7 @@ Feature: Command-Line Option Parser
     And the value should be <value>
     And the value type should be <class>
 
-    Examples: 
+    Examples:
       | options    | key   | value | class  |
       | --load 0.3 | load  | 0.3   | Float  |
       | --cpu 23%  | cpu   | 23%   | String |
@@ -25,7 +25,7 @@ Feature: Command-Line Option Parser
     And the value should be <value>
     And the value type should be <class>
 
-    Examples: 
+    Examples:
       | options                   | key   | value | class  |
       | --load 0.5 --load 0.8     | load  | 0.8   | Float  |
       | --cpu 5%     --cpu 2%     | cpu   | 2%    | String |
