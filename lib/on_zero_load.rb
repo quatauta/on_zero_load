@@ -7,16 +7,22 @@ module OnZeroLoad
   autoload :Main,    'on_zero_load/main'
   autoload :Net,     'on_zero_load/net'
 
+  # The authors of this library.
   AUTHORS = [ { :name    => "Daniel Schömer",
                 :email   => "daniel.schoemer@gmx.net",
                 :openpgp => "0CC2 DE1B B005 66BE 43A9  73FC AE51 A5F9 FAF5 65D3" },
             ]
+
+  # The very version of this library as a hash of integers for the <code>:major</code>,
+  # <code>:minor</code> and <code>:tiny</code> version number.
   VERSION = {
     :major  => 0,
     :minor  => 0,
     :tiny   => 1,
   }
-  HOMEPAGE = 'https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel'
+
+  # The homepage where to get information about this library.
+  HOMEPAGE = "https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel"
 
   # Returns the authors for the library as array of strings.
   #
