@@ -42,9 +42,5 @@ PROJ.exclude      << '^\.bzrignore$'
 PROJ.exclude      << '^\.shelf\/'
 PROJ.exclude      << '^coverage/'
 PROJ.exclude      << '^ri/'
-PROJ.rdoc.opts     = [ '--all',
-                       '--charset=utf-8',
-                       '--line-numbers',
-                       '--show-hash' ]
 PROJ.ruby_opts     = [ '-Ku' ]
 PROJ.spec.opts    << '--color'
