@@ -1,4 +1,3 @@
-require 'cucumber'
 require 'cucumber/rake/task'
 
 desc 'Alias to features:run'

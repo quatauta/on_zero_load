@@ -29,7 +29,7 @@ namespace :whitespace do
   task :check do
     files = {}
 
-    PROJ.gem.files.each do |name|
+    Bones.config.gem.files.each do |name|
       files[name] = {}
       linenum     = 0
 

@@ -98,7 +98,7 @@ module OnZeroLoad
 
         stop_on_unknown
 
-        version("%s %s" % [ base, OnZeroLoad.version ])
+        version("%s %s" % [ base, OnZeroLoad::VERSION ])
         text("Usage: %s [OPTION]... -- [COMMAND] [COMMAND OPTION]..." % [ base ])
         text("Execute a command if the system load drops below given thresholds.")
 
