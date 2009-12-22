@@ -23,11 +23,12 @@ Bones {
 
   changelog 'Changelog.txt'
 
+  exclude << '\..*swp$'
   exclude << '\.bzr/'
   exclude << '\.bzrignore$'
-  exclude << '^ri/'
-  exclude << '\..*swp$'
   exclude << '\.yardoc$'
+  exclude << '^doc/'
+  exclude << '^ri/'
 
   depend_on 'RubyInline', '>= 3.8'
   depend_on 'trollop', '>= 1.10'
