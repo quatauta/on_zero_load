@@ -9,7 +9,11 @@ namespace :features do
   end
 
   Cucumber::Rake::Task.new(:verbose,
-                           "Pretty print Features with Cucumber") do |t|
+                           "Pretty print features with cucumber") do |t|
     t.cucumber_opts = "--format pretty"
+  end
+
+  Cucumber::Rake::Task.new(:rcov, "Run features with rcov") do |t|
+    t.rcov = true
   end
 end
