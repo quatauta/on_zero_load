@@ -47,13 +47,20 @@ install the gems in your <code>$HOME</code> gem repository.
 
 * Rake - Ruby Make (http://rake.rubyforge.org)
 * RSpec - Behaviour driven development (BDD) framework for Ruby (http://rspec.rubyforge.org)
-* Cucumba - A tool that can execute feature documentation a.k.a. RSpec stories (http://github.com/aslakhellesoy/cucumber/wikis)
+* Cucumber - A tool that can execute feature documentation a.k.a. RSpec stories (http://github.com/aslakhellesoy/cucumber/wikis)
+* Bones - Creates new Ruby projects from a code skeleton (http://gemcutter.org/gems/bones)
+* Bones-extras - Extra plugins for Mr Bones (http://github.com/TwP/bones-extras)
 * RDoc - Produces documentation for Ruby source files (http://rdoc.rubyforge.org)
+  (optional, only to generate documentation)
+* Yard - Another tool to generate documentation fro Ruby source files (http://yardoc.org)
+  (optional, only to generate documentation)
 
  # sudo gem install rake
  # sudo gem install rspec
- # sudo gem install cucumba
+ # sudo gem install cucumber
+ # sudo gem install bones bones-extras
  # sudo gem install rdoc
+ # sudo gem install yard
 
 == Install
 
@@ -63,11 +70,11 @@ install the gems in your <code>$HOME</code> gem repository.
 
 (The MIT License)
 
-Copyright (c) 2008 Daniel Schömer
+Copyright (c) 2008,2009 Daniel Schömer
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
+"Software"), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
@@ -76,7 +83,7 @@ the following conditions:
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
