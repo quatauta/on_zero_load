@@ -29,7 +29,7 @@ if HAVE_BZR
     desc "Write bzr changelog to file #{Bones.config.changelog}"
     task :changelog => [Bones.config.changelog]
     file Bones.config.changelog => [".bzr/branch/last-revision"] do |t|
-      ["gnu", "long"].each do |f|
+      ["gnu", "gnu-changelog", "long"].each do |f|
         sh("bzr log --log-format=#{f} --verbose >#{t.name}") do |ok, result|
         end
 
