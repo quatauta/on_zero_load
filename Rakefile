@@ -10,9 +10,11 @@ require 'on_zero_load'
 desc "Update changelog, check whitespace, run tests, specs and features"
 task :default => 'bzr:changelog'
 task :default => 'whitespace:check'
-task :default => 'spec:run'
-task :default => 'features:run'
-task 'gem:release' => 'default'
+task :default => :test
+desc "Depends on spec and features"
+task :test    => :spec
+task :test    => :features
+task 'gem:release' => :default
 
 Bones {
   name    'on_zero_load'
