@@ -1,4 +1,5 @@
-HAVE_BZR = Dir.entries(Dir.pwd).include?('.bzr')
+HAVE_BZR = Dir.entries(Dir.pwd).include?('.bzr') &&
+           !Dir.glob(ENV["PATH"].split(":").map { |p| "#{p}/bzr" }).empty?
 
 if HAVE_BZR
   desc 'Alias to bzr:changelog'
