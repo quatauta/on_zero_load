@@ -6,8 +6,12 @@ module OnZeroLoad
     class XScreenSaver
       # Query X11 DPMS extension for the current DPMS state of the first display.
       #
+      # The connection to the X server is defined by the +DISPLAY+ environment variable.
+      #
       # The returned hash contains the display state and the timeouts to set the display
       # to standby, suspend and off mode.
+      #
+      # If the connection to the X server can not be opened, +nil+ is returned.
       #
       #  dpms_state -> { :state   => [ :on | :standby | :suspend | :off ],
       #                  :timeout => { :standby => Fixnum,
@@ -27,14 +31,14 @@ module OnZeroLoad
         # This is what dpms_state_c() looks like:
         #
         # VALUE dpms_state_c() {
-        #   static Display *display;
-        #   int    dummy;
-        #   CARD16 state;
-        #   CARD16 standby, suspend, off;
-        #   BOOL   on_off;
-        #   VALUE  rb_hash;
-        #   VALUE  rb_hash_timeout;
-        #   VALUE  rb_state;
+        #   Display *display;
+        #   int      dummy;
+        #   CARD16   state;
+        #   CARD16   standby, suspend, off;
+        #   BOOL     on_off;
+        #   VALUE    rb_hash;
+        #   VALUE    rb_hash_timeout;
+        #   VALUE    rb_state;
         #
         #   if (!display) {
         #     display = XOpenDisplay(NULL);
@@ -80,6 +84,8 @@ module OnZeroLoad
         #                                   INT2NUM(suspend));
         #     rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
         #                                   INT2NUM(off));
+        #
+        #     XCloseDisplay(display);
         #
         #     return rb_hash;
         #   } else {
@@ -162,8 +168,12 @@ module OnZeroLoad
         end
       end
 
-      # Query X11 ScreenSaver extension for the time in milliseconds since the last user
+      # Query X11 ScreenSaver extension for the time (in milliseconds) since the last user
       # input.
+      #
+      # The connection to the X server is defined by the +DISPLAY+ Environment variable.
+      #
+      # If the connection to the X server can not be opened, +nil+ is returned.
       #
       # Just calls <tt>idle_time_c()</tt> defined using RubyInline. It exists only to let
       # RDoc include this comment.
@@ -171,17 +181,24 @@ module OnZeroLoad
         # This is what idle_time_c() looks like:
         #
         # VALUE idle_time_c() {
-        #   static Display   *display;
-        #   XScreenSaverInfo *info = XScreenSaverAllocInfo();
+        #   Display          *display;
+        #   XScreenSaverInfo *info;
+        #   VALUE             idle;
         #
         #   if (!display) {
         #     display = XOpenDisplay(NULL);
         #   }
         #
         #   if (display) {
+        #     info = XScreenSaverAllocInfo();
+        #
         #     XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
         #
-        #     return INT2NUM(info->idle);
+        #     idle = INT2NUM(info->idle);
+        #
+        #     XCloseDisplay(display);
+        #
+        #     return idle;
         #   } else {
         #     return Qnil;
         #   }
@@ -197,7 +214,7 @@ module OnZeroLoad
           builder.c %{
             VALUE idle_time_c() {
               Display          *display;
-              XScreenSaverInfo *info = XScreenSaverAllocInfo();
+              XScreenSaverInfo *info;
               VALUE             idle;
 
               if (!display) {
@@ -205,6 +222,8 @@ module OnZeroLoad
               }
 
               if (display) {
+                info = XScreenSaverAllocInfo();
+
                 XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
 
                 idle = INT2NUM(info->idle);
