@@ -4,14 +4,13 @@ require 'inline'
 module OnZeroLoad
   module Idle
     class XScreenSaver
-      # Query X11 DPMS extension for the current DPMS state of the first display.
-      #
-      # The connection to the X server is defined by the +DISPLAY+ environment variable.
+      # Query the X11 DPMS extension for the current DPMS state of the first display.
       #
       # The returned hash contains the display state and the timeouts to set the display
-      # to standby, suspend and off mode.
+      # to standby, suspend and off mode. If the connection to the X server can not be
+      # opened, +nil+ is returned.
       #
-      # If the connection to the X server can not be opened, +nil+ is returned.
+      # The connection to the X server is defined by the +DISPLAY+ environment variable.
       #
       #  dpms_state -> { :state   => [ :on | :standby | :suspend | :off ],
       #                  :timeout => { :standby => Fixnum,
@@ -27,6 +26,8 @@ module OnZeroLoad
       #
       # Just calls <tt>dpms_state_c()</tt> defined using RubyInline. It exists only
       # to let RDoc include this comment.
+      #
+      # @return [Hash] the DPMS state as symbol and the timeout values in milliseconds
       def self.dpms_state
         # This is what dpms_state_c() looks like:
         #
@@ -168,15 +169,17 @@ module OnZeroLoad
         end
       end
 
-      # Query X11 ScreenSaver extension for the time (in milliseconds) since the last user
-      # input.
+      # Query the X11 ScreenSaver extension for the time since the last user input.
+      #
+      # The idle time in milliseconds is returned as number. If the connection to the X
+      # server can not be opened, +nil+ is returned.
       #
       # The connection to the X server is defined by the +DISPLAY+ Environment variable.
       #
-      # If the connection to the X server can not be opened, +nil+ is returned.
-      #
       # Just calls <tt>idle_time_c()</tt> defined using RubyInline. It exists only to let
       # RDoc include this comment.
+      #
+      # @return [Integer] the time in millisecons since the last user input
       def self.idle_time
         # This is what idle_time_c() looks like:
         #
@@ -239,17 +242,22 @@ module OnZeroLoad
         end
       end
 
-      # Fixes the idle_time reported by X11 ScreenSaver extension.
+      # Fixes the idle time reported by the X11 ScreenSaver extension.
       #
-      # The reported idle_time is reset to zero each time the display switches between on,
-      # standby, suspend and off state.
-      #
-      # To fix this, the sum of all timeouts upto the current display state is added to
-      # the reported idle_time.
+      # The reported idle time is reset to zero each time the display switches between on,
+      # standby, suspend and off state.  To fix this, the sum of all timeouts upto the
+      # current display state is added to the reported idle time.
       #
       # The fix has its source in
       # xprintidle[http://www.dtek.chalmers.se/~henoch/text/xprintidle.html]. Freedesktop.org
       # has a {bug report}[http://bugs.freedesktop.org/show_bug.cgi?id=6439].
+      #
+      # @param [Integer] idle_time the idle time in milliseconds as returned by {idle_time}
+      # @param [Hash] dpms_state a hash as returned by {dpms_state}
+      # @return [Integer] the corrected idle time
+      #
+      # @see idle_time
+      # @see dpms_state
       def self.total_idle_time(idle_time = self.idle_time, dpms_state = self.dpms_state)
         state    = dpms_state[:state]
         timeouts = dpms_state[:timeout]
