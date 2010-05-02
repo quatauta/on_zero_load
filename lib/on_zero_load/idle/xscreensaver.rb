@@ -97,14 +97,14 @@ module OnZeroLoad
 
           builder.c %{
             VALUE dpms_state_c() {
-              static Display *display;
-              int    dummy;
-              CARD16 state;
-              CARD16 standby, suspend, off;
-              BOOL   on_off;
-              VALUE  rb_hash;
-              VALUE  rb_hash_timeout;
-              VALUE  rb_state;
+              Display *display;
+              int      dummy;
+              CARD16   state;
+              CARD16   standby, suspend, off;
+              BOOL     on_off;
+              VALUE    rb_hash;
+              VALUE    rb_hash_timeout;
+              VALUE    rb_state;
 
               if (!display) {
                 display = XOpenDisplay(NULL);
@@ -151,6 +151,8 @@ module OnZeroLoad
                 rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
                                               INT2NUM(off));
 
+                XCloseDisplay(display);
+
                 return rb_hash;
               } else {
                 return Qnil;
@@ -194,8 +196,9 @@ module OnZeroLoad
 
           builder.c %{
             VALUE idle_time_c() {
-              static Display   *display;
+              Display          *display;
               XScreenSaverInfo *info = XScreenSaverAllocInfo();
+              VALUE             idle;
 
               if (!display) {
                 display = XOpenDisplay(NULL);
@@ -204,7 +207,11 @@ module OnZeroLoad
               if (display) {
                 XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
 
-                return INT2NUM(info->idle);
+                idle = INT2NUM(info->idle);
+
+                XCloseDisplay(display);
+
+                return idle;
               } else {
                 return Qnil;
               }
@@ -246,17 +253,19 @@ module OnZeroLoad
 
           builder.c %{
             VALUE screen_count_c() {
-              static Display *display;
-              int             count;
+              Display *display;
+              VALUE    count;
 
               if (!display) {
                 display = XOpenDisplay(NULL);
               }
 
               if (display) {
-                count = XScreenCount(display);
+                count = INT2NUM(XScreenCount(display));
 
-                return INT2NUM(count);
+                XCloseDisplay(display);
+
+                return count;
               } else {
                 return Qnil;
               }
