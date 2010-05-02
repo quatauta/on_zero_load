@@ -117,7 +117,7 @@ module OnZeroLoad
                     DPMSInfo(display, &state, &on_off);
                   }
                 }
-  
+
                 switch (state) {
                   case DPMSModeStandby: {
                     rb_state = ID2SYM(rb_intern("standby"));
@@ -137,20 +137,20 @@ module OnZeroLoad
                     break;
                   }
                 }
-  
+
                 rb_hash         = rb_hash_new();
                 rb_hash_timeout = rb_hash_new();
-  
+
                 rb_hash_aset(rb_hash, ID2SYM(rb_intern("state")), rb_state);
                 rb_hash_aset(rb_hash, ID2SYM(rb_intern("timeout")), rb_hash_timeout);
-  
+
                 rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("standby")),
                                               INT2NUM(standby));
                 rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("suspend")),
                                               INT2NUM(suspend));
                 rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
                                               INT2NUM(off));
-  
+
                 return rb_hash;
               } else {
                 return Qnil;
