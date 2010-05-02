@@ -213,6 +213,58 @@ module OnZeroLoad
         end
       end
 
+      # Query X11 for the number of available screens on the server.
+      #
+      # Just calls <tt>screen_count_c()</tt> defined using RubyInline. It exists only to
+      # let RDoc include this comment.
+      def self.screen_count
+        # This is what screen_count_c looks like:
+        #
+        # VALUE screen_count_c() {
+        #   static Display *display;
+        #   int             count;
+        #
+        #   if (!display) {
+        #     display = XOpenDisplay(NULL);
+        #   }
+        #
+        #   if (display) {
+        #     count = XScreenCount(display);
+        #
+        #     return INT2NUM(count);
+        #   } else {
+        #     return Qnil;
+        #   }
+        # }
+        self.screen_count_c
+      end
+
+      class << self
+        inline do |builder|
+          builder.add_link_flags '-lX11'
+          builder.include '<X11/Xlib.h>'
+
+          builder.c %{
+            VALUE screen_count_c() {
+              static Display *display;
+              int             count;
+
+              if (!display) {
+                display = XOpenDisplay(NULL);
+              }
+
+              if (display) {
+                count = XScreenCount(display);
+
+                return INT2NUM(count);
+              } else {
+                return Qnil;
+              }
+            }
+          }
+        end
+      end
+
       # Fixes the idle_time reported by X11 ScreenSaver extension.
       #
       # The reported idle_time is reset to zero each time the display switches between on,
