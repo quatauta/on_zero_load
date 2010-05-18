@@ -98,8 +98,9 @@ module OnZeroLoad
 
       class << self
         inline do |builder|
-          builder.add_link_flags '-lXext'
+          builder.add_link_flags '-lXlib -lXext'
           builder.include '<X11/Xlib.h>'
+          builder.include '<X11/extensions/Xext.h>'
           builder.include '<X11/extensions/dpms.h>'
 
           builder.c %{
@@ -211,7 +212,8 @@ module OnZeroLoad
 
       class << self
         inline do |builder|
-          builder.add_link_flags '-lXss'
+          builder.add_link_flags '-lXlib -lXss'
+          builder.include '<X11/Xlib.h>'
           builder.include '<X11/extensions/scrnsaver.h>'
 
           builder.c %{
