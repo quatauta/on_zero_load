@@ -42,7 +42,7 @@ namespace :whitespace do
             next if v[:excl] =~ name
 
             if v[:expr] =~ line && v[:neg_expr] !~ line
-              (files[name][n] ||= []) << linenum
+              (files[name][linenum] ||= []) << n
             end
           end
         end
@@ -54,14 +54,17 @@ namespace :whitespace do
     unless files.empty?
       pad_to = files.keys.max { |a, b| a.length <=> b.length }.length
 
-      files.sort.each do |name, vs|
-        puts(sprintf("%-*s %s",
-                     pad_to + 1,
-                     name + ":",
-                     vs.sort.map { |v, ls|
-                       "#{v} (line #{ls.join(", ")})"
-                     }.join(", ")))
+      puts
+
+      files.sort.each do |file, linenumbers|
+        linenumbers.keys.sort.each do |linenumber|
+          linenumbers[linenumber].sort.each do |validation_name|
+            puts "%s:%d: %s" % ["./" + file, linenumber, validation_name]
+          end
+        end
       end
+
+      puts
     end
   end
 end
