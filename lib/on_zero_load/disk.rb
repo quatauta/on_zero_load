@@ -22,7 +22,7 @@ module OnZeroLoad
     #  [["sda", 1035624, 729786, 61642589, 3015817, 580170, 2520045, 25853354, 4139270, 0, 2184914, 7154789],
     #   ["sr0", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     #
-    # (Only the statistics for devices sda and sr0 are shown for simplicity.)
+    # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
     def self.current_raw
       lines = open("/proc/diskstats") { |f| f.readlines }
 
@@ -43,7 +43,7 @@ module OnZeroLoad
     #               :write_ms => 0, :write_sectors  => 0, :writes => 0, :writes_merged => 0,
     #               :io_ms    => 0, :io_ms_weighted => 0, :io_in_progress => 0,}, }
     #
-    # (Only the statistics for devices sda and sr0 are shown for simplicity.)
+    # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
     def self.current
       fields = [ :reads, :reads_merged, :read_sectors, :read_ms,
                  :writes, :writes_merged, :write_sectors, :write_ms,
