@@ -6,7 +6,7 @@ module OnZeroLoad
     #  [0.16, 0.14, 0.11]
     def self.current_raw
       data = open("/proc/loadavg") { |f| f.readline } .split[0..2]
-      
+
       data.map { |field|
         /^[[:digit:].,]+$/ =~ field ? field.to_f : field
       }
