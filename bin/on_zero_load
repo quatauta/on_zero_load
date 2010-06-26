@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
 
-libdir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-
-unless $LOAD_PATH.find { |p| File.identical?(libdir, p) }
-  $LOAD_PATH.unshift(libdir)
-end
-
 require 'on_zero_load'
-
 
 OnZeroLoad::Main.parse(ARGV.clone)
