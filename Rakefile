@@ -2,8 +2,8 @@
 
 begin
   require 'bones'
-rescue LoadError
-  abort '### Please install the "bones" gem ###'
+rescue LoadError => e
+  abort '### Please install missing gem "bones": ' + e.message + ' ###'
 end
 
 ensure_in_path 'lib'
