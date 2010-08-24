@@ -30,7 +30,7 @@ Bones {
   exclude << '\..*swp$'
   exclude << '\.bzr/'
   exclude << '\.bzrignore$'
-  exclude << '\.yardoc$'
+  exclude << '\.yardoc/'
   exclude << '^doc/'
   exclude << '^ri/'
   exclude << '^tmp/'
