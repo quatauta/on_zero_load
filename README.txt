@@ -54,6 +54,8 @@ install the gems in your <code>$HOME</code> gem repository.
   (optional, only to generate documentation)
 * Yard - Another tool to generate documentation fro Ruby source files (http://yardoc.org)
   (optional, only to generate documentation)
+* metric_fu - Rake tasks that make it easy to generate metrics reports (http://metric-fu.rubyforge.org)
+  (optional, only to generate code metric reports)
 
  # sudo gem install rake
  # sudo gem install rspec
@@ -61,6 +63,7 @@ install the gems in your <code>$HOME</code> gem repository.
  # sudo gem install bones bones-extras
  # sudo gem install rdoc
  # sudo gem install yard
+ # sudo gem install metric_fu
 
 == Install
 
