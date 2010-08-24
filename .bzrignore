@@ -1,3 +1,4 @@
+./.yardoc
 ./Changelog.txt
 ./Manifest.txt
 ./announcement.txt
@@ -6,4 +7,3 @@
 ./pkg
 ./ri
 ./tmp
-.yardoc
