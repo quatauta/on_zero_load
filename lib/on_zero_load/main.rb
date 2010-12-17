@@ -56,30 +56,6 @@ module OnZeroLoad
       parser
     end
 
-    def self.define_device_options(parser)
-      parser.text("")
-      parser.text("Options to define which devices are monitored:")
-      parser.text("")
-      parser.opt(:loads, "System load average to monitor, or \"list\"",
-                 :short => :L, :multi => true, :type => :string,
-                 :default => "1")
-      parser.opt(:cpus, "CPUs to monitor, or \"list\"",
-                 :short => :C, :multi => true, :type => :string,
-                 :default => "0,1") # TODO Insert available CPUs
-      parser.opt(:disks, "Harddisks to monitor, or \"list\"",
-                 :short => :D, :multi => true, :type => :string,
-                 :default => "sda") # TODO Insert available harddisks
-      parser.opt(:ifaces, "Network interfaces to monitor, or \"list\"",
-                 :short => :I, :multi => true, :type => :string,
-                 :default => "eth0") # TODO Insert available network interfaces without lo
-      parser.text("")
-      parser.text("The four options above accept multiple values " +
-                  "separated by spaces or commata, or by giving each " +
-                  "option multiple times. If value \"list\" is given, " +
-                  "the possible values are printed on stdout.")
-      parser
-    end
-
     def self.define_command_options(parser, commands)
       parser.text("")
       parser.text("Predefined commands:")
@@ -104,7 +80,6 @@ module OnZeroLoad
 
         Main.define_standard_options(self)
         Main.define_limit_options(self)
-        Main.define_device_options(self)
         Main.define_command_options(self, PREDEFINED_COMMANDS)
       }
     end
