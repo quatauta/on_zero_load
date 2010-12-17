@@ -41,7 +41,7 @@ module OnZeroLoad
 
     def self.define_limit_options(parser)
       parser.text("")
-      parser.text("Options:")
+      parser.text("Threshold options:")
       parser.text("")
       parser.opt(:load,  "System load average",     :multi => true, :type => :float)
       parser.opt(:cpu,   "CPU usage",               :multi => true, :type => :string)
