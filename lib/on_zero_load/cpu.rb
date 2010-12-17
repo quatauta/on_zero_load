@@ -50,12 +50,12 @@ module OnZeroLoad
     #               :softirq => 1758,    :steal  => 0,
     #               :system  => 192697,  :user   => 98414,
     #               :active  => 1334599, :total  => 2441834, }, }
-    def self.current
+    def self.current(raw = self.current_raw)
       all = [:user, :nice, :system, :idle, :iowait, :irq, :softirq, :steal]
       act = all - [:idle, :iowait]
       values = {}
 
-      self.current_raw.each do |line|
+      raw.each do |line|
         cpu = line.first
         val = values[cpu] = {}
 
