@@ -32,7 +32,7 @@ module OnZeroLoad
       parser.text("")
       parser.text("Standard options:")
       parser.text("")
-      parser.opt(:help, "Show this message")
+      parser.opt(:help,    "Show this message")
       parser.opt(:version, "Print version and exit")
       parser.opt(:verbose, "Verbose output, print acual values and thresholds",
                  :short => :V, :multi => true)
@@ -43,16 +43,11 @@ module OnZeroLoad
       parser.text("")
       parser.text("Options:")
       parser.text("")
-      parser.opt(:load,  "System load average",
-                 :multi => true, :type => :float)
-      parser.opt(:cpu,   "CPU usage",
-                 :multi => true, :type => :string)
-      parser.opt(:disk,  "Harddisk throughput",
-                 :multi => true, :type => :string)
-      parser.opt(:net,   "Network throughput",
-                 :multi => true, :type => :string)
-      parser.opt(:input, "Time without user input",
-                 :multi => true, :type => :string)
+      parser.opt(:load,  "System load average",     :multi => true, :type => :float)
+      parser.opt(:cpu,   "CPU usage",               :multi => true, :type => :string)
+      parser.opt(:disk,  "Harddisk throughput",     :multi => true, :type => :string)
+      parser.opt(:net,   "Network throughput",      :multi => true, :type => :string)
+      parser.opt(:input, "Time without user input", :multi => true, :type => :string)
       parser
     end
 
@@ -62,8 +57,7 @@ module OnZeroLoad
       parser.text("")
 
       commands.each { |long, more|
-        parser.opt(long, "%s, \"%s\"" % [ more[:desc],
-                                          more[:cmd].join(" ") ],
+        parser.opt(long, "%s, \"%s\"" % [ more[:desc], more[:cmd].join(" ") ],
                    :short => more[:short])
       }
     end
