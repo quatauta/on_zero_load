@@ -70,6 +70,7 @@ module OnZeroLoad
 
         version("%s %s" % [ base, OnZeroLoad::VERSION ])
         text("Usage: %s [OPTION]... -- [COMMAND] [COMMAND OPTION]..." % [ base ])
+        text("")
         text("Execute a command if the system load drops below given thresholds.")
 
         Main.define_standard_options(self)
