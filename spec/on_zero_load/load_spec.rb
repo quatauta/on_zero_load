@@ -29,8 +29,8 @@ module OnZeroLoad
 
   describe "System monitor loadavg data" do
     before do
-      @raw  = LoadAvg.current_raw
-      @load = LoadAvg.current
+      @raw  = [1.45, 1.2, 0.7]
+      @load = LoadAvg.current(@raw)
     end
 
     it "includes values for one, five and fifteen minute load" do
