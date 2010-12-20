@@ -15,12 +15,10 @@ module OnZeroLoad
     # The current loadavg as a hash.
     #
     #  { :one => 0.16, :five => 0.14, :fifteen => 0.11 }
-    def self.current
-      data = self.current_raw
-
-      { :one     => data[0],
-        :five    => data[1],
-        :fifteen => data[2] }
+    def self.current(raw = self.current_raw)
+      { :one     => raw[0],
+        :five    => raw[1],
+        :fifteen => raw[2] }
     end
   end
 end
