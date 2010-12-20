@@ -13,7 +13,7 @@ module OnZeroLoad
     end
 
     it "contains three floating-point numbers" do
-      @raw.should have(3).elements
+      @raw.should have(3).items
       @raw.each do |a|
         a.should be_kind_of(Float)
       end
