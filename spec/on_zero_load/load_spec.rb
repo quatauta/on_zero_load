@@ -19,9 +19,9 @@ module OnZeroLoad
       end
     end
 
-    it "contains only numbers between zero and twenty" do
+    it "contains only numbers greater or equal then zero" do
       @raw.each do |a|
-        a.should be_between(0, 20)
+        a.should be >= 0.0
       end
     end
   end
