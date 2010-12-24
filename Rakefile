@@ -20,8 +20,8 @@ task 'gem:release' => :default
 
 Bones {
   name    'on_zero_load'
-  authors 'Daniel Schömer'
-  email   'daniel.schoemer@gmx.net'
+  authors OnZeroLoad::AUTHORS.map { |a| a[:name]  }.compact
+  email   OnZeroLoad::AUTHORS.map { |a| a[:email] }.compact.join(", ")
   url     'https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel'
   version OnZeroLoad::VERSION
 
