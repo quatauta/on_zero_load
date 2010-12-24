@@ -36,6 +36,7 @@ Bones {
   exclude << '^tmp/'
 
   depend_on 'RubyInline', '>= 3.8'
+  depend_on 'quickl', '>= 0.1.1'
   depend_on 'trollop', '>= 1.10'
 
   gem.development_dependencies << ['bones-extras', '>= 1.2.2']
