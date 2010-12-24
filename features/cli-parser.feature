@@ -8,16 +8,30 @@ Feature: Command-Line Option Parser
 
     Examples:
       | options    | key   | value | class  |
+      | --load=0.3 | load  | 0.3   | Float  |
+      | --load=.3  | load  | 0.3   | Float  |
+      | --cpu=23%  | cpu   | 23%   | String |
+      | --disk=45k | disk  | 45k   | String |
+      | --net=10k  | net   | 10k   | String |
+      | --input=5m | input | 5m    | String |
       | --load 0.3 | load  | 0.3   | Float  |
+      | --load .3  | load  | 0.3   | Float  |
       | --cpu 23%  | cpu   | 23%   | String |
       | --disk 45k | disk  | 45k   | String |
       | --net 10k  | net   | 10k   | String |
       | --input 5m | input | 5m    | String |
       | -l 0.21    | load  | 0.21  | Float  |
+      | -l .21     | load  | 0.21  | Float  |
       | -c 12%     | cpu   | 12%   | String |
       | -d 32k     | disk  | 32k   | String |
       | -n 85k     | net   | 85k   | String |
       | -i 03:21   | input | 03:21 | String |
+      | -l0.21     | load  | 0.21  | Float  |
+      | -l.21      | load  | 0.21  | Float  |
+      | -c12%      | cpu   | 12%   | String |
+      | -d32k      | disk  | 32k   | String |
+      | -n85k      | net   | 85k   | String |
+      | -i03:21    | input | 03:21 | String |
 
   Scenario Outline: Parse multiple limits, get only last one
     When I give <options> as command-line options
