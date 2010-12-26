@@ -19,6 +19,36 @@ module OnZeroLoad
       # The Hash of commandline options
       attr_accessor :cmd_options
 
+      # The commandline options to set the thresholds
+      LIMITS = {
+        :load => {
+          :desc  => "System load average",
+          :short => :l,
+          :value => "LOADAVG",
+          :class => Float,
+        },
+        :cpu => {
+          :desc  => "CPU usage",
+          :short => :c,
+          :value => "THROUGHPUT",
+        },
+        :disk => {
+          :desc  => "Harddisk throughput",
+          :short => :d,
+          :value => "THROUGHPUT",
+        },
+        :net => {
+          :desc  => "Network throughput",
+          :short => :n,
+          :value => "THROUGHPUT",
+        },
+        :input => {
+          :desc  => "Time without user input",
+          :short => :i,
+          :value => "DURATION",
+        }
+      }
+
       # The predefined commands that can be set by command-line options instead of explicit
       # arguments.
       PREDEFINED_COMMANDS = {
@@ -58,15 +88,19 @@ module OnZeroLoad
         parser
       end
 
-      def self.define_limit_options(parser, options)
+      def self.define_limit_options(parser, limits, options)
         parser.separator("")
         parser.separator("Threshold options:")
         parser.separator("")
-        parser.on("-l", "--load=LOADAVG", Float, "System load average") { |v| options[:load]  = v }
-        parser.on("-c", "--cpu=THROUGHPUT",  "CPU usage")               { |v| options[:cpu]   = v }
-        parser.on("-d", "--disk=THROUGHPUT", "Harddisk throughput")     { |v| options[:disk]  = v }
-        parser.on("-n", "--net=THROUGHPUT",  "Network throughput")      { |v| options[:net]   = v }
-        parser.on("-i", "--input=DURATION",  "Time without user input") { |v| options[:input] = v }
+
+        limits.sort { |a,b| a.to_s <=> b.to_s } .each do |long, more|
+          params = [ "-#{more[:short]}",
+                     "--#{long}=#{more[:value]}",
+                     more[:desc] ]
+          params << more[:class] if more[:class]
+          parser.on(*params) { |v| options[long] = v }
+        end
+
         parser
       end
 
@@ -88,7 +122,7 @@ module OnZeroLoad
         @cmd_options ||= {}
 
         define_standard_options(parser, @cmd_options)
-        define_limit_options(parser, @cmd_options)
+        define_limit_options(parser, LIMITS, @cmd_options)
         define_command_options(parser, PREDEFINED_COMMANDS, @cmd_options)
       end
 
