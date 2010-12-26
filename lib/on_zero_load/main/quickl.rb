@@ -109,7 +109,7 @@ module OnZeroLoad
         parser.separator("Predefined commands:")
         parser.separator("")
 
-        commands.each { |long, more|
+        commands.sort { |a,b| a.to_s <=> b.to_s } .each { |long, more|
           parser.on("-#{more[:short]}",
                     "--#{long}",
                     "%s, \"%s\"" % [ more[:desc], more[:cmd].join(" ") ]) { |v|
