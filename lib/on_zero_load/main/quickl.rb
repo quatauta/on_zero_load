@@ -74,17 +74,29 @@ module OnZeroLoad
         },
       }
 
+      # Build standard commandline option on the OptionParser (optparse) +parser+ and
+      # store the supplied values in the +options+ hash.
+      #
+      # These options get build:
+      #
+      #  -h, --help:    raise Quickl:Help
+      #  -v, --version: raise Quickl::Exit with version information
+      #  -V, --verbose: options[:verbose] = true
       def self.define_standard_options(parser, options)
         parser.separator("")
         parser.separator("Standard options:")
         parser.separator("")
-        parser.on("-h", "--help", "Show this message")         { raise Quickl::Help }
+
+        parser.on("-h", "--help", "Show this message") {
+          raise Quickl::Help
+        }
         parser.on("-v", "--version", "Print version and exit") {
           raise Quickl::Exit, "#{program_name} #{OnZeroLoad::VERSION}"
         }
-        parser.on("-V", "--verbose", "Verbose output, print acual values and thresholds") {
-          options[:verbose] = true
+        parser.on("-V", "--verbose", "Verbose output, print acual values and thresholds") { |v|
+          options[:verbose] = v
         }
+
         parser
       end
 
