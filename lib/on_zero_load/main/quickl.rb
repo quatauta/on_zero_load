@@ -50,9 +50,7 @@ module OnZeroLoad
         parser.separator("")
         parser.on("-h", "--help", "Show this message")         { raise Quickl::Help }
         parser.on("-v", "--version", "Print version and exit") {
-          version = OnZeroLoad::VERSION
-          authors = OnZeroLoad::AUTHORS.map { |a| a[:name] }.compact.join(", ")
-          raise Quickl::Exit, "#{program_name} #{version} by #{authors}"
+          raise Quickl::Exit, "#{program_name} #{OnZeroLoad::VERSION}"
         }
         parser.on("-V", "--verbose", "Verbose output, print acual values and thresholds") {
           options[:verbose] = true
