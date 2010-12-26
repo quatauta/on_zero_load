@@ -62,7 +62,7 @@ module OnZeroLoad
         parser.separator("")
         parser.separator("Threshold options:")
         parser.separator("")
-        parser.on("-l", "--load=LOADAVG",    "System load average")     { |v| options[:load]  = v.to_f }
+        parser.on("-l", "--load=LOADAVG", Float, "System load average") { |v| options[:load]  = v }
         parser.on("-c", "--cpu=THROUGHPUT",  "CPU usage")               { |v| options[:cpu]   = v }
         parser.on("-d", "--disk=THROUGHPUT", "Harddisk throughput")     { |v| options[:disk]  = v }
         parser.on("-n", "--net=THROUGHPUT",  "Network throughput")      { |v| options[:net]   = v }
