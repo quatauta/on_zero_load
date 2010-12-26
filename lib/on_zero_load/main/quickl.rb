@@ -110,11 +110,10 @@ module OnZeroLoad
         parser.separator("")
 
         commands.sort { |a,b| a.to_s <=> b.to_s } .each { |long, more|
-          parser.on("-#{more[:short]}",
-                    "--#{long}",
-                    "%s, \"%s\"" % [ more[:desc], more[:cmd].join(" ") ]) { |v|
-            options[long] = v
-          }
+          params = [ "-#{more[:short]}",
+                     "--#{long}",
+                     "%s, \"%s\"" % [ more[:desc], more[:cmd].join(" ") ] ]
+          parser.on(*params) { |v| options[long] = v }
         }
       end
 
