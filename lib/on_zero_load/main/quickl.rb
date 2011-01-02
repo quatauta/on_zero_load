@@ -20,7 +20,7 @@ module OnZeroLoad
       attr_accessor :cmd_options
 
       # The commandline options to set the thresholds
-      LIMITS = {
+      THRESHOLDS = {
         :load => {
           :desc  => "System load average",
           :short => :l,
@@ -74,8 +74,9 @@ module OnZeroLoad
         },
       }
 
-      # Build standard commandline option on the OptionParser (optparse) +parser+ and
-      # store the supplied values in the +options+ hash.
+      # Adds standard commandline options to the +optparse+ OptionParser +parser+ that
+      # store the supplied values in the +options+ hash or raise appropriate Quickl
+      # errors.
       #
       # These options get build:
       #
@@ -100,12 +101,28 @@ module OnZeroLoad
         parser
       end
 
-      def self.define_limit_options(parser, limits, options)
+      # Adds commandline options to the +optparse+ OptionsParser +parser+ to define
+      # thresholds when a command should be executed. The options are defined in Hash
+      # +thresholds+ which should look like this:
+      #
+      #  { :load => { :desc  => "System load average",
+      #               :short => :l, :value => "LOADAVG", :class => Float, },
+      #    :cpu  => { :desc  => "CPU usage",
+      #               :short => :c, :value => "THROUGHPUT" } }
+      #
+      # The key represents the long option name, the description is stored in subkey
+      # +:desc+, the short option name in subkey +:short+, the value description in subkey
+      # +:value+. The optional class for automatic type conversion (see +optparse+
+      # OptionParser) is stored in subkey +:class+.
+      #
+      # Each option just stores the user-supplied value in the +options+ hash under its
+      # long name.
+      def self.define_threshold_options(parser, thresholds, options)
         parser.separator("")
         parser.separator("Threshold options:")
         parser.separator("")
 
-        limits.sort { |a,b| a.to_s <=> b.to_s } .each do |long, more|
+        thresholds.sort { |a,b| a.to_s <=> b.to_s } .each do |long, more|
           params = [ "-#{more[:short]}",
                      "--#{long}=#{more[:value]}",
                      more[:desc] ]
@@ -133,7 +150,7 @@ module OnZeroLoad
         @cmd_options ||= {}
 
         define_standard_options(parser, @cmd_options)
-        define_limit_options(parser, LIMITS, @cmd_options)
+        define_threshold_options(parser, THRESHOLDS, @cmd_options)
         define_command_options(parser, PREDEFINED_COMMANDS, @cmd_options)
       end
 
