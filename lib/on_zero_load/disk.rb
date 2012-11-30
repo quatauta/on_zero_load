@@ -16,7 +16,7 @@ module OnZeroLoad
     #  Field  9 -- # of I/Os currently in progress
     #  Field 10 -- # of milliseconds spent doing I/Os
     #  Field 11 -- weighted # of milliseconds spent doing I/Os
-    # 
+    #
     # See <code>Documentation/iostats.txt</code> for more information on the fields.
     #
     #  [["sda", 1035624, 729786, 61642589, 3015817, 580170, 2520045, 25853354, 4139270, 0, 2184914, 7154789],

@@ -62,7 +62,7 @@ module OnZeroLoad
                    :heartbeat_errors,
                    :packets,
                    :window_errors ]
-      
+
       @net.each_pair do |name, values|
         values.keys.should include(*dev_keys)
         values[:receive].keys.should include(*rx_keys)
