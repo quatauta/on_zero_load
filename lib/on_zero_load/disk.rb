@@ -44,13 +44,13 @@ module OnZeroLoad
     #               :io_ms    => 0, :io_ms_weighted => 0, :io_in_progress => 0,}, }
     #
     # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
-    def self.current
+    def self.current(raw = self.current_raw)
       fields = [ :reads, :reads_merged, :read_sectors, :read_ms,
                  :writes, :writes_merged, :write_sectors, :write_ms,
                  :io_in_progress, :io_ms, :io_ms_weighted ]
       values = {}
 
-      self.current_raw.each do |line|
+      raw.each do |line|
         device = line.shift
 
         line.each_with_index do |value, index|
