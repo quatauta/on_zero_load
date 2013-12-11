@@ -10,7 +10,6 @@ ensure_in_path 'lib'
 require 'on_zero_load'
 
 desc "Update changelog, check whitespace, run tests, specs and features"
-task :default => 'bzr:changelog'
 task :default => 'whitespace:check'
 task :default => :test
 desc "Depends on spec and features"
@@ -28,8 +27,8 @@ Bones {
   changelog 'Changelog.txt'
 
   exclude << '\..*swp$'
-  exclude << '\.bzr/'
-  exclude << '\.bzrignore$'
+  exclude << '\.git/'
+  exclude << '\.gitignore$'
   exclude << '\.yardoc/'
   exclude << '^doc/'
   exclude << '^ri/'
@@ -48,7 +47,7 @@ Bones {
 
   gem.executables = ['on_zero_load']
 
-  ignore_file '.bzrignore'
+  ignore_file '.gitignore'
 
   yard.exclude << '\\.txt$'
 }
