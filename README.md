@@ -7,7 +7,7 @@ https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel
 == Description
 
 A ruby script to execute a command after the system load dropped below a certain
-threshold.  It can monitor the loadavg, harddisk and network activity.  Support for
+threshold. It can monitor the loadavg, harddisk and network activity. Support for
 keyboard and mouse usage monitoring in X11 (like a screensaver) is planned.
 
 I use it mostly to shutdown or hibernate my workstation after some long-running download
@@ -64,6 +64,8 @@ install the gems in your <code>$HOME</code> gem repository.
  # sudo gem install rdoc
  # sudo gem install yard
  # sudo gem install metric_fu
+
+TODO: Check gli gem
 
 == Install
 
