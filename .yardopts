@@ -3,4 +3,3 @@
 --private
 --protected
 --files bin/**/*.rb,lib/**/*.rb,doc/*.md
---plugin yard-contracts
