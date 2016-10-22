@@ -1,3 +1,0 @@
-== 0.0.1 / 2008-10-29
-
-* Definition of CLI user-interface using Trollop (see README.txt)
