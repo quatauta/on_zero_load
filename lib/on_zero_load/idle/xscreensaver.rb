@@ -78,19 +78,15 @@ module OnZeroLoad
         #
         #     rb_hash         = rb_hash_new();
         #     rb_hash_timeout = rb_hash_new();
-        #
         #     rb_hash_aset(rb_hash, ID2SYM(rb_intern("state")), rb_state);
         #     rb_hash_aset(rb_hash, ID2SYM(rb_intern("timeout")), rb_hash_timeout);
-        #
         #     rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("standby")),
         #                                   INT2NUM(standby));
         #     rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("suspend")),
         #                                   INT2NUM(suspend));
         #     rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
         #                                   INT2NUM(off));
-        #
         #     XCloseDisplay(display);
-        #
         #     return rb_hash;
         #   } else {
         #     return Qnil;
@@ -99,78 +95,72 @@ module OnZeroLoad
         self.dpms_state_c
       end
 
-      class << self
-        inline do |builder|
-          builder.add_link_flags '-lXlib -lXext'
-          builder.include '<X11/Xlib.h>'
-          builder.include '<X11/extensions/Xext.h>'
-          builder.include '<X11/extensions/dpms.h>'
+      self.class.inline do |builder|
+        builder.add_link_flags '-lXext'
+        builder.include '<X11/Xlib.h>'
+        builder.include '<X11/extensions/Xext.h>'
+        builder.include '<X11/extensions/dpms.h>'
 
-          builder.c %{
-            VALUE dpms_state_c() {
-              Display *display;
-              int      dummy;
-              CARD16   state;
-              CARD16   standby, suspend, off;
-              BOOL     on_off;
-              VALUE    rb_hash;
-              VALUE    rb_hash_timeout;
-              VALUE    rb_state;
+        builder.c %{
+          VALUE dpms_state_c() {
+            Display *display;
+            int      dummy;
+            CARD16   state;
+            CARD16   standby, suspend, off;
+            BOOL     on_off;
+            VALUE    rb_hash;
+            VALUE    rb_hash_timeout;
+            VALUE    rb_state;
 
-              if (!display) {
-                display = XOpenDisplay(NULL);
+            if (!display) {
+              display = XOpenDisplay(NULL);
+            }
+
+            if (display) {
+              if (DPMSQueryExtension(display, &dummy, &dummy)) {
+                if (DPMSCapable(display)) {
+                  DPMSGetTimeouts(display, &standby, &suspend, &off);
+                  DPMSInfo(display, &state, &on_off);
+                }
               }
 
-              if (display) {
-                if (DPMSQueryExtension(display, &dummy, &dummy)) {
-                  if (DPMSCapable(display)) {
-                    DPMSGetTimeouts(display, &standby, &suspend, &off);
-                    DPMSInfo(display, &state, &on_off);
-                  }
+              switch (state) {
+                case DPMSModeStandby: {
+                  rb_state = ID2SYM(rb_intern("standby"));
+                  break;
                 }
-
-                switch (state) {
-                  case DPMSModeStandby: {
-                    rb_state = ID2SYM(rb_intern("standby"));
-                    break;
-                  }
-                  case DPMSModeSuspend: {
-                    rb_state = ID2SYM(rb_intern("suspend"));
-                    break;
-                  }
-                  case DPMSModeOff: {
-                    rb_state = ID2SYM(rb_intern("off"));
-                    break;
-                  }
-                  case DPMSModeOn:
-                  default: {
-                    rb_state = ID2SYM(rb_intern("on"));
-                    break;
-                  }
+                case DPMSModeSuspend: {
+                  rb_state = ID2SYM(rb_intern("suspend"));
+                  break;
                 }
-
-                rb_hash         = rb_hash_new();
-                rb_hash_timeout = rb_hash_new();
-
-                rb_hash_aset(rb_hash, ID2SYM(rb_intern("state")), rb_state);
-                rb_hash_aset(rb_hash, ID2SYM(rb_intern("timeout")), rb_hash_timeout);
-
-                rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("standby")),
-                                              INT2NUM(standby));
-                rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("suspend")),
-                                              INT2NUM(suspend));
-                rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
-                                              INT2NUM(off));
-
-                XCloseDisplay(display);
-
-                return rb_hash;
-              } else {
-                return Qnil;
+                case DPMSModeOff: {
+                  rb_state = ID2SYM(rb_intern("off"));
+                  break;
+                }
+                case DPMSModeOn:
+                default: {
+                  rb_state = ID2SYM(rb_intern("on"));
+                  break;
+                }
               }
+
+              rb_hash         = rb_hash_new();
+              rb_hash_timeout = rb_hash_new();
+              rb_hash_aset(rb_hash, ID2SYM(rb_intern("state")), rb_state);
+              rb_hash_aset(rb_hash, ID2SYM(rb_intern("timeout")), rb_hash_timeout);
+              rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("standby")),
+                                            INT2NUM(standby));
+              rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("suspend")),
+                                            INT2NUM(suspend));
+              rb_hash_aset(rb_hash_timeout, ID2SYM(rb_intern("off")),
+                                            INT2NUM(off));
+              XCloseDisplay(display);
+              return rb_hash;
+            } else {
+              return Qnil;
             }
           }
-        end
+        }
       end
 
       # Query the X11 ScreenSaver extension for the time since the last user input.
@@ -213,38 +203,31 @@ module OnZeroLoad
         self.idle_time_c
       end
 
-      class << self
-        inline do |builder|
-          builder.add_link_flags '-lXlib -lXss'
-          builder.include '<X11/Xlib.h>'
-          builder.include '<X11/extensions/scrnsaver.h>'
+      self.class.inline do |builder|
+        builder.add_link_flags '-lXss'
+        builder.include '<X11/extensions/scrnsaver.h>'
 
-          builder.c %{
-            VALUE idle_time_c() {
-              Display          *display;
-              XScreenSaverInfo *info;
-              VALUE             idle;
+        builder.c %{
+          VALUE idle_time_c() {
+            Display          *display;
+            XScreenSaverInfo *info;
+            VALUE             idle;
 
-              if (!display) {
-                display = XOpenDisplay(NULL);
-              }
+            if (!display) {
+              display = XOpenDisplay(NULL);
+            }
 
-              if (display) {
-                info = XScreenSaverAllocInfo();
-
-                XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
-
-                idle = INT2NUM(info->idle);
-
-                XCloseDisplay(display);
-
-                return idle;
-              } else {
-                return Qnil;
-              }
+            if (display) {
+              info = XScreenSaverAllocInfo();
+              XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
+              idle = INT2NUM(info->idle);
+              XCloseDisplay(display);
+              return idle;
+            } else {
+              return Qnil;
             }
           }
-        end
+        }
       end
 
       # Fixes the idle time reported by the X11 ScreenSaver extension.
