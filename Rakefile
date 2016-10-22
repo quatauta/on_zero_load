@@ -1,53 +1,109 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
 
-begin
-  require 'bones'
-rescue LoadError => e
-  abort '### Please install missing gem "bones": ' + e.message + ' ###'
+desc 'Run test:default'
+task default: 'test:default'
+
+namespace :doc do
+  begin
+    require 'rdoc/task'
+
+    task clobber: :clobber_rdoc
+    Rake::RDocTask.new(:rdoc) do |task|
+      task.rdoc_files.include('bin/**/*.rb', 'lib/**/*.rb', 'doc/*.md')
+      task.rdoc_dir = 'doc/rdoc'
+      task.options << '--all'
+      task.options << '--charset=utf-8'
+      task.options << '--hyperlink-all'
+      task.options << '--inline-source'
+      task.options << '--show-hash'
+    end
+  rescue LoadError
+    true # ignore missing rdoc
+  end
 end
 
-ensure_in_path 'lib'
-require 'on_zero_load'
+namespace :doc do
+  begin
+    require 'yard'
+    YARD::Rake::YardocTask.new
+  rescue LoadError
+    true # ignore missing yard
+  end
+end
 
-desc "Update changelog, check whitespace, run tests, specs and features"
-task :default => 'whitespace:check'
-task :default => :test
-desc "Depends on spec and features"
-task :test    => :spec
-task :test    => :features
-task 'gem:release' => :default
+namespace :gem do
+  begin
+    require 'bundler/audit/cli'
 
-Bones {
-  name    'on_zero_load'
-  authors OnZeroLoad::AUTHORS.map { |a| a[:name]  }.compact
-  email   OnZeroLoad::AUTHORS.map { |a| a[:email] }.compact.join(", ")
-  url     'https://code.launchpad.net/~daniel-schoemer/+junk/on-zero-load_devel'
-  version OnZeroLoad::VERSION
+    desc 'Check for vulnerable gem dependencies'
+    task :audit do
+      %w(update check).each do |command|
+        Bundler::Audit::CLI.start([command])
+      end
+    end
 
-  changelog 'Changelog.txt'
+    Rake::Task[:default].enhance(['gem:audit'])
+  rescue LoadError
+    true # ignore missing bundler
+  end
+end
 
-  exclude << '\..*swp$'
-  exclude << '\.git/'
-  exclude << '\.gitignore$'
-  exclude << '\.yardoc/'
-  exclude << '^doc/'
-  exclude << '^ri/'
-  exclude << '^tmp/'
+namespace :gem do
+  begin
+    require 'bundler/gem_tasks'
+  rescue LoadError
+    true # ignore missing bundler
+  end
+end
 
-  depend_on 'RubyInline', '>= 3.8'
-  depend_on 'quickl', '>= 0.1.1'
-  depend_on 'trollop', '>= 1.10'
+namespace :gem do
+  begin
+    require 'rubinjam'
 
-  gem.development_dependencies << ['bones-extras', '>= 1.2.2']
-  gem.development_dependencies << ['cucumber', '>= 0.1.8']
-  gem.development_dependencies << ['metric_fu', '>= 1.5']
-  gem.development_dependencies << ['rake', '>= 0.8.3']
-  gem.development_dependencies << ['rdoc', '>= 2.4']
-  gem.development_dependencies << ['rspec', '>= 1.1.11']
+    desc 'Jam script in bin/ incl dependencies into script in pkg/'
+    task :jam do
+      dir = 'pkg'
+      name, content = Rubinjam.pack(Dir.pwd)
+      script = File.join(dir, name)
 
-  gem.executables = ['on_zero_load']
+      FileUtils.mkdir_p(dir)
+      File.open(script, 'w') { |f| f.write content }
+      sh("chmod +x #{script}")
+    end
+  rescue LoadError
+    true # ignore missing rubyinjam
+  end
+end
 
-  ignore_file '.gitignore'
+# metric_fu tasks will be defined in namespace :metrics
+begin
+  ENV['CC_BUILD_ARTIFACTS'] = 'doc/metrics'
+  require 'metric_fu'
+rescue LoadError
+  true # ignore missing metric_fu
+end
 
-  yard.exclude << '\\.txt$'
-}
+namespace :metrics do
+  begin
+    require 'rubocop/rake_task'
+    RuboCop::RakeTask.new(:rubocop) do |task|
+      task.patterns = ['Rakefile', 'bin/**/*.rb', 'config/**.rb', 'lib/**/*.rb']
+      task.fail_on_error = false
+    end
+  rescue LoadError
+    true # ignore missing rubocop
+  end
+end
+
+task test: 'test:default'
+namespace :test do
+  begin
+    require 'rspec/core/rake_task.rb'
+    RSpec::Core::RakeTask.new
+    task default: :spec
+  rescue LoadError
+    true # ignore missing rspec
+  end
+end
