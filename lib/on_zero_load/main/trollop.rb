@@ -15,7 +15,7 @@ module OnZeroLoad
         parser
       end
 
-      def self.define_limit_options(parser)
+      def self.define_limit_options(parser, thresholds)
         parser.text("")
         parser.text("Threshold options:")
         parser.text("")

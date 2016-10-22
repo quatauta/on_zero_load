@@ -59,7 +59,7 @@ module OnZeroLoad
       },
     }
 
-    def self.parse(args = ARGV, parser = :quickl, thresholds = THRESHOLDS, commands = COMMANDS)
+    def self.parse(args = ARGV.clone, parser = :trollop, thresholds = THRESHOLDS, commands = COMMANDS)
       case parser
       when :optparse
         self.parse_optparse(args, thresholds, commands)
@@ -80,6 +80,10 @@ module OnZeroLoad
 
     def self.parse_trollop(args = ARGV, thresholds, commands)
       MainTrollop.parse(args, thresholds, commands)
+    end
+
+    def self.run(args = ARGV.clone)
+      puts parse(args)
     end
   end
 end

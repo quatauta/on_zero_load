@@ -107,7 +107,7 @@ module OnZeroLoad
         @cmd_options
       end
 
-      def self.parse(args = ARGV)
+      def self.parse(args = ARGV, thresholds, commands)
         self.run(args)
       end
     end
