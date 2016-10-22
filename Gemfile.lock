@@ -187,7 +187,7 @@ DEPENDENCIES
   rake (>= 0.8.3)
   rdoc (>= 2.4)
   rspec (>= 1.1.11)
-  yard
+  yard (>= 0.9.5)
 
 RUBY VERSION
    ruby 2.3.1p112
