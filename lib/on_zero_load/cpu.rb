@@ -3,7 +3,7 @@ module OnZeroLoad
     # The current CPU activity counters from <code>/proc/stat</code> as array for each CPU
     # and accumulated for all CPUs.
     #
-    # From Linux Kernel 2.6.23 <code>Documentation/filesystems/proc.txt</code>:
+    # From Linux Kernel 4.8.3 <code>Documentation/filesystems/proc.txt</code>:
     #
     #  1.8 Miscellaneous kernel statistics in /proc/stat
     #  -------------------------------------------------
@@ -17,13 +17,16 @@ module OnZeroLoad
     #  - iowait: waiting for I/O to complete
     #  - irq: servicing interrupts
     #  - softirq: servicing softirqs
+    #  - steal: involuntary wait
+    #  - guest: running a normal guest
+    #  - guest_nice: running a niced guest
     #
     # See PROC(5) (a.k.a <code>man 5 proc</code>), and Linux
     # Kernel files <code>Documentation/filesystems/proc.txt</code> and
     # <code>Documentation/cpu-load.txt</code> for more information.
     #
-    #  [["cpu",  102750, 267374, 97858, 736771, 83711, 937, 839, 0],
-    #   ["cpu0", 102750, 267374, 97858, 736771, 83711, 937, 839, 0]]
+    #  [["cpu",  77507, 182684, 420187, 7786581, 44806, 0, 1589, 0, 0, 0],
+    #   ["cpu0", 22353, 48526,  101261, 1939626, 11391, 0, 1527, 0, 0, 0]]
     def self.current_raw
       open("/proc/stat") { |f| f.readlines } \
       .grep(/^cpu/i) \
@@ -45,13 +48,14 @@ module OnZeroLoad
     # calculated. <code>:active</code> contains the number of ticks during activity,
     # <code>:total</code> contains the sum of all counters.
     #
-    #  { "cpu" => { :idle    => 1034192, :iowait => 73043,
-    #               :irq     => 1630,    :nice   => 1040100,
-    #               :softirq => 1758,    :steal  => 0,
-    #               :system  => 192697,  :user   => 98414,
-    #               :active  => 1334599, :total  => 2441834, }, }
+    #  { "cpu"  => { :user => 77507, :nice => 182684, :system => 420187, :idle => 7786581,
+    #                :iowait => 44806, :irq => 0, :softirq => 1589, :steal => 0,
+    #                :guest => 0, :guest_nice => 0, :active => 681967, :total => 8513354 },
+    #    "cpu0" => { :user => 22353, :nice => 48526, :system => 101261, :idle => 1939626,
+    #                :iowait => 11391, :irq => 0, :softirq => 1527, :steal => 0,
+    #                :guest => 0, :guest_nice => 0, :active => 173667, :total => 2124684 } }
     def self.current(raw = self.current_raw)
-      all = [:user, :nice, :system, :idle, :iowait, :irq, :softirq, :steal]
+      all = [:user, :nice, :system, :idle, :iowait, :irq, :softirq, :steal, :guest, :guest_nice]
       act = all - [:idle, :iowait]
       values = {}
 
@@ -59,7 +63,7 @@ module OnZeroLoad
         cpu = line.first
         val = values[cpu] = {}
 
-        all.each_with_index { |s, i| val[s] = line[i + 1] }
+        all.each_with_index { |s, i| val[s] = line[i + 1] if line[i + 1] }
 
         val[:active] = act.inject(0) { |sum, f| sum + val[f] }
         val[:total]  = all.inject(0) { |sum, f| sum + val[f] }
