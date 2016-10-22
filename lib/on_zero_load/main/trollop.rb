@@ -4,31 +4,6 @@ require 'trollop'
 module OnZeroLoad
   class Main
     class MainTrollop < OnZeroLoad::Main
-      # The predefined commands that can be set by command-line options instead of explicit
-      # arguments.
-      PREDEFINED_COMMANDS = {
-        :reboot => {
-          :desc  => "Reboot system",
-          :short => :R,
-          :cmd   => ["sudo", "shutdown", "-r", "now"],
-        },
-        :shutdown => {
-          :desc  => "Halt system",
-          :short => :S,
-          :cmd   => ["sudo", "shutdown", "-h", "now"],
-        },
-        :hibernate => {
-          :desc  => "Hibernate system",
-          :short => :H,
-          :cmd   => ["sudo", "pm-hibernate"],
-        },
-        :beep => {
-          :desc  => "Let the system speaker beep",
-          :short => :B,
-          :cmd   => ["beep"],
-        },
-      }
-
       def self.define_standard_options(parser)
         parser.text("")
         parser.text("Standard options:")
@@ -63,7 +38,7 @@ module OnZeroLoad
         }
       end
 
-      def self.option_parser
+      def self.option_parser(thresholds, commands)
         Trollop::Parser.new {
           base = File.basename($0)
 
@@ -75,13 +50,13 @@ module OnZeroLoad
           text("Execute a command if the system load drops below given thresholds.")
 
           MainTrollop.define_standard_options(self)
-          MainTrollop.define_limit_options(self)
-          MainTrollop.define_command_options(self, PREDEFINED_COMMANDS)
+          MainTrollop.define_limit_options(self, thresholds)
+          MainTrollop.define_command_options(self, commands)
         }
       end
 
-      def self.parse(args = ARGV)
-        parser  = self.option_parser
+      def self.parse(args = ARGV, thresholds, commands)
+        parser  = self.option_parser(thresholds, commands)
         options = {}
 
         begin

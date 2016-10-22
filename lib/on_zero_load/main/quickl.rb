@@ -19,61 +19,6 @@ module OnZeroLoad
       # The Hash of commandline options
       attr_accessor :cmd_options
 
-      # The commandline options to set the thresholds
-      THRESHOLDS = {
-        :load => {
-          :desc  => "System load average",
-          :short => :l,
-          :value => "LOADAVG",
-          :class => Float,
-        },
-        :cpu => {
-          :desc  => "CPU usage",
-          :short => :c,
-          :value => "THROUGHPUT",
-        },
-        :disk => {
-          :desc  => "Harddisk throughput",
-          :short => :d,
-          :value => "THROUGHPUT",
-        },
-        :net => {
-          :desc  => "Network throughput",
-          :short => :n,
-          :value => "THROUGHPUT",
-        },
-        :input => {
-          :desc  => "Time without user input",
-          :short => :i,
-          :value => "DURATION",
-        }
-      }
-
-      # The predefined commands that can be set by command-line options instead of explicit
-      # arguments.
-      PREDEFINED_COMMANDS = {
-        :reboot => {
-          :desc  => "Reboot system",
-          :short => :R,
-          :cmd   => ["sudo", "shutdown", "-r", "now"],
-        },
-        :shutdown => {
-          :desc  => "Halt system",
-          :short => :S,
-          :cmd   => ["sudo", "shutdown", "-h", "now"],
-        },
-        :hibernate => {
-          :desc  => "Hibernate system",
-          :short => :H,
-          :cmd   => ["sudo", "pm-hibernate"],
-        },
-        :beep => {
-          :desc  => "Let the system speaker beep",
-          :short => :B,
-          :cmd   => ["beep"],
-        },
-      }
-
       # Adds standard commandline options to the +optparse+ OptionParser +parser+ that
       # store the supplied values in the +options+ hash or raise appropriate Quickl
       # errors.
@@ -151,7 +96,7 @@ module OnZeroLoad
 
         define_standard_options(parser, @cmd_options)
         define_threshold_options(parser, THRESHOLDS, @cmd_options)
-        define_command_options(parser, PREDEFINED_COMMANDS, @cmd_options)
+        define_command_options(parser, COMMANDS, @cmd_options)
       end
 
       def execute(args)

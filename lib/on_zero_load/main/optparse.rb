@@ -4,31 +4,6 @@ require 'optparse'
 module OnZeroLoad
   class Main
     class MainOptParse < OnZeroLoad::Main
-      # The predefined commands that can be set by command-line options instead of explicit
-      # arguments.
-      PREDEFINED_COMMANDS = {
-        :reboot => {
-          :desc  => "Reboot system",
-          :short => :R,
-          :cmd   => ["sudo", "shutdown", "-r", "now"],
-        },
-        :shutdown => {
-          :desc  => "Halt system",
-          :short => :S,
-          :cmd   => ["sudo", "shutdown", "-h", "now"],
-        },
-        :hibernate => {
-          :desc  => "Hibernate system",
-          :short => :H,
-          :cmd   => ["sudo", "pm-hibernate"],
-        },
-        :beep => {
-          :desc  => "Let the system speaker beep",
-          :short => :B,
-          :cmd   => ["beep"],
-        },
-      }
-
       def self.define_standard_options(parser, options)
         parser.separator("")
         parser.separator("Standard options:")
@@ -66,7 +41,7 @@ module OnZeroLoad
         }
       end
 
-      def self.option_parser(options)
+      def self.option_parser(options, thresholds, commands)
         OptionParser.new { |parser|
           base = File.basename($0)
 
@@ -79,13 +54,13 @@ module OnZeroLoad
 
           self.define_standard_options(parser, options)
           self.define_limit_options(parser, options)
-          self.define_command_options(parser, PREDEFINED_COMMANDS, options)
+          self.define_command_options(parser, commands, options)
         }
       end
 
-      def self.parse(args = ARGV)
+      def self.parse(args = ARGV, thresholds, commands)
         options = {}
-        parser  = self.option_parser(options)
+        parser  = self.option_parser(options, thresholds, commands)
 
         begin
           options[:args] = parser.parse(args)
