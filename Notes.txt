@@ -2,6 +2,5 @@
 
 * Check gli gem
 * User idle time X11?
-  * http://coderrr.wordpress.com/2008/04/20/getting-idle-time-in-unix/
-  * http://www.dtek.chalmers.se/~henoch/text/xprintidle.html
+  * https://ubuntuforums.org/showthread.php?t=1252752
   * What about D-Bus? At least gnome-screensaver's state can be queried via D-Bus.
