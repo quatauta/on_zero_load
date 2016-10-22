@@ -107,3 +107,15 @@ namespace :test do
     true # ignore missing rspec
   end
 end
+
+namespace :test do
+  begin
+    require 'cucumber/rake/task'
+    Cucumber::Rake::Task.new(:features) do |t|
+      t.fork = true
+    end
+    task default: :features
+  rescue LoadError
+    true # ignore missing cucumber
+  end
+end
