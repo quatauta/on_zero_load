@@ -13,10 +13,10 @@ module OnZeroLoad
 
     it "contains hashes for receive and transmit counters per interface" do
       @net.each_pair do |name, values|
-        values.should be_kind_of(Hash)
+        expect(values).to be_kind_of(Hash)
         [:receive, :transmit].each do |a|
-          values.keys.should include(a)
-          values[a].should be_kind_of(Hash)
+          expect(values.keys).to include(a)
+          expect(values[a]).to be_kind_of(Hash)
         end
       end
     end
@@ -24,9 +24,9 @@ module OnZeroLoad
     it "contains counters per interface addressed by counter-name-symbols" do
       @net.each_pair do |name, values|
         [:receive, :transmit].each do |direction|
-          values[direction].should_not be_empty
+          expect(values[direction]).not_to be_empty
           values[direction].keys.each do |counter_name|
-            counter_name.should be_kind_of(Symbol)
+            expect(counter_name).to be_kind_of(Symbol)
           end
         end
       end
@@ -36,7 +36,7 @@ module OnZeroLoad
       @net.each_pair do |name, values|
         [:receive, :transmit].each do |direction|
           values[direction].each_pair do |counter_name, value|
-            value.should be_kind_of(Numeric)
+            expect(value).to be_kind_of(Numeric)
           end
         end
       end
@@ -67,9 +67,9 @@ module OnZeroLoad
                    :window_errors ]
 
       @net.each_pair do |name, values|
-        values.keys.should include(*dev_keys)
-        values[:receive].keys.should include(*rx_keys)
-        values[:transmit].keys.should include(*tx_keys)
+        expect(values.keys).to include(*dev_keys)
+        expect(values[:receive].keys).to include(*rx_keys)
+        expect(values[:transmit].keys).to include(*tx_keys)
       end
     end
   end
