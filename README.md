@@ -34,22 +34,22 @@ Execute a command if the system load drops below given thresholds.
 
 Standard options:
 
-  -h, --help         Show this message
-  -v, --version      Print version and exit
-  -V, --verbose      Verbose output, print acual values and thresholds
+    -h, --help                       Show this message
+    -v, --version                    Print version and exit
+    -V, --verbose                    Verbose output, print acual values and thresholds
 
 Threshold options:
 
-  -l, --load=<f>     System load average
-  -c, --cpu=<s>      CPU usage
-  -d, --disk=<s>     Harddisk throughput
-  -n, --net=<s>      Network throughput
-  -i, --input=<s>    Time without user input
+    -l, --load=<number>              System load average (default 0.1)
+    -c, --cpu=<percents>             CPU usage (in %, default 5 %)
+    -d, --disk=<byte>[/<sec>]        Harddisk throughput (in KiB/s)
+    -n, --net=<bit>[/<sec>]          Network throughput (in Kib/s)
+    -i, --idle=<time>                Idle time without user input (in s)
 
 Predefined commands:
 
-  -R, --reboot       Reboot system, "sudo shutdown -r now"
-  -S, --shutdown     Halt system, "sudo shutdown -h now"
-  -H, --hibernate    Hibernate system, "sudo pm-hibernate"
-  -B, --beep         Let the system speaker beep, "beep"
+    -R, --reboot                     Reboot system ('sudo systemctl reboot')
+    -S, --shutdown                   Halt system ('sudo systemctl poweroff')
+    -H, --hibernate                  Hibernate/suspend system ('sudo systemctl hybrid-sleep')
+    -B, --beep                       Let the system speaker beep ('beep')
 ```
