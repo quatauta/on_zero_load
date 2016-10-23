@@ -1,5 +1,5 @@
 require 'optparse'
-
+require 'ruby-units'
 
 module OnZeroLoad
   class Main
