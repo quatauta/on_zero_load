@@ -3,9 +3,7 @@ PATH
   specs:
     on_zero_load (0.0.1)
       RubyInline (>= 3.8)
-      quickl (>= 0.1.1)
       ruby-units (>= 2.0.1)
-      trollop (>= 1.10)
 
 GEM
   remote: https://rubygems.org/
@@ -121,7 +119,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    quickl (0.4.3)
     rails_best_practices (1.17.0)
       activesupport
       code_analyzer (>= 0.4.3)
@@ -166,7 +163,6 @@ GEM
     sexp_processor (4.7.0)
     slop (3.6.0)
     thread_safe (0.3.5)
-    trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unf (0.1.4)
