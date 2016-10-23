@@ -54,7 +54,7 @@ module OnZeroLoad
         :desc  => "Idle time without user input",
         :short => :i,
         :value => "<time>",
-        :unit  => Unit.new("minutes"),
+        :unit  => Unit.new("seconds"),
       }
     }
 
