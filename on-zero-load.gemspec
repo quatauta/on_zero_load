@@ -31,8 +31,11 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'trollop', '>= 1.10'
 
   spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "flog", "<4.4.0" # flog 4.4.0 is causing metric_fu to fail
   spec.add_development_dependency 'cucumber', '>= 0.1.8'
+  spec.add_development_dependency 'did_you_mean'
   spec.add_development_dependency 'metric_fu', '>= 1.5'
+  spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '>= 0.8.3'
   spec.add_development_dependency 'rdoc', '>= 2.4'
   spec.add_development_dependency 'rspec', '>= 1.1.11'
