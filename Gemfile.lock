@@ -156,6 +156,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    rubinjam (0.5.1)
+      bundler
     ruby-progressbar (1.8.1)
     ruby-units (2.0.1)
     ruby_parser (3.8.3)
@@ -192,6 +194,7 @@ DEPENDENCIES
   rake (>= 0.8.3)
   rdoc (>= 2.4)
   rspec (>= 3)
+  rubinjam
   yard (>= 0.9.5)
 
 RUBY VERSION
