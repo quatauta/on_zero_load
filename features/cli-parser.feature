@@ -7,31 +7,31 @@ Feature: Command-Line Option Parser
     And the value type should be <class>
 
     Examples:
-      | options    | key   | value | class  |
-      | --load=0.3 | load  | 0.3   | Float  |
-      | --load=.3  | load  | 0.3   | Float  |
-      | --cpu=23%  | cpu   | 23%   | String |
-      | --disk=45k | disk  | 45k   | String |
-      | --net=10k  | net   | 10k   | String |
-      | --input=5m | input | 5m    | String |
-      | --load 0.3 | load  | 0.3   | Float  |
-      | --load .3  | load  | 0.3   | Float  |
-      | --cpu 23%  | cpu   | 23%   | String |
-      | --disk 45k | disk  | 45k   | String |
-      | --net 10k  | net   | 10k   | String |
-      | --input 5m | input | 5m    | String |
-      | -l 0.21    | load  | 0.21  | Float  |
-      | -l .21     | load  | 0.21  | Float  |
-      | -c 12%     | cpu   | 12%   | String |
-      | -d 32k     | disk  | 32k   | String |
-      | -n 85k     | net   | 85k   | String |
-      | -i 03:21   | input | 03:21 | String |
-      | -l0.21     | load  | 0.21  | Float  |
-      | -l.21      | load  | 0.21  | Float  |
-      | -c12%      | cpu   | 12%   | String |
-      | -d32k      | disk  | 32k   | String |
-      | -n85k      | net   | 85k   | String |
-      | -i03:21    | input | 03:21 | String |
+      | options      | key  | value    | class           |
+      | --load=0.3   | load | 0.3      | RubyUnits::Unit |
+      | --load=.3    | load | 0.3      | RubyUnits::Unit |
+      | --cpu=23%    | cpu  | 23 %     | RubyUnits::Unit |
+      | --disk=45KiB | disk | 45 KiB/s | RubyUnits::Unit |
+      | --net=10Kib  | net  | 10 Kib/s | RubyUnits::Unit |
+      | --idle=5min  | idle | 300 s    | RubyUnits::Unit |
+      | --load 0.3   | load | 0.3      | RubyUnits::Unit |
+      | --load .3    | load | 0.3      | RubyUnits::Unit |
+      | --cpu 23%    | cpu  | 23 %     | RubyUnits::Unit |
+      | --disk 45KiB | disk | 45 KiB/s | RubyUnits::Unit |
+      | --net 10Kib  | net  | 10 Kib/s | RubyUnits::Unit |
+      | --idle 5min  | idle | 300 s    | RubyUnits::Unit |
+      | -l 0.21      | load | 0.21     | RubyUnits::Unit |
+      | -l .21       | load | 0.21     | RubyUnits::Unit |
+      | -c 12%       | cpu  | 12 %     | RubyUnits::Unit |
+      | -d 32KiB     | disk | 32 KiB/s | RubyUnits::Unit |
+      | -n 85Kib     | net  | 85 Kib/s | RubyUnits::Unit |
+      | -i 0:03:21   | idle | 201 s    | RubyUnits::Unit |
+      | -l0.21       | load | 0.21     | RubyUnits::Unit |
+      | -l.21        | load | 0.21     | RubyUnits::Unit |
+      | -c12%        | cpu  | 12 %     | RubyUnits::Unit |
+      | -d32KiB      | disk | 32 KiB/s | RubyUnits::Unit |
+      | -n85Kib      | net  | 85 Kib/s | RubyUnits::Unit |
+      | -i0:3:21     | idle | 201 s    | RubyUnits::Unit |
 
   Scenario Outline: Parse multiple limits, get only last one
     When I give <options> as command-line options
@@ -40,14 +40,14 @@ Feature: Command-Line Option Parser
     And the value type should be <class>
 
     Examples:
-      | options                   | key   | value | class  |
-      | --load 0.5   --load 0.8   | load  | 0.8   | Float  |
-      | --cpu 5%     --cpu 2%     | cpu   | 2%    | String |
-      | --disk 450k  --disk 12k   | disk  | 12k   | String |
-      | --net 11k    --net 2k     | net   | 2k    | String |
-      | --input 3:02 --input 2:30 | input | 2:30  | String |
-      | -l 0.2  -l 0.1            | load  | 0.1   | Float  |
-      | -c 11%  -c 53%            | cpu   | 53%   | String |
-      | -d 912k -d 32k            | disk  | 32k   | String |
-      | -n 41k  -n 23k            | net   | 23k   | String |
-      | -i 4:21 -i 6:14           | input | 6:14  | String |
+      | options                       | key  | value    | class           |
+      | --load 0.5    --load 0.8      | load | 0.8      | RubyUnits::Unit |
+      | --cpu 5%      --cpu 2%        | cpu  | 2 %      | RubyUnits::Unit |
+      | --disk 450Kib --disk 12KiB    | disk | 12 KiB/s | RubyUnits::Unit |
+      | --net 11Kib   --net 2Kib      | net  | 2 Kib/s  | RubyUnits::Unit |
+      | --idle 0:03:02 --idle 0:02:30 | idle | 150 s    | RubyUnits::Unit |
+      | -l 0.2     -l 0.1             | load | 0.1      | RubyUnits::Unit |
+      | -c 11%     -c 53%             | cpu  | 53 %     | RubyUnits::Unit |
+      | -d 912Kib  -d 32KiB           | disk | 32 KiB/s | RubyUnits::Unit |
+      | -n 41Kib   -n 23Kib           | net  | 23 Kib/s | RubyUnits::Unit |
+      | -i 0:04:21 -i 0:06:14         | idle | 374 s    | RubyUnits::Unit |

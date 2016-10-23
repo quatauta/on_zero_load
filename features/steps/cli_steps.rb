@@ -11,25 +11,25 @@ end
 Then /the options key should be (\w+)/ do |expected_key_name|
   @key = expected_key_name.to_sym
 
-  @opts.should be_kind_of(Hash)
-  @opts.should have_key(@key)
-  @opts[@key].should_not be_nil
+  expect(@opts).to be_kind_of(Hash)
+  expect(@opts).to have_key(@key)
+  expect(@opts[@key]).to be_truthy
 end
 
 Then /the value should be (.*)/ do |expected_value|
-  @opts[@key].to_s.should == expected_value
+  expect(@opts[@key].to_s).to eq(expected_value)
 end
 
 Then /the values should be (.*)/ do |expected_values|
-  @opts[@key].map { |v| v.to_s } .should == expected_values.split(/; +/)
+  expect(@opts[@key].map { |v| v.to_s }).to eq(expected_values.split(/; +/))
 end
 
-Then /the value type should be (\w+)/ do |expected_class_name|
-  @opts[@key].class.name.should == expected_class_name
+Then /the value type should be ([\w:]+)/ do |expected_class_name|
+  expect(@opts[@key].class.name).to eq(expected_class_name)
 end
 
-Then /each value type should be (\w+)/ do |expected_class_name|
+Then /each value type should be ([\w:]+)/ do |expected_class_name|
   @opts[@key].each do |v|
-    v.class.name.should == expected_class_name
+    expect(v.class.name).to be_kind_of(expected_class_name)
   end
 end
