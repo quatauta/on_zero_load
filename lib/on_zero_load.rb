@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
 
 module OnZeroLoad
   autoload :CPU,     'on_zero_load/cpu'

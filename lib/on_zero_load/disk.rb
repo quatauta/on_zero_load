@@ -1,3 +1,7 @@
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
+
 module OnZeroLoad
   class Disk
     # The current I/O statistics read from <code>/proc/diskstats</code> as array for each

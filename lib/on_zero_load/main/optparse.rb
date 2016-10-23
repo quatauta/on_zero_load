@@ -1,3 +1,7 @@
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
+
 require 'optparse'
 require 'ruby-units'
 
@@ -42,7 +46,7 @@ module OnZeroLoad
       end
 
       def self.threshold_option_description(more)
-        desc    = more[:desc]
+        desc    = more[:desc].dup
         unit    = more[:unit].units unless more[:unit].units.empty?
         default = more[:unit]       unless more[:unit].scalar == 1
 

@@ -1,6 +1,9 @@
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
+
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require 'on_zero_load/net'
-
 
 module OnZeroLoad
   describe "System monitor network data" do

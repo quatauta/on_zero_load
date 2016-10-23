@@ -1,5 +1,8 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
 
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 module OnZeroLoad
   describe "System monitor loadavg raw data" do

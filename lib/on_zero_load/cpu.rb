@@ -1,3 +1,7 @@
+# -*- coding: utf-8; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8:
+
 module OnZeroLoad
   class CPU
     # The current CPU activity counters from <code>/proc/stat</code> as array for each CPU
