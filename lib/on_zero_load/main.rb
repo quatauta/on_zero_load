@@ -1,36 +1,56 @@
+require 'ruby-units'
+
 module OnZeroLoad
   class Main
     autoload :MainOptParse, 'on_zero_load/main/optparse'
-    autoload :MainQuickl,   'on_zero_load/main/quickl'
-    autoload :MainTrollop,  'on_zero_load/main/trollop'
+
+    # Standard options
+    STANDARD_OPTIONS = {
+      :help => {
+        :desc  => "Show this message",
+        :short => :h,
+      },
+      :version => {
+        :desc  => "Print version and exit",
+        :short => :v,
+      },
+      :verbose => {
+        :desc  => "Verbose output, print acual values and thresholds",
+        :short => :V,
+      }
+    }
 
     # The commandline options to set the thresholds
     THRESHOLDS = {
       :load => {
         :desc  => "System load average",
         :short => :l,
-        :value => "LOADAVG",
-        :class => Float,
+        :value => "<number>",
+        :unit  => Unit.new("0.1"),
       },
       :cpu => {
         :desc  => "CPU usage",
         :short => :c,
-        :value => "THROUGHPUT",
+        :value => "<percents>",
+        :unit  => Unit.new("5 %"),
       },
       :disk => {
         :desc  => "Harddisk throughput",
         :short => :d,
-        :value => "THROUGHPUT",
+        :value => "<byte>[/<sec>]",
+        :unit => Unit.new("KiB/s"),
       },
       :net => {
         :desc  => "Network throughput",
         :short => :n,
-        :value => "THROUGHPUT",
+        :value => "<bit>[/<sec>]",
+        :unit => Unit.new("Kib/s"),
       },
-      :input => {
-        :desc  => "Time without user input",
+      :idle => {
+        :desc  => "Idle time without user input",
         :short => :i,
-        :value => "DURATION",
+        :value => "<time>",
+        :unit  => Unit.new("minutes"),
       }
     }
 
@@ -40,17 +60,17 @@ module OnZeroLoad
       :reboot => {
         :desc  => "Reboot system",
         :short => :R,
-        :cmd   => ["sudo", "shutdown", "-r", "now"],
+        :cmd   => ["sudo", "systemctl", "reboot"],
       },
       :shutdown => {
         :desc  => "Halt system",
         :short => :S,
-        :cmd   => ["sudo", "shutdown", "-h", "now"],
+        :cmd   => ["sudo", "systemctl", "poweroff"],
       },
       :hibernate => {
-        :desc  => "Hibernate system",
+        :desc  => "Hibernate/suspend system",
         :short => :H,
-        :cmd   => ["sudo", "pm-hibernate"],
+        :cmd   => ["sudo", "systemctl", "hybrid-sleep"],
       },
       :beep => {
         :desc  => "Let the system speaker beep",
@@ -59,27 +79,8 @@ module OnZeroLoad
       },
     }
 
-    def self.parse(args = ARGV.clone, parser = :trollop, thresholds = THRESHOLDS, commands = COMMANDS)
-      case parser
-      when :optparse
-        self.parse_optparse(args, thresholds, commands)
-      when :quickl
-        self.parse_quickl(args, thresholds, commands)
-      when :trollop
-        self.parse_trollop(args, thresholds, commands)
-      end
-    end
-
-    def self.parse_optparse(args = ARGV, thresholds, commands)
-      MainOptParse.parse(args, thresholds, commands)
-    end
-
-    def self.parse_quickl(args = ARGV, thresholds, commands)
-      MainQuickl.parse(args, thresholds, commands)
-    end
-
-    def self.parse_trollop(args = ARGV, thresholds, commands)
-      MainTrollop.parse(args, thresholds, commands)
+    def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
+      MainOptParse.parse(args, standards, thresholds, commands)
     end
 
     def self.run(args = ARGV.clone)
