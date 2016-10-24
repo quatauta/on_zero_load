@@ -112,6 +112,8 @@ namespace :test do
   begin
     require 'cucumber/rake/task'
     Cucumber::Rake::Task.new(:features) do |t|
+      t.bundler = true
+      t.cucumber_opts = %w{-f progress}
       t.fork = true
     end
     task default: :features
