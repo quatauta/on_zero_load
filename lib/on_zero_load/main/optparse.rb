@@ -46,7 +46,7 @@ module OnZeroLoad
       end
 
       def self.threshold_option_description(more)
-        desc    = more[:desc].dup
+        desc    = more[:desc].clone
         unit    = more[:unit].units unless more[:unit].units.empty?
         default = more[:unit]       unless more[:unit].scalar == 1
 
