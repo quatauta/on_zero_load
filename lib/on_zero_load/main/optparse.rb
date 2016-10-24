@@ -50,11 +50,11 @@ module OnZeroLoad
         unit    = more[:unit].units unless more[:unit].units.empty?
         default = more[:unit]       unless more[:unit].scalar == 1
 
-        desc << " ("                 if unit || default
-        desc << "in #{unit}"         if unit
-        desc << ", "                 if unit && default
-        desc << "default #{default}" if default
-        desc << ")"                  if unit || default
+        desc += " ("                 if unit || default
+        desc += "in #{unit}"         if unit
+        desc += ", "                 if unit && default
+        desc += "default #{default}" if default
+        desc += ")"                  if unit || default
       end
 
       def self.threshold_option_value_to_unit(value, unit)
