@@ -2,15 +2,11 @@
 # frozen_string_literal: true
 # vim:set fileencoding=utf-8:
 
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'on_zero_load'
-
 Gem::Specification.new do |spec|
   spec.name          = 'on_zero_load'
-  spec.version       = OnZeroLoad::VERSION
-  spec.authors       = OnZeroLoad::AUTHORS.map { |a| a[:name]  }.compact
-  spec.email         = OnZeroLoad::AUTHORS.map { |a| a[:email] }.compact.join(", ")
+  spec.version       = '0.0.1'
+  spec.authors       = 'Daniel Schömer'
+  spec.email         = 'daniel.schoemer@gmx.net'
 
   spec.summary       = 'Execute a command after the system load dropped below a certain threshold'
   spec.description   = 'Execute a command after the system load dropped below a certain threshold. It can monitor the loadavg, harddisk and network activity. Support for keyboard and mouse usage monitoring in X11 (like a screensaver) is planned.'
