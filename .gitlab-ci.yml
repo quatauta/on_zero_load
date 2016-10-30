@@ -1,0 +1,40 @@
+stages:
+  - build
+  - test
+  - release
+
+variables:
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  tags:
+    - shell
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test:
+  stage: test
+  tags:
+    - shell
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker run $CONTAINER_TEST_IMAGE bundle exec rake test metrics:all
+
+release-image:
+  stage: release
+  environment: production
+  tags:
+    - shell
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - tags
+    - /^v[0-9].*/
