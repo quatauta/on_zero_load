@@ -1,41 +1,13 @@
-stages:
-  - build
-  - test
-  - release
-
-variables:
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-  DOCKER_IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
-  DOCKER_CONTAINER: $CI_PROJECT_PATH:$CI_BUILD_REF_NAME
-
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  - gem update bundler
+  - bundle install --path=vendor/bundle
 
-build:
-  stage: build
-  tags:
-    - shell
-  script:
-    - docker build --pull -t $DOCKER_IMAGE .
-    - docker push $DOCKER_IMAGE
+cache:
+  paths:
+    - vendor/
 
 test:
-  stage: test
   tags:
-    - shell
+    - ruby
   script:
-    - docker pull $DOCKER_IMAGE
-    - docker run --rm --name $DOCKER_CONTAINER $DOCKER_IMAGE bundle exec rake test
-
-release-image:
-  stage: release
-  environment: production
-  tags:
-    - shell
-  script:
-    - docker pull $DOCKER_IMAGE
-    - docker tag $DOCKER_IMAGE $DOCKER_IMAGE_LATEST
-    - docker push $DOCKER_IMAGE_LATEST
-  only:
-    - tags
-    - /^v[0-9].*/
+    - bundle exec rake test
