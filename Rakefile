@@ -85,6 +85,7 @@ rescue LoadError
   true # ignore missing metric_fu
 end
 
+task metrics: 'metrics:default'
 namespace :metrics do
   begin
     require 'rubocop/rake_task'
@@ -92,6 +93,7 @@ namespace :metrics do
       task.patterns = ['Rakefile', 'bin/**/*.rb', 'config/**.rb', 'lib/**/*.rb']
       task.fail_on_error = false
     end
+    task default: :all
   rescue LoadError
     true # ignore missing rubocop
   end
