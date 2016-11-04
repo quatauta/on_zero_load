@@ -1,0 +1,32 @@
+# vim:set shiftwidth=2:
+
+image: ruby:2.3
+
+stages:
+  - prepare
+  - build
+  - test
+  - deployment
+
+cache:
+  key: "$CI_PROJECT_PATH"
+  paths:
+    - .bundle/
+    - doc/
+    - vendor/
+
+variables:
+  BUNDLE_APP_CONFIG: .bundle
+
+before_script:
+  - gem update did_you_mean
+
+bundle-install:
+  stage: prepare
+  script:
+    - bundle install --deployment --jobs $(nproc)
+
+rake-test:
+  stage: test
+  script:
+    - bundle exec rake test
