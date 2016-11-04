@@ -3,8 +3,6 @@ on_zero_load
 
 https://github.com/quatauta/on_zero_load
 
-Daniel Schömer <mailto:daniel.schoemer@gmx.net>
-
 Description
 ---
 A ruby script to execute a command after the system load dropped below a certain
