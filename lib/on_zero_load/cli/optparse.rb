@@ -6,7 +6,7 @@ require 'optparse'
 require 'ruby-units'
 
 module OnZeroLoad
-  class Main
+  class CLI
     class IncompatibleUnit < OptionParser::InvalidArgument
       def initialize(reason, *args)
         super(args)
@@ -14,7 +14,7 @@ module OnZeroLoad
       end
     end
 
-    class MainOptParse < OnZeroLoad::Main
+    class CliOptParse < OnZeroLoad::CLI
       def self.define_standard_options(parser, standards, options)
         parser.separator("")
         parser.separator("Standard options:")

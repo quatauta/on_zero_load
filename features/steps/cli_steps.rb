@@ -9,7 +9,7 @@ After do
 end
 
 When /I give (.*) as command-line options/ do |options|
-  @opts = OnZeroLoad::Main.parse(options.split(/\s+/))
+  @opts = OnZeroLoad::CLI.parse(options.split(/\s+/))
 end
 
 Then /the options key should be (\w+)/ do |expected_key_name|

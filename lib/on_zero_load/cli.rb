@@ -5,8 +5,8 @@
 require 'ruby-units'
 
 module OnZeroLoad
-  class Main
-    autoload :MainOptParse, 'on_zero_load/main/optparse'
+  class CLI
+    autoload :CliOptParse, 'on_zero_load/cli/optparse'
 
     # Standard options
     STANDARD_OPTIONS = {
@@ -84,7 +84,7 @@ module OnZeroLoad
     }
 
     def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
-      MainOptParse.parse(args, standards, thresholds, commands)
+      CliOptParse.parse(args, standards, thresholds, commands)
     end
 
     def self.run(args = ARGV.clone)

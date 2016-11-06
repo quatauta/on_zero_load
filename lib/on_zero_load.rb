@@ -7,7 +7,7 @@ module OnZeroLoad
   autoload :Disk,    'on_zero_load/disk'
   autoload :Idle,    'on_zero_load/idle'
   autoload :LoadAvg, 'on_zero_load/loadavg'
-  autoload :Main,    'on_zero_load/main'
+  autoload :CLI,     'on_zero_load/cli'
   autoload :Net,     'on_zero_load/net'
 
   # The authors of this library and their email addresses.

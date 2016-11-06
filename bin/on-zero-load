@@ -2,4 +2,4 @@
 
 require 'on_zero_load'
 
-OnZeroLoad::Main.run(ARGV.clone)
+OnZeroLoad::CLI.run(ARGV.clone)
