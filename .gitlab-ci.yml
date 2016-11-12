@@ -24,7 +24,7 @@ before_script:
 bundle-install:
   stage: prepare
   script:
-    - bundle install --deployment --jobs $(nproc)
+    - bundle install --deployment --jobs $(nproc --ignore=1)
 
 rake-test:
   stage: test
