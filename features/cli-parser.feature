@@ -1,4 +1,4 @@
-Feature: Command-Line Option Parser
+Feature: Command-Line Options
 
   Scenario Outline: Parse a single limit, get that
     When I give <options> as command-line options
@@ -10,10 +10,19 @@ Feature: Command-Line Option Parser
       | options      | key  | value    | class           |
       | --load=0.3   | load | 0.3      | RubyUnits::Unit |
       | --load=.3    | load | 0.3      | RubyUnits::Unit |
+      | --cpu=23     | cpu  | 23 %     | RubyUnits::Unit |
       | --cpu=23%    | cpu  | 23 %     | RubyUnits::Unit |
+      | --cpu=0.23   | cpu  | 23 %     | RubyUnits::Unit |
       | --disk=45KiB | disk | 45 KiB/s | RubyUnits::Unit |
+      | --disk=45Ki  | disk | 45 KiB/s | RubyUnits::Unit |
+      | --disk=45K   | disk | 45 KiB/s | RubyUnits::Unit |
+      | --disk=45    | disk | 45 KiB/s | RubyUnits::Unit |
       | --net=10Kib  | net  | 10 Kib/s | RubyUnits::Unit |
+      | --net=10Ki   | net  | 10 Kib/s | RubyUnits::Unit |
+      | --net=10K    | net  | 10 Kib/s | RubyUnits::Unit |
+      | --net=10     | net  | 10 Kib/s | RubyUnits::Unit |
       | --idle=5min  | idle | 300 s    | RubyUnits::Unit |
+      | --idle=300   | idle | 300 s    | RubyUnits::Unit |
       | --load 0.3   | load | 0.3      | RubyUnits::Unit |
       | --load .3    | load | 0.3      | RubyUnits::Unit |
       | --cpu 23%    | cpu  | 23 %     | RubyUnits::Unit |
