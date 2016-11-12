@@ -90,5 +90,50 @@ module OnZeroLoad
     def self.run(args = ARGV.clone)
       puts parse(args)
     end
+
+    def self.threshold_option_description(more)
+      desc    = more[:desc].clone
+      unit    = more[:unit].units unless more[:unit].units.empty?
+      default = more[:unit]       unless more[:unit].scalar == 1
+
+      desc += " ("                 if unit || default
+      desc += "in #{unit}"         if unit
+      desc += ", "                 if unit && default
+      desc += "default #{default}" if default
+      desc += ")"                  if unit || default
+    end
+
+    def self.threshold_option_value_to_unit(value, unit)
+      begin
+        value = Unit.new(value)
+      rescue ArgumentError => first_error
+        begin
+          value_unit = value.to_s.gsub(/^[0-9]*/, "")
+          value      = Unit.new(value + unit.units.sub(value_unit, ""))
+        rescue ArgumentError => second_error
+          raise first_error
+        end
+      end
+
+
+      unless value.compatible?(unit)
+        unit_numerator = Unit.new(unit.numerator.join)
+
+        if value.compatible?(unit_numerator)
+          unit_denominator = Unit.new(unit.denominator.join)
+          value = value / unit_denominator
+        elsif value.unitless?
+          value = Unit.new(value, unit.units)
+        end
+      end
+
+      unless value.compatible?(unit)
+        raise IncompatibleUnit.new("#{value} is not compatible to #{unit}")
+      end
+
+      value = value / 100.0 if unit.units == '%' && value.unitless? && value > 1
+
+      value.convert_to(unit)
+    end
   end
 end
