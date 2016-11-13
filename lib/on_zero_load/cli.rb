@@ -196,8 +196,7 @@ module OnZeroLoad
         value = Unit.new(value)
       rescue ArgumentError => first_error
         begin
-          value_unit = value.to_s.gsub(/^[0-9]* */, "")
-          value      = Unit.new(value + unit.units.sub(value_unit, ""))
+          value = Unit.new(value + unit.units.sub(value.to_s.gsub(/^[0-9]* */, ''), ''))
         rescue ArgumentError => second_error
           raise first_error
         end
@@ -214,9 +213,7 @@ module OnZeroLoad
         end
       end
 
-      unless value.compatible?(unit)
-        raise IncompatibleUnit.new("#{value} is not compatible to #{unit}")
-      end
+      raise IncompatibleUnit.new("#{value} is not compatible to #{unit}") unless value.compatible?(unit)
 
       value = value / 100.0 if unit.units == '%' && value.unitless? && value > 1
 
