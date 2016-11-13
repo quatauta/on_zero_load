@@ -2,11 +2,17 @@
 # frozen_string_literal: true
 # vim:set fileencoding=utf-8:
 
+require 'optparse'
 require 'ruby-units'
 
 module OnZeroLoad
   class CLI
-    autoload :CliOptParse, 'on_zero_load/cli/optparse'
+    class IncompatibleUnit < OptionParser::InvalidArgument
+      def initialize(reason, *args)
+        super(args)
+        @reason = reason
+      end
+    end
 
     # Standard options
     STANDARD_OPTIONS = {
@@ -27,10 +33,10 @@ module OnZeroLoad
     # The commandline options to set the thresholds
     THRESHOLDS = {
       :load => {
-        :desc  => "System load average",
-        :short => :l,
-        :value => "<number>",
-        :unit  => Unit.new("0.1"),
+        :desc    => "System load average",
+        :short   => :l,
+        :value   => "<number>",
+        :unit    => Unit.new("0.1"),
       },
       :cpu => {
         :desc  => "CPU usage",
@@ -83,12 +89,94 @@ module OnZeroLoad
       },
     }
 
-    def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
-      CliOptParse.parse(args, standards, thresholds, commands)
-    end
-
     def self.run(args = ARGV.clone)
       puts parse(args)
+    end
+
+    def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
+      options = {}
+      parser  = self.option_parser(options, standards, thresholds, commands)
+
+      begin
+        options[:args] = parser.parse(args)
+      rescue OptionParser::ParseError => error
+        $stderr.puts "Error: #{error.message}."
+        $stderr.puts "Try --help for help."
+      end
+
+      if options[:help]
+        $stdout.puts parser
+      end
+
+      if options[:version]
+        $stdout.puts parser.version
+      end
+
+      [:load, :cpu, :disk, :net, :input].each { |key|
+        options[key] = options[key].last if options[key].kind_of? Array
+      }
+
+      options
+    end
+
+    def self.option_parser(options, standards, thresholds, commands)
+      OptionParser.new { |parser|
+        base = File.basename($0)
+
+        parser.version = "%s %s" % [ base, OnZeroLoad::VERSION ]
+        parser.banner  = "Usage: %s [OPTION]... -- [COMMAND] [COMMAND OPTION]..." % [ base ]
+        parser.separator("")
+        parser.separator("Execute a command if the system load drops below given thresholds.")
+
+        self.define_standard_options(parser, standards, options)
+        self.define_threshold_options(parser, thresholds, options)
+        self.define_command_options(parser, commands, options)
+      }
+    end
+
+    def self.define_standard_options(parser, standards, options)
+      parser.separator("")
+      parser.separator("Standard options:")
+      parser.separator("")
+
+      standards.each do |long, more|
+        parser.on("-#{more[:short]}", "--#{long}", more[:desc]) do |value|
+          options[long] = value
+        end
+      end
+
+      parser
+    end
+
+    def self.define_threshold_options(parser, thresholds, options)
+      parser.separator("")
+      parser.separator("Threshold options:")
+      parser.separator("")
+
+      thresholds.each do |long, more|
+        desc = threshold_option_description(more)
+
+        parser.on("-#{more[:short]}", "--#{long}=#{more[:value]}", desc) do |value|
+          options[long] = threshold_option_value_to_unit(value, more[:unit])
+        end
+      end
+
+      parser
+    end
+
+    def self.define_command_options(parser, commands, options)
+      parser.separator("")
+      parser.separator("Predefined commands:")
+      parser.separator("")
+
+      commands.each do |long, more|
+        parser.on("-#{more[:short]}", "--#{long}",
+                  "#{more[:desc]} ('#{more[:cmd].join(" ")}')") do |value|
+          options[long] = value
+        end
+      end
+
+      parser
     end
 
     def self.threshold_option_description(more)
@@ -108,13 +196,12 @@ module OnZeroLoad
         value = Unit.new(value)
       rescue ArgumentError => first_error
         begin
-          value_unit = value.to_s.gsub(/^[0-9]*/, "")
+          value_unit = value.to_s.gsub(/^[0-9]* */, "")
           value      = Unit.new(value + unit.units.sub(value_unit, ""))
         rescue ArgumentError => second_error
           raise first_error
         end
       end
-
 
       unless value.compatible?(unit)
         unit_numerator = Unit.new(unit.numerator.join)
