@@ -86,12 +86,17 @@ rescue LoadError
 end
 
 task metrics: 'metrics:default'
+task metrics: 'metrics:rubocop_html'
 namespace :metrics do
   begin
     require 'rubocop/rake_task'
     RuboCop::RakeTask.new(:rubocop) do |task|
-      task.patterns = ['Rakefile', 'bin/**/*.rb', 'config/**.rb', 'lib/**/*.rb']
       task.fail_on_error = false
+    end
+    RuboCop::RakeTask.new(:rubocop_html) do |task|
+      task.fail_on_error = false
+      task.formatters = ['html']
+      task.options << "--out=doc/metrics/rubocop.html"
     end
     task default: :all
   rescue LoadError
