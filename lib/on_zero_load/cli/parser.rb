@@ -15,7 +15,8 @@ module OnZeroLoad
         end
       end
 
-      def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
+      def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS,
+                     commands = COMMANDS)
         options = {}
         parser  = option_parser(options, standards, thresholds, commands)
 
@@ -41,8 +42,8 @@ module OnZeroLoad
         OptionParser.new do |parser|
           base = File.basename($PROGRAM_NAME)
 
-          parser.version = '%s %s' % [base, OnZeroLoad::VERSION]
-          parser.banner  = 'Usage: %s [OPTION]... -- [COMMAND] [COMMAND OPTION]...' % [base]
+          parser.version = "#{base} #{OnZeroLoad::VERSION}"
+          parser.banner  = "Usage: #{base} [OPTION...] -- [COMMAND] [COMMAND OPTION...]"
           parser.separator('')
           parser.separator('Execute a command if the system load drops below given thresholds.')
 
@@ -115,7 +116,7 @@ module OnZeroLoad
         rescue ArgumentError => first_error
           begin
             value = Unit.new(value + unit.units.sub(value.to_s.gsub(/^[0-9]* */, ''), ''))
-          rescue ArgumentError => second_error
+          rescue ArgumentError
             raise first_error
           end
         end
@@ -131,7 +132,9 @@ module OnZeroLoad
           end
         end
 
-        raise IncompatibleUnit, "#{value} is not compatible to #{unit}" unless value.compatible?(unit)
+        unless value.compatible?(unit)
+          raise IncompatibleUnit, "#{value} is not compatible to #{unit}"
+        end
 
         value /= 100.0 if unit.units == '%' && value.unitless? && value > 1
 

@@ -95,7 +95,8 @@ module OnZeroLoad
       puts parse(args)
     end
 
-    def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS, commands = COMMANDS)
+    def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS,
+                   commands = COMMANDS)
       OnZeroLoad::CLI::Parser.parse(args, standards, thresholds, commands)
     end
   end
