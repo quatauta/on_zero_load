@@ -9,13 +9,6 @@ module OnZeroLoad
   class CLI
     autoload :Parser, 'on_zero_load/cli/parser'
 
-    class IncompatibleUnit < OptionParser::InvalidArgument
-      def initialize(reason, *args)
-        super(args)
-        @reason = reason
-      end
-    end
-
     # Standard options
     STANDARD_OPTIONS = {
       help: {
