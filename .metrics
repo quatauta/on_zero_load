@@ -1,0 +1,7 @@
+# -*- coding: utf-8; mode: ruby; -*-
+# frozen_string_literal: true
+# vim:set fileencoding=utf-8 syntax=ruby:
+
+MetricFu.configuration.configure_metric(:cane) do |cane|
+  cane.line_length = 100
+end
