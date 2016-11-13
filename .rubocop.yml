@@ -1,0 +1,6 @@
+Metrics/LineLength:
+  Max: 100
+
+Lint/AmbiguousRegexpLiteral:
+  Exclude:
+    - 'features/steps/**/*.rb'
