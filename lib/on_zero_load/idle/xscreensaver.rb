@@ -92,7 +92,7 @@ module OnZeroLoad
         #     return Qnil;
         #   }
         # }
-        self.dpms_state_c
+        dpms_state_c
       end
 
       self.class.inline do |builder|
@@ -200,7 +200,7 @@ module OnZeroLoad
         #     return Qnil;
         #   }
         # }
-        self.idle_time_c
+        idle_time_c
       end
 
       self.class.inline do |builder|
@@ -249,15 +249,13 @@ module OnZeroLoad
       def self.total_idle_time(idle_time = self.idle_time, dpms_state = self.dpms_state)
         state    = dpms_state[:state]
         timeouts = dpms_state[:timeout]
-        diff     = {
-          :on      =>  0,
-          :standby =>  timeouts[:standby] * 1000,
-          :suspend => (timeouts[:standby] +
-                       timeouts[:suspend]) * 1000,
-          :off     => (timeouts[:standby] +
-                       timeouts[:suspend] +
-                       timeouts[:off]) * 1000,
-        }
+        diff     = { on:      0,
+                     standby: timeouts[:standby] * 1000,
+                     suspend: (timeouts[:standby] +
+                               timeouts[:suspend]) * 1000,
+                     off:     (timeouts[:standby] +
+                               timeouts[:suspend] +
+                               timeouts[:off]) * 1000 }
 
         idle_time + diff[state]
       end

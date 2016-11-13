@@ -40,21 +40,21 @@ module OnZeroLoad
     def self.current
       values = {}
 
-      Dir.glob("/sys/class/net/*/statistics").each do |dir|
+      Dir.glob('/sys/class/net/*/statistics').each do |dir|
         dev = File.basename(File.dirname(dir))
 
         Dir.entries(dir).reject { |e| e =~ /^\.+/ } .sort.each do |file|
           key   = File.basename(file)
                       .downcase
-                      .sub(/^tx_/, "transmit_")
-                      .sub(/^rx_/, "receive_")
-                      .split("_", 2)
+                      .sub(/^tx_/, 'transmit_')
+                      .sub(/^rx_/, 'receive_')
+                      .split('_', 2)
                       .map(&:to_sym)
           value = File.read(File.join(dir, file)).to_i
 
           case key.size
-            when 1 then (values[dev] ||= {})[key.first] = value
-            else       ((values[dev] ||= {})[key.first] ||= {})[key[1..-1].join('_').to_sym] = value
+          when 1 then (values[dev] ||= {})[key.first] = value
+          else ((values[dev] ||= {})[key.first] ||= {})[key[1..-1].join('_').to_sym] = value
           end
         end
       end

@@ -24,9 +24,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'RubyInline', '>= 3.8'
   spec.add_runtime_dependency 'ruby-units', '>= 2.0.1'
 
-  spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "bundler-audit"
-  spec.add_development_dependency "flog", "<4.4.0" # flog 4.4.0 is causing metric_fu to fail
+  spec.add_development_dependency 'bundler', '~> 1.3'
+  spec.add_development_dependency 'bundler-audit'
+  spec.add_development_dependency 'flog', '<4.4.0' # flog 4.4.0 is causing metric_fu to fail
   spec.add_development_dependency 'cucumber', '>= 0.1.8'
   spec.add_development_dependency 'did_you_mean'
   spec.add_development_dependency 'fuubar'

@@ -11,8 +11,8 @@ module OnZeroLoad
   autoload :Net,     'on_zero_load/net'
 
   # The authors of this library and their email addresses.
-  AUTHORS = [ { :name => 'Daniel Schömer', :email => 'daniel.schoemer@gmx.net' } ]
+  AUTHORS = [{ name: 'Daniel Schömer', email: 'daniel.schoemer@gmx.net' }].freeze
 
   # The very version of this library.
-  VERSION = '0.0.1'
+  VERSION = '0.0.1'.freeze
 end

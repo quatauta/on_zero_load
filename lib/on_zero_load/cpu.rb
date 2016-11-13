@@ -32,13 +32,13 @@ module OnZeroLoad
     #  [["cpu",  77507, 182684, 420187, 7786581, 44806, 0, 1589, 0, 0, 0],
     #   ["cpu0", 22353, 48526,  101261, 1939626, 11391, 0, 1527, 0, 0, 0]]
     def self.current_raw
-      open("/proc/stat") { |f| f.readlines } \
-      .grep(/^cpu/i) \
-      .map { |line|
-        line.strip.split.map { |field|
+      open('/proc/stat', &:readlines) \
+        .grep(/^cpu/i) \
+        .map do |line|
+        line.strip.split.map do |field|
           /^[[:digit:].,]+$/ =~ field ? field.to_i : field
-        }
-      }
+        end
+      end
     end
 
     # The current CPU activity counters. The values returned per CPU by
@@ -58,7 +58,7 @@ module OnZeroLoad
     #    "cpu0" => { :user => 22353, :nice => 48526, :system => 101261, :idle => 1939626,
     #                :iowait => 11391, :irq => 0, :softirq => 1527, :steal => 0,
     #                :guest => 0, :guest_nice => 0, :active => 173667, :total => 2124684 } }
-    def self.current(raw = self.current_raw)
+    def self.current(raw = current_raw)
       all = [:user, :nice, :system, :idle, :iowait, :irq, :softirq, :steal, :guest, :guest_nice]
       act = all - [:idle, :iowait]
       values = {}

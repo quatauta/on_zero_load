@@ -28,13 +28,13 @@ module OnZeroLoad
     #
     # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
     def self.current_raw
-      lines = open("/proc/diskstats") { |f| f.readlines }
+      lines = open('/proc/diskstats', &:readlines)
 
-      lines.map { |line|
-        line.strip.split[2..-1].map { |field|
+      lines.map do |line|
+        line.strip.split[2..-1].map do |field|
           /^[[:digit:].,]+$/ =~ field ? field.to_i : field
-        }
-      }
+        end
+      end
     end
 
     # The current I/O statistics for each block device. The values returned by
@@ -48,10 +48,10 @@ module OnZeroLoad
     #               :io_ms    => 0, :io_ms_weighted => 0, :io_in_progress => 0,}, }
     #
     # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
-    def self.current(raw = self.current_raw)
-      fields = [ :reads, :reads_merged, :read_sectors, :read_ms,
-                 :writes, :writes_merged, :write_sectors, :write_ms,
-                 :io_in_progress, :io_ms, :io_ms_weighted ]
+    def self.current(raw = current_raw)
+      fields = [:reads, :reads_merged, :read_sectors, :read_ms,
+                :writes, :writes_merged, :write_sectors, :write_ms,
+                :io_in_progress, :io_ms, :io_ms_weighted]
       values = {}
 
       raw.each do |line|

@@ -25,7 +25,7 @@ Then /the value should be (.*)/ do |expected_value|
 end
 
 Then /the values should be (.*)/ do |expected_values|
-  expect(@opts[@key].map { |v| v.to_s }).to eq(expected_values.split(/; +/))
+  expect(@opts[@key].map(&:to_s)).to eq(expected_values.split(/; +/))
 end
 
 Then /the value type should be ([\w:]+)/ do |expected_class_name|

@@ -96,7 +96,7 @@ namespace :metrics do
     RuboCop::RakeTask.new(:rubocop_html) do |task|
       task.fail_on_error = false
       task.formatters = ['html']
-      task.options << "--out=doc/metrics/rubocop.html"
+      task.options << '--out=doc/metrics/rubocop.html'
     end
     task default: :all
   rescue LoadError
@@ -120,7 +120,7 @@ namespace :test do
     require 'cucumber/rake/task'
     Cucumber::Rake::Task.new(:features) do |t|
       t.bundler = true
-      t.cucumber_opts = %w{-f progress}
+      t.cucumber_opts = %w(-f progress)
       t.fork = true
     end
     task default: :features
