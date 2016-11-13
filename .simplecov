@@ -1,4 +1,4 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8; mode: ruby; -*-
 # frozen_string_literal: true
 # vim:set fileencoding=utf-8 syntax=ruby:
 
