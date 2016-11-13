@@ -1,4 +1,5 @@
-# vim:set shiftwidth=2:
+# -*- mode: yaml; -*-
+# vim:set shiftwidth=2 syntax=yaml:
 
 image: ruby:2.3
 
