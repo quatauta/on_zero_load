@@ -53,8 +53,8 @@ module OnZeroLoad
           value = File.read(File.join(dir, file)).to_i
 
           case key.size
-            when 1 then  (values[dev] ||= {})[key.first] = value
-            when 2 then ((values[dev] ||= {})[key.first] ||= {})[key.last] = value
+            when 1 then (values[dev] ||= {})[key.first] = value
+            else       ((values[dev] ||= {})[key.first] ||= {})[key[1..-1].join('_').to_sym] = value
           end
         end
       end
