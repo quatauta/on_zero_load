@@ -1,7 +1,7 @@
 # -*- mode: yaml; -*-
 # vim:set shiftwidth=2 syntax=yaml:
 
-image: ruby:2.3
+image: ruby:2.4
 
 stages:
   - prepare
@@ -23,14 +23,7 @@ before_script:
   - gem update did_you_mean
   - bundle install --deployment --jobs $(nproc --ignore=1)
 
-rake-test-ruby23:
-  image: ruby:2.3
-  stage: test
-  script:
-    - bundle exec rake test
-
-rake-test-ruby24:
-  image: ruby:2.4
+rake-test:
   stage: test
   script:
     - bundle exec rake test
