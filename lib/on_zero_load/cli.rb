@@ -86,6 +86,11 @@ module OnZeroLoad
 
     def self.run(args = ARGV.clone)
       puts parse(args)
+      # drop linux process capabilities
+      # start getting required counters, warm-up counters by taking a few measurements quickly
+      # compare each counter to it's threshold
+      # if verbose, display counters and thresholds every 1 to 10 seconds
+      # if all counters are lower or equal than threshold, exec command
     end
 
     def self.parse(args = ARGV.clone, standards = STANDARD_OPTIONS, thresholds = THRESHOLDS,
