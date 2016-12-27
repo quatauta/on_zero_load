@@ -21,13 +21,16 @@ variables:
 
 before_script:
   - gem update did_you_mean
+  - bundle install --deployment --jobs $(nproc --ignore=1)
 
-bundle-install:
-  stage: prepare
+rake-test-ruby23:
+  image: ruby:2.3
+  stage: test
   script:
-    - bundle install --deployment --jobs $(nproc --ignore=1)
+    - bundle exec rake test
 
-rake-test:
+rake-test-ruby24:
+  image: ruby:2.4
   stage: test
   script:
     - bundle exec rake test
