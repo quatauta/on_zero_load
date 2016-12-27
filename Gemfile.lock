@@ -3,7 +3,6 @@ PATH
   specs:
     on_zero_load (0.0.1)
       RubyInline (>= 3.8)
-      cap2 (>= 0.0.2)
       ruby-units (>= 2.0.1)
 
 GEM
@@ -31,7 +30,6 @@ GEM
       thor (~> 0.18)
     cane (2.6.2)
       parallel
-    cap2 (0.2.2)
     chronic (0.10.2)
     churn (0.0.35)
       chronic (>= 0.2.3)
