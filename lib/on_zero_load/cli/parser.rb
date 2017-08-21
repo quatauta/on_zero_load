@@ -138,7 +138,9 @@ module OnZeroLoad
 
         value /= 100.0 if unit.units == '%' && value.unitless? && value > 1
 
-        value.convert_to(unit)
+        value = value.convert_to(unit)
+        value = Unit.new(value.scalar.numerator, value.units) if value.scalar.denominator == 1
+        value
       end
     end
   end
