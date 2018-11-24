@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'on_zero_load'
+require "on_zero_load"
 
 OnZeroLoad::CLI.run(ARGV.clone)

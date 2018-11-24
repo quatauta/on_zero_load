@@ -1,5 +1,5 @@
-# -*- coding: utf-8; -*-
 # frozen_string_literal: true
+
 # vim:set fileencoding=utf-8:
 
 module OnZeroLoad
@@ -28,11 +28,11 @@ module OnZeroLoad
     #
     # (Only the statistics for devices +sda+ and +sr0+ are shown for simplicity.)
     def self.current_raw
-      lines = open('/proc/diskstats', &:readlines)
+      lines = open("/proc/diskstats", &:readlines)
 
       lines.map do |line|
         line.strip.split[2..-1].map do |field|
-          /^[[:digit:].,]+$/ =~ field ? field.to_i : field
+          /^[[:digit:].,]+$/.match?(field) ? field.to_i : field
         end
       end
     end
@@ -51,7 +51,7 @@ module OnZeroLoad
     def self.current(raw = current_raw)
       fields = [:reads, :reads_merged, :read_sectors, :read_ms,
                 :writes, :writes_merged, :write_sectors, :write_ms,
-                :io_in_progress, :io_ms, :io_ms_weighted]
+                :io_in_progress, :io_ms, :io_ms_weighted,]
       values = {}
 
       raw.each do |line|

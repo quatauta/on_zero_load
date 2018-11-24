@@ -1,5 +1,5 @@
-# -*- coding: utf-8; -*-
 # frozen_string_literal: true
+
 # vim:set fileencoding=utf-8:
 
 module OnZeroLoad
@@ -32,11 +32,11 @@ module OnZeroLoad
     #  [["cpu",  77507, 182684, 420187, 7786581, 44806, 0, 1589, 0, 0, 0],
     #   ["cpu0", 22353, 48526,  101261, 1939626, 11391, 0, 1527, 0, 0, 0]]
     def self.current_raw
-      open('/proc/stat', &:readlines) \
-        .grep(/^cpu/i) \
-        .map do |line|
+      open("/proc/stat", &:readlines). \
+        grep(/^cpu/i). \
+        map do |line|
         line.strip.split.map do |field|
-          /^[[:digit:].,]+$/ =~ field ? field.to_i : field
+          /^[[:digit:].,]+$/.match?(field) ? field.to_i : field
         end
       end
     end

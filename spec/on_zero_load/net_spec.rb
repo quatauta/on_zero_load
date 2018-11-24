@@ -1,17 +1,17 @@
-# -*- coding: utf-8; -*-
 # frozen_string_literal: true
+
 # vim:set fileencoding=utf-8:
 
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require 'on_zero_load/net'
+require File.join(File.dirname(__FILE__), "..", "spec_helper")
+require "on_zero_load/net"
 
 module OnZeroLoad
-  describe 'System monitor network data' do
+  describe "System monitor network data" do
     before do
       @net = Net.current
     end
 
-    it 'contains hashes for receive and transmit counters per interface' do
+    it "contains hashes for receive and transmit counters per interface" do
       @net.each_pair do |_name, values|
         expect(values).to be_kind_of(Hash)
         [:receive, :transmit].each do |a|
@@ -21,7 +21,7 @@ module OnZeroLoad
       end
     end
 
-    it 'contains counters per interface addressed by counter-name-symbols' do
+    it "contains counters per interface addressed by counter-name-symbols" do
       @net.each_pair do |_name, values|
         [:receive, :transmit].each do |direction|
           expect(values[direction]).not_to be_empty
@@ -32,7 +32,7 @@ module OnZeroLoad
       end
     end
 
-    it 'contains numbers as counter values' do
+    it "contains numbers as counter values" do
       @net.each_pair do |_name, values|
         [:receive, :transmit].each do |direction|
           values[direction].each_pair do |_counter_name, value|
@@ -42,7 +42,7 @@ module OnZeroLoad
       end
     end
 
-    it 'contains a defined set of counters per interface' do
+    it "contains a defined set of counters per interface" do
       dev_keys = [:collisions, :multicast, :receive, :transmit]
       rx_keys  = [:bytes,
                   :compressed,
@@ -54,7 +54,7 @@ module OnZeroLoad
                   :length_errors,
                   :missed_errors,
                   :over_errors,
-                  :packets]
+                  :packets,]
       tx_keys  = [:aborted_errors,
                   :bytes,
                   :carrier_errors,
@@ -64,7 +64,7 @@ module OnZeroLoad
                   :fifo_errors,
                   :heartbeat_errors,
                   :packets,
-                  :window_errors]
+                  :window_errors,]
 
       @net.each_pair do |_name, values|
         expect(values.keys).to include(*dev_keys)

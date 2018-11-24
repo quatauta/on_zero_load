@@ -1,5 +1,5 @@
-# -*- coding: utf-8; -*-
 # frozen_string_literal: true
+
 # vim:set fileencoding=utf-8:
 
 module OnZeroLoad
@@ -9,10 +9,10 @@ module OnZeroLoad
     #
     #  [0.16, 0.14, 0.11]
     def self.current_raw
-      data = open('/proc/loadavg', &:readline) .split[0..2]
+      data = open("/proc/loadavg", &:readline) .split[0..2]
 
       data.map do |field|
-        /^[[:digit:].,]+$/ =~ field ? field.to_f : field
+        /^[[:digit:].,]+$/.match?(field) ? field.to_f : field
       end
     end
 
@@ -20,7 +20,7 @@ module OnZeroLoad
     #
     #  { :one => 0.16, :five => 0.14, :fifteen => 0.11 }
     def self.current(raw = current_raw)
-      { one: raw[0], five: raw[1], fifteen: raw[2] }
+      {one: raw[0], five: raw[1], fifteen: raw[2]}
     end
   end
 end

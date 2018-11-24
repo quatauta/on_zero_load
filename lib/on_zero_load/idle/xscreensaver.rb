@@ -1,8 +1,8 @@
-# -*- coding: utf-8; -*-
 # frozen_string_literal: true
+
 # vim:set fileencoding=utf-8:
 
-require 'inline'
+require "inline"
 
 module OnZeroLoad
   module Idle
@@ -96,10 +96,10 @@ module OnZeroLoad
       end
 
       self.class.inline do |builder|
-        builder.add_link_flags '-lXext'
-        builder.include '<X11/Xlib.h>'
-        builder.include '<X11/extensions/Xext.h>'
-        builder.include '<X11/extensions/dpms.h>'
+        builder.add_link_flags "-lXext"
+        builder.include "<X11/Xlib.h>"
+        builder.include "<X11/extensions/Xext.h>"
+        builder.include "<X11/extensions/dpms.h>"
 
         builder.c %{
           VALUE dpms_state_c() {
@@ -204,8 +204,8 @@ module OnZeroLoad
       end
 
       self.class.inline do |builder|
-        builder.add_link_flags '-lXss'
-        builder.include '<X11/extensions/scrnsaver.h>'
+        builder.add_link_flags "-lXss"
+        builder.include "<X11/extensions/scrnsaver.h>"
 
         builder.c %{
           VALUE idle_time_c() {
@@ -249,13 +249,13 @@ module OnZeroLoad
       def self.total_idle_time(idle_time = self.idle_time, dpms_state = self.dpms_state)
         state    = dpms_state[:state]
         timeouts = dpms_state[:timeout]
-        diff     = { on:      0,
-                     standby: timeouts[:standby] * 1000,
-                     suspend: (timeouts[:standby] +
+        diff     = {on: 0,
+                    standby: timeouts[:standby] * 1000,
+                    suspend: (timeouts[:standby] +
                                timeouts[:suspend]) * 1000,
-                     off:     (timeouts[:standby] +
+                    off: (timeouts[:standby] +
                                timeouts[:suspend] +
-                               timeouts[:off]) * 1000 }
+                               timeouts[:off]) * 1000,}
 
         idle_time + diff[state]
       end
