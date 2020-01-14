@@ -24,7 +24,8 @@ prepare:
   script:
     - gem update did_you_mean
     - gem update bundler
-    - bundle install --deployment --jobs $(nproc --ignore=1)
+    - bundle config set deployment 'true'
+    - bundle install --jobs $(nproc --ignore=1)
 
 rake-test:
   stage: test
